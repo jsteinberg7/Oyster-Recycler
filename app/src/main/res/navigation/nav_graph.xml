@@ -13,6 +13,9 @@
             android:id="@+id/action_mainFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
+            android:id="@+id/action_mainFragment_to_driver_info"
+            app:destination="@id/DriverFindJobFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_driver"
             app:destination="@id/DriverFragment" />
         <action
@@ -39,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/DriverFragment"
-        android:name="com.example.firebaseemailpasswordexample.DriverFragment"
+        android:name="com.example.firebaseemailpasswordexample.DriverFindJobFragment"
         android:label="driver_fragment"
-        tools:layout="@layout/driver_fragment" />
+        tools:layout="@layout/driver_find_job_fragment" />
 </navigation>

@@ -8,16 +8,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.firebaseemailpasswordexample.databinding.TitlesListFragmentBinding
+import com.example.firebaseemailpasswordexample.databinding.DriverFindJobFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 
-class DriverFragment : Fragment() {
+class DriverFindJobFragment : Fragment() {
 
     // TODO: Query FireStore for nearest 10-15 locations
     var itemsList = listOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
     var addressList = listOf("18311 Leedstown Way", "12412 Hooper Court", "535 Lakeshore Drive", "260 Allumnai Mall")
     var ind = -1
-    private lateinit var binding: TitlesListFragmentBinding
+    private lateinit var binding: DriverFindJobFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,9 +26,9 @@ class DriverFragment : Fragment() {
     ): View {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
-        binding = TitlesListFragmentBinding.inflate(inflater, container, false)
+        binding = DriverFindJobFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+        binding.list.adapter = DriverFindRecyclerViewAdapter(itemsList, this)
 
         binding.logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -45,7 +45,7 @@ class DriverFragment : Fragment() {
         binding.refresh.setOnClickListener {
             // TODO: Query FireStore for nearest 10-15 locations
             itemsList = listOf("name 5 \t-\t 12 miles away", "name 6 \t-\t 17 miles away", "name 7 \t-\t 27 miles away", "name 8 \t-\t 37 miles away")
-            binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+            binding.list.adapter = DriverFindRecyclerViewAdapter(itemsList, this)
         }
 
         binding.accept.setOnClickListener {
@@ -62,7 +62,7 @@ class DriverFragment : Fragment() {
     fun onItemClick(index: Int): Boolean {
         ind = index
         binding.accept.visibility = 1
-        (binding.list.adapter as DriverRecyclerViewAdapter).select(index)
+        (binding.list.adapter as DriverFindRecyclerViewAdapter).select(index)
         // Always allow items to be selected in this app.
         return true
     }

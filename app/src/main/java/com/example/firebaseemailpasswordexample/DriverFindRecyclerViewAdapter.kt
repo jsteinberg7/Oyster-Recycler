@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebaseemailpasswordexample.databinding.ItemLayoutBinding
 
-internal class DriverRecyclerViewAdapter(
+internal class DriverFindRecyclerViewAdapter(
     private val values: List<String>,
-    private val owner: DriverFragment
-) : RecyclerView.Adapter<DriverRecyclerViewAdapter.ViewHolder>() {
+    private val owner: DriverFindJobFragment
+) : RecyclerView.Adapter<DriverFindRecyclerViewAdapter.ViewHolder>() {
 
     /** Keeps track of single selection state. */
     private var lastCheckedPosition = -1
