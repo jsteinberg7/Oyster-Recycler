@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.example.firebaseemailpasswordexample.DashboardFragment"
+        android:name="com.example.firebaseemailpasswordexample.DriverFragment"
         android:label="dashboard_fragment"
         tools:layout="@layout/dashboard_fragment" />
 </navigation>

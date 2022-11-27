@@ -8,7 +8,7 @@ import com.example.firebaseemailpasswordexample.databinding.TitleLayoutBinding
 
 internal class TitlesRecyclerViewAdapter(
     private val values: List<String>,
-    private val owner: DashboardFragment
+    private val owner: DriverFragment
 ) : RecyclerView.Adapter<TitlesRecyclerViewAdapter.ViewHolder>() {
 
     /** Keeps track of single selection state. */

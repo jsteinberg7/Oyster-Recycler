@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".LoginFragment" />
         <activity android:name=".RegistrationFragment" />
-        <activity android:name=".DashboardFragment" />
+        <activity android:name=".DriverFragment" />
     </application>
 
 </manifest>

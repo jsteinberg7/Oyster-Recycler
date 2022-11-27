@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.firebaseemailpasswordexample.databinding.DashboardFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 
-class DashboardFragment : Fragment() {
+class DriverFragment : Fragment() {
 
     // TODO: Query FireStore for nearest 10 locations
     var itemsList = listOf("name 1 \t\t 12 miles", "name 2 \t\t 17 miles", "name 3 \t\t 27 miles", "name 4 \t\t 37 miles")
@@ -44,7 +44,7 @@ class DashboardFragment : Fragment() {
     }
 
     fun onItemClick(index: Int): Boolean {
-        Toast.makeText(requireContext(), itemsList[index], Toast.LENGTH_SHORT)
+        Toast.makeText(requireContext(), itemsList[index], Toast.LENGTH_SHORT).show()
 
         // Always allow items to be selected in this app.
         return true
