@@ -1,8 +1,11 @@
 package com.example.firebaseemailpasswordexample
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebaseemailpasswordexample.databinding.TitleLayoutBinding
 
@@ -46,19 +49,6 @@ internal class TitlesRecyclerViewAdapter(
     }
 
     /**
-     * Sets the current selection (checked state) to the specified item.
-     */
-    fun select(index: Int) {
-        if (lastCheckedPosition != index) {
-            if (lastCheckedPosition != -1) {
-                notifyItemChanged(lastCheckedPosition)
-            }
-            lastCheckedPosition = index
-            notifyItemChanged(index)
-        }
-    }
-
-    /**
      * A custom [ViewHolder] used to display each list item
      * and for handling button click input events.
      */
@@ -80,10 +70,9 @@ internal class TitlesRecyclerViewAdapter(
                     if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
                         notifyItemChanged(lastCheckedPosition)
                     }
-
                     // Show the item in a checked state.
                     lastCheckedPosition = position
-
+                    textView.setBackgroundColor(Color.GRAY)
                     // Notify owner that this item was clicked.
                     owner.onItemClick(position)
                 }

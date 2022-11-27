@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.firebaseemailpasswordexample.databinding.DashboardFragmentBinding
+import com.example.firebaseemailpasswordexample.databinding.DriverFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class DriverFragment : Fragment() {
 
-    // TODO: Query FireStore for nearest 10 locations
-    var itemsList = listOf("name 1 \t\t 12 miles", "name 2 \t\t 17 miles", "name 3 \t\t 27 miles", "name 4 \t\t 37 miles")
+    // TODO: Query FireStore for nearest 10-15 locations
+    var itemsList = listOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
+    var addressList = listOf("18311 Leedstown Way", "12412 Hooper Court", "535 Lakeshore Drive", "260 Allumnai Mall")
+    var ind = -1
+    private lateinit var binding: DriverFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,7 +27,7 @@ class DriverFragment : Fragment() {
     ): View {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
-        val binding = DashboardFragmentBinding.inflate(inflater, container, false)
+        binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = TitlesRecyclerViewAdapter(itemsList, this)
 
@@ -39,12 +43,26 @@ class DriverFragment : Fragment() {
             findNavController().popBackStack(R.id.mainFragment, false)
         }
 
+        binding.refresh.setOnClickListener {
+            // TODO: Query FireStore for nearest 10-15 locations
+            itemsList = listOf("name 5 \t-\t 12 miles away", "name 6 \t-\t 17 miles away", "name 7 \t-\t 27 miles away", "name 8 \t-\t 37 miles away")
+            binding.list.adapter = TitlesRecyclerViewAdapter(itemsList, this)
+        }
+
+        binding.accept.setOnClickListener {
+            if (ind > 0) {
+                // TODO: query to add this pickup to this driver
+                Toast.makeText(requireContext(), itemsList[ind] + " added", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         // Return the root view.
         return binding.root
     }
 
     fun onItemClick(index: Int): Boolean {
-        Toast.makeText(requireContext(), itemsList[index], Toast.LENGTH_SHORT).show()
+        ind = index
+        binding.accept.visibility = 1
 
         // Always allow items to be selected in this app.
         return true

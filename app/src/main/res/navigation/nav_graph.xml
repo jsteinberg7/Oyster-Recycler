@@ -13,6 +13,9 @@
             android:id="@+id/action_mainFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
+            android:id="@+id/action_mainFragment_to_driver"
+            app:destination="@id/DriverFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
@@ -23,7 +26,7 @@
         tools:layout="@layout/registration_fragment" >
         <action
             android:id="@+id/action_registrationFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/DriverFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -32,11 +35,11 @@
         tools:layout="@layout/login_fragment" >
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/DriverFragment" />
     </fragment>
     <fragment
-        android:id="@+id/dashboardFragment"
+        android:id="@+id/DriverFragment"
         android:name="com.example.firebaseemailpasswordexample.DriverFragment"
-        android:label="dashboard_fragment"
-        tools:layout="@layout/dashboard_fragment" />
+        android:label="driver_fragment"
+        tools:layout="@layout/driver_fragment" />
 </navigation>
