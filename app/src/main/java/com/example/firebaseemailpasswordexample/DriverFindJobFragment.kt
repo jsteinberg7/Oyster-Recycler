@@ -49,6 +49,9 @@ class DriverFindJobFragment : Fragment() {
 
         binding.accept.setOnClickListener {
             if (idx >= 0) {
+                findNavController().navigate(
+                    R.id.action_driverFindJobFragment_to_driverFragment
+                )
                 // TODO: query to add this pickup to this driver
                 Toast.makeText(requireContext(), itemsList[idx] + " added", Toast.LENGTH_SHORT).show()
             }
