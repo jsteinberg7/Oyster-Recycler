@@ -14,6 +14,8 @@
     <color name="md_theme_dark_onSecondary">#003060</color>
     <color name="md_theme_dark_secondaryContainer">#004788</color>
     <color name="md_theme_dark_tertiary">#CF7C77</color>
+    <color name="selected">#AACCCCFF</color>
+
 
     <color name="ripple_light">#40FFFFFF</color>
     <color name="ripple_dark">#40000000</color>

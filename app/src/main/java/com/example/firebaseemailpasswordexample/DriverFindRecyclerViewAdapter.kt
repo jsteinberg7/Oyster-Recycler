@@ -17,7 +17,7 @@ internal class DriverFindRecyclerViewAdapter(
 
     /** Keeps track of single selection state. */
     private var lastCheckedPosition = -1
-    private lateinit var lastCheckedView: CheckedTextView
+    private lateinit var lastCheckedView: TextView
 
     /**
      * Called [RecyclerView] to create a new [ViewHolder]
@@ -81,12 +81,14 @@ internal class DriverFindRecyclerViewAdapter(
                     // Clear the check state of the previously checked item.
                     if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
                         notifyItemChanged(lastCheckedPosition)
-                        lastCheckedView.isChecked = false
+                        lastCheckedView.setBackgroundColor(Color.WHITE)
+
                     }
                     // Show the item in a checked state.
                     lastCheckedView = textView
                     lastCheckedPosition = position
-                    textView.isChecked = true
+                    textView.setBackgroundColor(
+                        Color.argb(30,0,0,255))
                     // Notify owner that this item was clicked.
                     owner.onItemClick(position)
                 }
