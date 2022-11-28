@@ -13,38 +13,44 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="@string/logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.959"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="10dp"
         android:text="@string/refresh"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintTop_toBottomOf="@id/logout"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/currentPickups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/currentPickups"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="0dp"
+        android:layout_marginTop="10dp"
         android:text="@string/accept"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/list"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:name="course.examples.fragments.staticlayout.TitleFragment"
         android:layout_width="250dp"
-        android:layout_height="657dp"
+        android:layout_height="600dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         tools:context="DriverFragment"
@@ -52,6 +58,7 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="2dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/refresh"
         tools:listitem="@layout/item_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

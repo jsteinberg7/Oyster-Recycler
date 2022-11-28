@@ -45,9 +45,15 @@
         android:name="com.example.firebaseemailpasswordexample.DriverFragment"
         android:label="driver_fragment"
         tools:layout="@layout/driver_fragment" />
+        <action
+            android:id="@+id/action_driverFragment_to_driverFindJobFragment"
+            app:destination="@id/DriverFindJobFragment" />
     <fragment
         android:id="@+id/DriverFindJobFragment"
         android:name="com.example.firebaseemailpasswordexample.DriverFindJobFragment"
         android:label="driver_find_job_fragment"
         tools:layout="@layout/driver_find_job_fragment" />
+        <action
+            android:id="@+id/action_driverFindJobFragment_to_driverFragment"
+            app:destination="@id/DriverFragment" />
 </navigation>

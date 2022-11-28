@@ -81,6 +81,12 @@ class DriverFragment : Fragment() {
                 Log.e("Error", e.toString())
             }
         }
+
+        binding.findPickup.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_driverFragment_to_driverFindJobFragment
+            )
+        }
         // Return the root view.
         return binding.root
     }

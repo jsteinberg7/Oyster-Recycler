@@ -55,6 +55,12 @@ class DriverFindJobFragment : Fragment() {
             }
         }
 
+        binding.currentPickups.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_driverFindJobFragment_to_driverFragment
+            )
+        }
+
         // Return the root view.
         return binding.root
     }

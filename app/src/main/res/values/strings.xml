@@ -19,6 +19,8 @@
     <string name="finish">Finish</string>
     <string name="accept">Accept</string>
     <string name="directions">Directions</string>
+    <string name="findPickup">Find Pickup</string>
+    <string name="currentPickups">Current Pickups</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

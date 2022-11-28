@@ -13,27 +13,24 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="@string/logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.959"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/directions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="644dp"
+        android:layout_marginTop="10dp"
         android:text="@string/directions"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/list" />
 
     <Button
         android:id="@+id/finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="10dp"
         android:text="@string/finish"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,11 +41,20 @@
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="520dp"
+        android:layout_marginTop="10dp"
         android:text="@string/cancel"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/finish" />
+
+    <Button
+        android:id="@+id/findPickup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="520dp"
+        android:text="@string/findPickup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -62,6 +68,8 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="2dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logout"
+        android:layout_marginTop="10dp"
         tools:listitem="@layout/item_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
