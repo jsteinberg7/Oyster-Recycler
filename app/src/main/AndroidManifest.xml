@@ -3,6 +3,18 @@
     package="com.example.firebaseemailpasswordexample">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <!-- Specific apps you interact with, eg: -->
+        <package android:name="com.google.android.apps.maps" />
+        <!--
+         Specific intents you query for,
+         eg: for a custom share UI
+    -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="dat:" />
+        </intent>
+    </queries>
 
     <application
         android:icon="@mipmap/ic_launcher"
