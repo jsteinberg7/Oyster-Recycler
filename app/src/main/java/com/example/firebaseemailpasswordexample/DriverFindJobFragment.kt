@@ -16,7 +16,7 @@ class DriverFindJobFragment : Fragment() {
     // TODO: Query FireStore for nearest 10-15 locations
     var itemsList = listOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
     var addressList = listOf("18311 Leedstown Way", "12412 Hooper Court", "535 Lakeshore Drive", "260 Allumnai Mall")
-    var ind = -1
+    var idx = -1
     private lateinit var binding: DriverFindJobFragmentBinding
 
     override fun onCreateView(
@@ -49,9 +49,9 @@ class DriverFindJobFragment : Fragment() {
         }
 
         binding.accept.setOnClickListener {
-            if (ind >= 0) {
+            if (idx >= 0) {
                 // TODO: query to add this pickup to this driver
-                Toast.makeText(requireContext(), itemsList[ind] + " added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), itemsList[idx] + " added", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -66,7 +66,7 @@ class DriverFindJobFragment : Fragment() {
     }
 
     fun onItemClick(index: Int): Boolean {
-        ind = index
+        idx = index
         binding.accept.visibility = 1
         (binding.list.adapter as DriverFindRecyclerViewAdapter).select(index)
         // Always allow items to be selected in this app.
