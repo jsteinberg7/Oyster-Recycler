@@ -3,6 +3,7 @@ package com.example.firebaseemailpasswordexample
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckedTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebaseemailpasswordexample.databinding.ItemLayoutBinding
 
@@ -13,6 +14,7 @@ internal class DriverRecyclerViewAdapter(
 
     /** Keeps track of single selection state. */
     private var lastCheckedPosition = -1
+    private lateinit var lastCheckedView: CheckedTextView
 
     /**
      * Called [RecyclerView] to create a new [ViewHolder]
@@ -76,8 +78,10 @@ internal class DriverRecyclerViewAdapter(
                     // Clear the check state of the previously checked item.
                     if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
                         notifyItemChanged(lastCheckedPosition)
+                        lastCheckedView.isChecked = false
                     }
                     // Show the item in a checked state.
+                    lastCheckedView = textView
                     lastCheckedPosition = position
                     textView.isChecked = true
                     // Notify owner that this item was clicked.

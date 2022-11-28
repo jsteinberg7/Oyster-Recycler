@@ -15,7 +15,6 @@ class DriverFindJobFragment : Fragment() {
 
     // TODO: Query FireStore for nearest 10-15 locations
     var itemsList = listOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
-    var addressList = listOf("18311 Leedstown Way", "12412 Hooper Court", "535 Lakeshore Drive", "260 Allumnai Mall")
     var idx = -1
     private lateinit var binding: DriverFindJobFragmentBinding
 
