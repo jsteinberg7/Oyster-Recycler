@@ -42,24 +42,22 @@
         android:layout_marginTop="10dp"
         android:text="@string/accept"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/list"
         tools:ignore="MissingConstraints"
         android:background="@color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:name="course.examples.fragments.staticlayout.TitleFragment"
-        android:layout_width="250dp"
-        android:layout_height="600dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
-        tools:context="DriverFragment"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/refresh"
+        tools:context="DriverFragment"
+        tools:ignore="MissingConstraints"
         tools:listitem="@layout/item_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
