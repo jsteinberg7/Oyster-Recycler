@@ -19,7 +19,7 @@ class DriverFragment : Fragment() {
 
     // TODO: Query FireStore for driver's pickups and their adresses
     var itemsList = listOf("Nick", "UMD", "VT", "Hassam")
-    var addressList = listOf("18311 Leedstown Way", "7901 Regents Drive", "260 Allumnai Mall", "4519 Winding Oak Drive")
+    var addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
 
