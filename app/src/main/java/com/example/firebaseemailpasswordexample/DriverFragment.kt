@@ -18,8 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 class DriverFragment : Fragment() {
 
     // TODO: Query FireStore for driver's pickups and their adresses
-    var itemsList = listOf("name 1", "name 2", "name 3", "name 4")
-    var addressList = listOf("18311 Leedstown Way", "12412 Hooper Court", "535 Lakeshore Drive", "260 Allumnai Mall")
+    var itemsList = listOf("Nick", "UMD", "VT", "Hassam")
+    var addressList = listOf("18311 Leedstown Way", "7901 Regents Drive", "260 Allumnai Mall", "4519 Winding Oak Drive")
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
 
