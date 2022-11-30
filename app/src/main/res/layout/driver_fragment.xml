@@ -5,16 +5,20 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DriverFindJobFragment">
+    tools:context=".DriverFindJobFragment"
+    android:background="@color/background">
 
-    <Button
+    <ImageView
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="4dp"
         android:text="@string/logout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/background_color"
+        android:src="@drawable/logout"
+        />
 
     <Button
         android:id="@+id/directions"
@@ -24,7 +28,8 @@
         android:text="@string/directions"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/list" />
+        app:layout_constraintTop_toTopOf="@id/list"
+        android:backgroundTint="@color/background_color"/>
 
     <Button
         android:id="@+id/finish"
@@ -35,7 +40,8 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/directions"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/background_color"/>
 
     <Button
         android:id="@+id/cancel"
@@ -45,7 +51,8 @@
         android:text="@string/cancel"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/finish" />
+        app:layout_constraintTop_toBottomOf="@id/finish"
+        android:backgroundTint="@color/background_color"/>
 
     <Button
         android:id="@+id/findPickup"
@@ -54,7 +61,8 @@
         android:layout_marginBottom="520dp"
         android:text="@string/findPickup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/logout" />
+        app:layout_constraintTop_toTopOf="@id/logout"
+        android:backgroundTint="@color/background_color"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -62,6 +70,7 @@
         android:layout_width="200dp"
         android:layout_height="657dp"
         android:scrollbars="vertical"
+        android:layout_marginLeft="10dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="DriverFragment"
         tools:ignore="MissingConstraints"
