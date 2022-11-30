@@ -66,6 +66,9 @@
         android:name="com.cmsc436.oysterrecycler.RestaurantFragment"
         android:label="restaurant_fragment"
         tools:layout="@layout/restaurant_fragment" >
+        <action
+            android:id="@+id/action_restaurantFragment_to_restaurantSchedulePickupFragment"
+            app:destination="@id/RestaurantSchedulePickupFragment" />
     </fragment>
     <fragment
         android:id="@+id/RestaurantSchedulePickupFragment"

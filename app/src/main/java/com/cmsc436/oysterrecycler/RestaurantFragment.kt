@@ -21,6 +21,9 @@ class RestaurantFragment : Fragment() {
         // Inflate the layout for this fragment
         inflater.inflate(R.layout.restaurant_fragment, container, false)
         binding = RestaurantFragmentBinding.inflate(inflater, container, false)
+        binding.schedulePickup.setOnClickListener {
+            findNavController().navigate(R.id.action_restaurantFragment_to_restaurantSchedulePickupFragment)
+        }
         binding.logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
