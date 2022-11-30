@@ -31,7 +31,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         inflater.inflate(R.layout.restaurant_fragment, container, false)
-        binding = RestaurantSchedulePickupFragmentBinding.inflate(inflater,container, false)
+        binding = RestaurantSchedulePickupFragmentBinding.inflate(inflater, container, false)
         binding.logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
@@ -47,9 +47,10 @@ class RestaurantSchedulePickupFragment : Fragment() {
         return binding.root
     }
 
-    private fun schedulePickup(){
+    private fun schedulePickup() {
         val date = binding.pickupDate.text.toString()
 
         //TODO: Add Pickup date to Firebase for Potential Drivers
 
     }
+}
