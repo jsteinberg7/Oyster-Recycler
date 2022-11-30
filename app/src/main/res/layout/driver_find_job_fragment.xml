@@ -12,7 +12,6 @@
         android:id="@+id/logout"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="4dp"
         android:text="@string/logout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,12 +23,12 @@
         android:id="@+id/refresh"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/refresh"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logout"
+        app:layout_constraintTop_toBottomOf="@id/currentPickups"
         app:tint="@color/background_color" />
 
     <Button
@@ -62,6 +61,7 @@
         android:layout_height="500dp"
         android:scrollbars="vertical"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/refresh"

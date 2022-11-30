@@ -19,7 +19,7 @@ class MainFragment : Fragment() {
 
         binding.login.setOnClickListener {
             findNavController().navigate(
-                R.id.action_mainFragment_to_restaurant_fragment
+                R.id.action_mainFragment_to_driver
             )
         }
 

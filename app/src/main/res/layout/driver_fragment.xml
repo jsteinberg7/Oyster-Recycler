@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/directions"
         tools:ignore="MissingConstraints"
-        android:backgroundTint="@color/background_color"/>
+        android:backgroundTint="@color/green"/>
 
     <Button
         android:id="@+id/cancel"
@@ -52,7 +52,7 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/finish"
-        android:backgroundTint="@color/background_color"/>
+        android:backgroundTint="@color/red"/>
 
     <Button
         android:id="@+id/findPickup"
