@@ -81,7 +81,7 @@ internal class DriverRecyclerViewAdapter(
                     if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
                         notifyItemChanged(lastCheckedPosition)
                         lastCheckedView.setBackgroundColor(
-                            Color.argb(255,214,211,211))
+                            Color.argb(255,191,187,187))
                     }
                     // Show the item in a checked state.
                     lastCheckedView = textView

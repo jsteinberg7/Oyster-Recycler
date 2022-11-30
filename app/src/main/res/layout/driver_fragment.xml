@@ -20,16 +20,17 @@
         android:src="@drawable/logout"
         />
 
-    <Button
+    <ImageView
         android:id="@+id/directions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/directions"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/list"
-        android:backgroundTint="@color/background_color"/>
+        android:src="@drawable/maps"
+        />
 
     <Button
         android:id="@+id/finish"

@@ -28,8 +28,7 @@
         android:src="@drawable/refresh"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/currentPickups"
-        app:tint="@color/background_color" />
+        app:layout_constraintTop_toBottomOf="@id/currentPickups" />
 
     <Button
         android:id="@+id/currentPickups"
@@ -52,13 +51,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/list"
         tools:ignore="MissingConstraints"
-        android:backgroundTint="@color/background_color"/>
+        android:backgroundTint="@color/green"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:name="course.examples.fragments.staticlayout.TitleFragment"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="490dp"
         android:scrollbars="vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
