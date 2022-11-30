@@ -7,15 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RestaurantFragment">
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logout"
-        android:layout_marginTop="20dp"
-        android:text="@string/driver_history" />
-
     <Button
         android:id="@+id/schedule_pickup"
         android:layout_width="wrap_content"
@@ -35,6 +26,19 @@
         app:tint="@color/background_color"
         android:src="@drawable/logout" />
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="course.cmsc436.RestaurantFragment"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:scrollbars="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/schedule_pickup"
+        tools:context="DriverFragment"
+        tools:ignore="MissingConstraints"
+        tools:listitem="@layout/item_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

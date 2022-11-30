@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/refresh"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/refresh"
@@ -55,7 +55,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:name="course.examples.fragments.staticlayout.TitleFragment"
+        android:name="course.cmsc436.DriverFindJobFragment"
         android:layout_width="match_parent"
         android:layout_height="490dp"
         android:scrollbars="vertical"

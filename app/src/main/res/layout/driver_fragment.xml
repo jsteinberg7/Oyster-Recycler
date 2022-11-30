@@ -67,7 +67,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:name="course.examples.fragments.staticlayout.TitleFragment"
+        android:name="course.cmsc436.DriverFragment"
         android:layout_width="200dp"
         android:layout_height="657dp"
         android:scrollbars="vertical"
