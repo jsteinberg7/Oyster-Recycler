@@ -6,5 +6,16 @@ pluginManagement {
     }
 }
 
+<<<<<<< HEAD
 rootProject.name = "Oyster Recycler"
+=======
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+>>>>>>> 5e64ad2d1f20f01903d0bfd49fa3d45e12e97ed4
 include ':app'
