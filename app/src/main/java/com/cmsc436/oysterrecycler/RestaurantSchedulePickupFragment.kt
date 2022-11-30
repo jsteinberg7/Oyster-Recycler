@@ -31,13 +31,18 @@ class RestaurantSchedulePickupFragment : Fragment() {
 
             findNavController().popBackStack(R.id.mainFragment, false)
         }
-        schedulePickup()
+        binding.submitPickupRequest.setOnClickListener {
+            schedulePickup()
+            findNavController().navigate(R.id.action_restaurantSchedulePickupFragment_to_restaurantFragment)
+        }
+
+
         return binding.root
     }
 
     private fun schedulePickup() {
         val date = binding.pickupDate.text.toString()
-
+        
         //TODO: Add Pickup date to Firebase for Potential Drivers
 
     }
