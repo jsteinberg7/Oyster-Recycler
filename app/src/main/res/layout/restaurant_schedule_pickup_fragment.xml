@@ -16,9 +16,10 @@
         android:hint="@string/pickup_date"
         android:importantForAutofill="no"
         android:inputType="date"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="229dp" />
+        android:layout_margin="26dp"
+        app:layout_constraintBottom_toTopOf="@id/submit_pickup_request"
+        app:layout_constraintStart_toStartOf="parent"
+         />
 
     <ImageView
         android:id="@+id/logout"
