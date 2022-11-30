@@ -4,6 +4,8 @@ buildscript {
 
     repositories {
         google()
+        // Not too sure what this is
+        mavenCentral()  // Maven Central repository
     }
 
     dependencies {
@@ -11,7 +13,7 @@ buildscript {
         // in a buildscript block and not in plugins block.
         classpath deps.navigation.safe_args_plugin
         classpath 'com.google.gms:google-services:4.3.14'
-
+        classpath 'com.google.gms:google-services:4.3.13'
     }
 }
 
@@ -24,3 +26,5 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// DOESNT HAVE ALL PROJECTS {}

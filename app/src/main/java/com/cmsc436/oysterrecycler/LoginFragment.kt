@@ -1,4 +1,4 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.firebaseemailpasswordexample.databinding.LoginFragmentBinding
+import com.cmsc436.oysterrecycler.databinding.LoginFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
@@ -55,7 +55,8 @@ class LoginFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
+            .addOnCompleteListener {
+                    task ->
                 binding.progressBar.visibility = View.GONE
                 if (task.isSuccessful) {
                     Toast.makeText(

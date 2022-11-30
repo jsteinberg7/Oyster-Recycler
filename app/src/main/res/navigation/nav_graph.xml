@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.firebaseemailpasswordexample.MainFragment"
+        android:name="com.cmsc436.oysterrecycler.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_registrationFragment"
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.firebaseemailpasswordexample.RegistrationFragment"
+        android:name="com.cmsc436.oysterrecycler.RegistrationFragment"
         android:label="registration_fragment"
         tools:layout="@layout/registration_fragment" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.firebaseemailpasswordexample.LoginFragment"
+        android:name="com.cmsc436.oysterrecycler.LoginFragment"
         android:label="login_fragment"
         tools:layout="@layout/login_fragment" >
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/DriverFragment"
-        android:name="com.example.firebaseemailpasswordexample.DriverFragment"
+        android:name="com.cmsc436.oysterrecycler.DriverFragment"
         android:label="driver_fragment"
         tools:layout="@layout/driver_fragment" />
         <action
@@ -50,7 +50,7 @@
             app:destination="@id/DriverFindJobFragment" />
     <fragment
         android:id="@+id/DriverFindJobFragment"
-        android:name="com.example.firebaseemailpasswordexample.DriverFindJobFragment"
+        android:name="com.cmsc436.oysterrecycler.DriverFindJobFragment"
         android:label="driver_find_job_fragment"
         tools:layout="@layout/driver_find_job_fragment" />
         <action

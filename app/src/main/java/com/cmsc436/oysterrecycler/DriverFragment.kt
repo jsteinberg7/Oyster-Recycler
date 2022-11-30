@@ -1,4 +1,4 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.content.Intent
 import android.net.Uri
@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.firebaseemailpasswordexample.databinding.DriverFragmentBinding
+import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class DriverFragment : Fragment() {

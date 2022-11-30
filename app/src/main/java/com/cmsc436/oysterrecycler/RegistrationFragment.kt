@@ -1,4 +1,4 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.firebaseemailpasswordexample.databinding.RegistrationFragmentBinding
+import com.cmsc436.oysterrecycler.databinding.RegistrationFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
+
+
 
 class RegistrationFragment : Fragment() {
 
@@ -35,6 +40,7 @@ class RegistrationFragment : Fragment() {
         val email: String = binding.email.text.toString()
         val password: String = binding.password.text.toString()
 
+        // Going to need to check if the email is already in the system
         if (!validator.validEmail(email)) {
             Toast.makeText(
                 requireContext(),
@@ -61,6 +67,9 @@ class RegistrationFragment : Fragment() {
             .addOnCompleteListener { task ->
                 binding.progressBar.visibility = View.GONE
                 if (task.isSuccessful) {
+
+                    val firebaseUser: FirebaseUser = task.result!!.user!!
+
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.register_success_string),
@@ -73,6 +82,8 @@ class RegistrationFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
+                        // Could add this instead
+                        //task.exception!!.message.toString(),
                         getString(R.string.register_failed_string),
                         Toast.LENGTH_LONG
                     ).show()
