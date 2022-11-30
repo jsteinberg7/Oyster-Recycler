@@ -1,4 +1,4 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

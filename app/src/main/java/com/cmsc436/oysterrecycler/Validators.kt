@@ -1,8 +1,15 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 class Validators {
     fun validEmail(email: String?) : Boolean {
         if (email.isNullOrEmpty()) {
+            return false
+        }
+
+        // Trim empty spaces from email
+        val trimmedEmail = email.toString().trim() { it <= ' '}
+
+        if (trimmedEmail.isNullOrEmpty()) {
             return false
         }
 
@@ -14,7 +21,7 @@ class Validators {
                 "][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z" +
                 "0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|" +
                 "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])")
-        return emailRegex.matches(email)
+        return emailRegex.matches(trimmedEmail)
     }
 
     fun validPassword(password: String?) : Boolean {
@@ -22,8 +29,9 @@ class Validators {
             return false
         }
 
-        // Min 8 char, 1 letter, 1 number
-        val passwordRegex = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}\$")
+        // Min 8 char, 1 letter, 1 number, 1 Special character (!@#$&*)
+        val passwordRegex = Regex(
+            "^(?=.*[A-Za-z])(?=.*[!@#\$&*])(?=.*\\d)[A-Za-z!@#\$&*\\d]{8,}\$")
         return passwordRegex.matches(password)
     }
 }

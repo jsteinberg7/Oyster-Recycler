@@ -1,7 +1,8 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
@@ -9,10 +10,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebaseemailpasswordexample.databinding.ItemLayoutBinding
 
-internal class DriverRecyclerViewAdapter(
+internal class DriverFindRecyclerViewAdapter(
     private val values: List<String>,
-    private val owner: DriverFragment
-) : RecyclerView.Adapter<DriverRecyclerViewAdapter.ViewHolder>() {
+    private val owner: DriverFindJobFragment
+) : RecyclerView.Adapter<DriverFindRecyclerViewAdapter.ViewHolder>() {
 
     /** Keeps track of single selection state. */
     private var lastCheckedPosition = -1
@@ -81,6 +82,7 @@ internal class DriverRecyclerViewAdapter(
                     if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
                         notifyItemChanged(lastCheckedPosition)
                         lastCheckedView.setBackgroundColor(Color.WHITE)
+
                     }
                     // Show the item in a checked state.
                     lastCheckedView = textView

@@ -1,4 +1,4 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
