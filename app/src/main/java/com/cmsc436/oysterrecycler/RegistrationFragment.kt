@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.firebaseemailpasswordexample.databinding.RegistrationFragmentBinding
+import com.cmsc436.oysterrecycler.databinding.RegistrationFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult

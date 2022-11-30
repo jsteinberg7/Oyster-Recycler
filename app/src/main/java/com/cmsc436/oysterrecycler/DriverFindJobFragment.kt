@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.firebaseemailpasswordexample.databinding.DriverFindJobFragmentBinding
-import com.cmsc436.oysterrecycler.
+import com.cmsc436.oysterrecycler.databinding.DriverFindJobFragmentBinding
+
 import com.google.firebase.auth.FirebaseAuth
 
 class DriverFindJobFragment : Fragment() {

@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.firebaseemailpasswordexample.databinding.MainFragmentBinding
+import com.cmsc436.oysterrecycler.databinding.MainFragmentBinding
+
+
 
 class MainFragment : Fragment() {
 
