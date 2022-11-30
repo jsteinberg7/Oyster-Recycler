@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_restaurant_fragment"
+            app:destination="@id/RestaurantFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -44,16 +47,30 @@
         android:id="@+id/DriverFragment"
         android:name="com.cmsc436.oysterrecycler.DriverFragment"
         android:label="driver_fragment"
-        tools:layout="@layout/driver_fragment" />
+        tools:layout="@layout/driver_fragment" >
         <action
             android:id="@+id/action_driverFragment_to_driverFindJobFragment"
             app:destination="@id/DriverFindJobFragment" />
+    </fragment>
     <fragment
         android:id="@+id/DriverFindJobFragment"
         android:name="com.cmsc436.oysterrecycler.DriverFindJobFragment"
         android:label="driver_find_job_fragment"
-        tools:layout="@layout/driver_find_job_fragment" />
+        tools:layout="@layout/driver_find_job_fragment" >
         <action
             android:id="@+id/action_driverFindJobFragment_to_driverFragment"
             app:destination="@id/DriverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RestaurantFragment"
+        android:name="com.cmsc436.oysterrecycler.RestaurantFragment"
+        android:label="restaurant_fragment"
+        tools:layout="@layout/restaurant_fragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/RestaurantSchedulePickupFragment"
+        android:name="com.cmsc436.oysterrecycler.RestaurantSchedulePickupFragment"
+        android:label="restaurant_schedule_pickup_fragment"
+        tools:layout="@layout/restaurant_schedule_pickup_fragment" >
+    </fragment>
 </navigation>
