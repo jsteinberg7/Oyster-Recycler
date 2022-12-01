@@ -34,6 +34,26 @@
         android:layout_height="wrap_content"
         android:text="@string/login_string" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="130dp"
+        android:paddingTop="40dp"
+        android:text="@string/newUserText" />
+
+    <Button
+        android:id="@+id/registerDriver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/registeringDriver" />
+
+    <Button
+        android:id="@+id/registerRestaurant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/registeringRestaurant" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

@@ -1,5 +1,7 @@
 package com.cmsc436.oysterrecycler
 
+import androidx.core.text.isDigitsOnly
+
 class Validators {
     fun validEmail(email: String?) : Boolean {
         if (email.isNullOrEmpty()) {
@@ -34,4 +36,18 @@ class Validators {
             "^(?=.*[A-Za-z])(?=.*[!@#\$&*])(?=.*\\d)[A-Za-z!@#\$&*\\d]{8,}\$")
         return passwordRegex.matches(password)
     }
+
+    fun validColor(vehicleColor: String?) : Boolean {
+        if (vehicleColor.isNullOrEmpty()) return false
+
+        return true
+    }
+
+    fun validMake(vehicleMake: String?) : Boolean {
+        if (vehicleMake.isNullOrEmpty()) return false
+        else if (vehicleMake.isDigitsOnly()) return false
+
+        return true
+    }
+
 }
