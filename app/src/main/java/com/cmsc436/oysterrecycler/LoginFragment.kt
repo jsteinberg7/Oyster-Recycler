@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
         firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
 
         binding.login.setOnClickListener { loginUserAccount() }
+        binding.registerDriver.setOnClickListener { }
 
         // Return the root view.
         return binding.root

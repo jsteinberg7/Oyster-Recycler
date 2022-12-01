@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.cmsc436.oysterrecycler.MainFragment"
         android:label="MainFragment" >
         <action
-            android:id="@+id/action_mainFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            android:id="@+id/action_mainFragment_to_registrationFragment" />
+            <!-- THIS ISNT USED ANYMORE app:destination="@id/registrationFragment" /> -->
         <action
             android:id="@+id/action_mainFragment_to_driver_info"
             app:destination="@id/DriverFindJobFragment" />
@@ -23,13 +23,22 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registrationFragment"
+        android:id="@+id/registrationDriverFragment"
         android:name="com.cmsc436.oysterrecycler.RegistrationFragment"
-        android:label="registration_fragment"
-        tools:layout="@layout/registration_fragment" >
+        android:label="registration_Driver_fragment"
+        tools:layout="@layout/fragment_registration_driver" >
         <action
             android:id="@+id/action_registrationFragment_to_dashboardFragment"
             app:destination="@id/DriverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationRestaurantFragment"
+        android:name="com.cmsc436.oysterrecycler.RegistrationFragment"
+        android:label="registration_Restaurant_fragment"
+        tools:layout="@layout/fragment_registration_restaurant" >
+        <action
+            android:id="@+id/action_registrationFragment_to_dashboardFragment"
+            app:destination="@id/RestaurantFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -39,6 +48,12 @@
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
             app:destination="@id/DriverFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_driverRegistration"
+            app:destination="@id/action_mainFragment_to_registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_restaurantRegistration"
+            app:destination="@id/action_mainFragment_to_registrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/DriverFragment"
@@ -48,6 +63,13 @@
         <action
             android:id="@+id/action_driverFragment_to_driverFindJobFragment"
             app:destination="@id/DriverFindJobFragment" />
+    <fragment
+        android:id="@+id/RestaurantFragment"
+        android:name="com.cmsc436.oysterrecycler.RestaurantFragment"
+        android:label="restaurant_fragment"
+        tools:layout="@layout/restaurant_fragment"/>
+        <!-- GONNA NEED TO PUT IN THE ACTION HERE -->
+
     <fragment
         android:id="@+id/DriverFindJobFragment"
         android:name="com.cmsc436.oysterrecycler.DriverFindJobFragment"
