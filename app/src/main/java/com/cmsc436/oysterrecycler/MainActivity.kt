@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.cmsc436.oysterrecycler.databinding.MainActivityBinding
 import com.google.firebase.FirebaseApp
 import com.google.firebase.provider.FirebaseInitProvider
+import java.sql.Driver
 
 class MainActivity : AppCompatActivity() {
 

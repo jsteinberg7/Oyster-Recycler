@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 class DriverFragment : Fragment() {
 
+    private val viewModel by activityViewModels<MainViewModel>()
+    val DriverId: Int = viewModel.curDriverID
     // TODO: Query FireStore for driver's pickups and their adresses
     var itemsList = listOf("Nick", "UMD", "VT", "Hassam")
     var addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
