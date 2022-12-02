@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cmsc436.oysterrecycler.databinding.ItemLayoutBinding
 
-internal class DriverRecyclerViewAdapter(
+internal class RestaurantRecyclerViewAdapter(
     private val values: List<String>,
-    private val owner: DriverFragment
-) : RecyclerView.Adapter<DriverRecyclerViewAdapter.ViewHolder>() {
+    private val owner: RestaurantFragment
+) : RecyclerView.Adapter<RestaurantRecyclerViewAdapter.ViewHolder>() {
 
     /** Keeps track of single selection state. */
     private var lastCheckedPosition = -1
@@ -69,29 +69,8 @@ internal class DriverRecyclerViewAdapter(
         var textView = binding.textView
 
         init {
-            // Set a button click listener to notify the
-            // owner when an item is clicked.
-            textView.setOnClickListener {
-                // Query the adapter position of this item.
-                val position = values.indexOf(textView.text)
-
-                // Only process click if this item is not already checked.
-                if (position != lastCheckedPosition) {
-                    // Clear the check state of the previously checked item.
-                    if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
-                        notifyItemChanged(lastCheckedPosition)
-                        lastCheckedView.setBackgroundColor(
-                            Color.argb(255,191,187,187))
-                    }
-                    // Show the item in a checked state.
-                    lastCheckedView = textView
-                    lastCheckedPosition = position
-                    textView.setBackgroundColor(
-                        Color.argb(50,0,50,150))
-                    // Notify owner that this item was clicked.
-                    owner.onItemClick(position)
-                }
-            }
+            textView.setBackgroundColor(Color.argb(50, 0, 100, 0))
         }
+
     }
 }

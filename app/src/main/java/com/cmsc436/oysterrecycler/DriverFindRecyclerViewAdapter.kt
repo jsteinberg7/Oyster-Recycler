@@ -82,14 +82,16 @@ internal class DriverFindRecyclerViewAdapter(
                     // Clear the check state of the previously checked item.
                     if (lastCheckedPosition >= 0 && position != lastCheckedPosition) {
                         notifyItemChanged(lastCheckedPosition)
-                        lastCheckedView.setBackgroundColor(Color.WHITE)
+                        lastCheckedView.setBackgroundColor(
+                            Color.argb(255,191,187,187)
+                        )
 
                     }
                     // Show the item in a checked state.
                     lastCheckedView = textView
                     lastCheckedPosition = position
                     textView.setBackgroundColor(
-                        Color.argb(30,0,0,255))
+                        Color.argb(50,0,50,150))
                     // Notify owner that this item was clicked.
                     owner.onItemClick(position)
                 }

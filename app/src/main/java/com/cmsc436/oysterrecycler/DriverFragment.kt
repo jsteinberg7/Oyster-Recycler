@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -35,15 +36,26 @@ class DriverFragment : Fragment() {
         binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
 
         binding.logout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Are you sure you want to Logout?")
+                .setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
 
-            Toast.makeText(
-                requireContext(),
-                "You are now logged out!",
-                Toast.LENGTH_SHORT
-            ).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "You are now logged out!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-            findNavController().popBackStack(R.id.mainFragment, false)
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
         }
 
         binding.cancel.setOnClickListener {
@@ -63,7 +75,6 @@ class DriverFragment : Fragment() {
 
         binding.directions.setOnClickListener {
             try {
-                Log.i("test", "trying")
                 // Process text for network transmission
                 val address = addressList[idx].replace(' ', '+')
 

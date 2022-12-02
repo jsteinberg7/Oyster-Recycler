@@ -1,59 +1,62 @@
 package com.cmsc436.oysterrecycler
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.cmsc436.oysterrecycler.databinding.RestaurantSchedulePickupFragmentBinding
+import com.google.firebase.auth.FirebaseAuth
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RestaurantSchedulePickupFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RestaurantSchedulePickupFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: RestaurantSchedulePickupFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.restaurant_schedule_pickup_fragment, container, false)
+        inflater.inflate(R.layout.restaurant_fragment, container, false)
+        binding = RestaurantSchedulePickupFragmentBinding.inflate(inflater, container, false)
+        binding.logout.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Are you sure you want to Logout?")
+                .setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
+
+                    Toast.makeText(
+                        requireContext(),
+                        "You are now logged out!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
+        }
+        binding.submitPickupRequest.setOnClickListener {
+            schedulePickup()
+            findNavController().navigate(R.id.action_restaurantSchedulePickupFragment_to_restaurantFragment)
+        }
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RestaurantSchedulePickupFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RestaurantSchedulePickupFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun schedulePickup() {
+        val date = binding.pickupDate.text.toString()
+        //TODO: check REGEX
+        //TODO: If not date refresh page and ask to submit again
+        //TODO: Add Pickup date to Firebase for Potential Drivers
+
     }
 }

@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:outlineAmbientShadowColor="@color/black"
     android:checked="false"
-    android:padding="@dimen/list_item_padding"
+    android:padding="15dp"
     />

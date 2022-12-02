@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,15 +32,26 @@ class DriverFindJobFragment : Fragment() {
         binding.list.adapter = DriverFindRecyclerViewAdapter(itemsList, this)
 
         binding.logout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Are you sure you want to Logout?")
+                .setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
 
-            Toast.makeText(
-                requireContext(),
-                "You are now logged out!",
-                Toast.LENGTH_SHORT
-            ).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "You are now logged out!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-            findNavController().popBackStack(R.id.mainFragment, false)
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
         }
 
         binding.refresh.setOnClickListener {

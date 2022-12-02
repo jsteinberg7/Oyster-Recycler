@@ -5,25 +5,30 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DriverFindJobFragment">
+    tools:context=".DriverFindJobFragment"
+    android:background="@color/background">
 
-    <Button
+    <ImageView
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="@string/logout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/background_color"
+        android:src="@drawable/logout"
+        />
 
-    <Button
+    <ImageView
         android:id="@+id/refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/refresh"
         android:text="@string/refresh"
-        app:layout_constraintTop_toBottomOf="@id/logout"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentPickups" />
 
     <Button
         android:id="@+id/currentPickups"
@@ -32,7 +37,8 @@
         android:text="@string/currentPickups"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/background_color"/>
 
     <Button
         android:id="@+id/accept"
@@ -45,14 +51,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/list"
         tools:ignore="MissingConstraints"
-        android:background="@color/white"/>
+        android:backgroundTint="@color/green"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:name="course.examples.fragments.staticlayout.TitleFragment"
+        android:name="course.cmsc436.DriverFindJobFragment"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="490dp"
         android:scrollbars="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/refresh"

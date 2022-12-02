@@ -10,8 +10,8 @@
     <string name="register_success_string">Registration successful!</string>
     <string name="register_failed_string">Registration failed! Please try again later</string>
     <string name="invalid_password">Password must contain at least 8 characters with one letter, one number, and one special character!</string>
-    <string name="invalid_email">Please enter valid email…</string>
-    <string name="login_toast">Please enter email...</string>
+    <string name="invalid_email"> Please enter valid email… </string>
+    <string name="login_toast"> Please enter email… </string>
     <string name="password_toast">Please enter password!</string>
     <string name="logout">Logout</string>
     <string name="refresh">Refresh</string>
@@ -25,4 +25,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="driver_history"> Order History </string>
     <string name="schedule_pickup"> Schedule Pickups </string>
+
+    <string name="pickup_date"> Enter a Pickup Date</string>
+    <string name="submit_pickup_request"> Confirm Request </string>
+
+    <string name="registeringDriver"> Register as a Driver </string>
+    <string name="registeringDriverNow"> Driver Registration </string>
+    <string name="vehicleMakeModel"> Vehicle Make (Ex: GMC, Honda, Ferrari, etc.) </string>
+    <string name="vehicleColor"> Color of your vehicle </string>
+    <string name="vehicleLicensePlate"> License Plate characters </string>
+    <string name="registeringRestaurant"> Register as a Restaurant </string>
+    <string name="registeringRestaurantNow"> Restaurant Registration </string>
+    <string name="registeringRestaurantLocation"> Restaurant Address </string>
+    <string name="newUserText"> Are you a new user? </string>
 </resources>
