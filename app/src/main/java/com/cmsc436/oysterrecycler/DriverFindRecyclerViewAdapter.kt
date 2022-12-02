@@ -1,4 +1,4 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.firebaseemailpasswordexample.databinding.ItemLayoutBinding
+import com.cmsc436.oysterrecycler.databinding.ItemLayoutBinding
+
 
 internal class DriverFindRecyclerViewAdapter(
     private val values: List<String>,

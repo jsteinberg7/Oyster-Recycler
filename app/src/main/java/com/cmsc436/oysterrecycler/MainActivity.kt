@@ -1,8 +1,8 @@
-package com.example.firebaseemailpasswordexample
+package com.cmsc436.oysterrecycler
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.firebaseemailpasswordexample.databinding.MainActivityBinding
+import com.cmsc436.oysterrecycler.databinding.MainActivityBinding
 import com.google.firebase.FirebaseApp
 import com.google.firebase.provider.FirebaseInitProvider
 
