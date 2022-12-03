@@ -49,7 +49,7 @@
         android:label="login_fragment"
         tools:layout="@layout/login_fragment" >
         <action
-            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            android:id="@+id/action_loginFragment_to_driver_fragment"
             app:destination="@id/DriverFragment" />
         <action
             android:id="@+id/action_loginFragment_to_driverRegistration"
@@ -67,13 +67,6 @@
             android:id="@+id/action_driverFragment_to_driverFindJobFragment"
             app:destination="@id/DriverFindJobFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/RestaurantFragment"
-        android:name="com.cmsc436.oysterrecycler.RestaurantFragment"
-        android:label="restaurant_fragment"
-        tools:layout="@layout/restaurant_fragment"/>
-        <!-- GONNA NEED TO PUT IN THE ACTION HERE -->
-
     <fragment
         android:id="@+id/DriverFindJobFragment"
         android:name="com.cmsc436.oysterrecycler.DriverFindJobFragment"

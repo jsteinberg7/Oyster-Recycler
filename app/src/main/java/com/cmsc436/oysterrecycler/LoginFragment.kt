@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
                     ).show()
 
                     findNavController().navigate(
-                        R.id.action_loginFragment_to_dashboardFragment
+                        R.id.action_loginFragment_to_driver_fragment
                     )
                 } else {
                     Toast.makeText(
