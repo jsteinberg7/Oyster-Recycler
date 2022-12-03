@@ -52,6 +52,9 @@
             android:id="@+id/action_loginFragment_to_driver_fragment"
             app:destination="@id/DriverFragment" />
         <action
+            android:id="@+id/action_loginFragment_to_restaurant_fragment"
+            app:destination="@id/RestaurantFragment" />
+        <action
             android:id="@+id/action_loginFragment_to_driverRegistration"
             app:destination="@id/action_mainFragment_to_registrationFragment" />
         <action

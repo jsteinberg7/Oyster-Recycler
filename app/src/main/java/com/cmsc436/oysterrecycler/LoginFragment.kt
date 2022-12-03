@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.LoginFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +18,7 @@ class LoginFragment : Fragment() {
 
     /** Binding to XML layout */
     private lateinit var binding: LoginFragmentBinding
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Use the provided ViewBinding class to inflate the layout.
@@ -65,10 +67,11 @@ class LoginFragment : Fragment() {
                         "Login successful!",
                         Toast.LENGTH_LONG
                     ).show()
-
-                    findNavController().navigate(
-                        R.id.action_loginFragment_to_driver_fragment
-                    )
+                    //TODO: query for driverID/restaurantID based on login info then navigate to appropriate fragment
+//                    viewModel.curDriverID = 10
+//                    viewModel.curRestaurantID = 20
+                    findNavController().navigate(R.id.action_loginFragment_to_driver_fragment)
+//                    findNavController().navigate(R.id.action_loginFragment_to_restaurant_fragment)
                 } else {
                     Toast.makeText(
                         requireContext(),

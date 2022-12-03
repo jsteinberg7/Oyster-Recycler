@@ -16,16 +16,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
+import org.xmlpull.v1.sax2.Driver
 
 class DriverFragment : Fragment() {
 
     private val viewModel by activityViewModels<MainViewModel>()
-    val DriverId: Int = viewModel.curDriverID
     // TODO: Query FireStore for driver's pickups and their adresses
     var itemsList = listOf("Nick", "UMD", "VT", "Hassam")
     var addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
+    private lateinit var driver: Driver
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,9 +35,12 @@ class DriverFragment : Fragment() {
     ): View {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
+        val driverId = viewModel.curDriverID
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+
+        Log.i("test", driverId.toString())
 
         binding.logout.setOnClickListener {
             val builder = AlertDialog.Builder(context)
