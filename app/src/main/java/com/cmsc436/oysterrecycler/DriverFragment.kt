@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -10,11 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import org.xmlpull.v1.sax2.Driver
 
@@ -55,7 +59,7 @@ class DriverFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    findNavController().popBackStack(R.id.mainFragment, false)
+                    findNavController().popBackStack(R.id.loginFragment, false)
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
                     // Dismiss the dialog

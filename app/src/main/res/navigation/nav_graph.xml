@@ -56,10 +56,13 @@
             app:destination="@id/RestaurantFragment" />
         <action
             android:id="@+id/action_loginFragment_to_driverRegistration"
-            app:destination="@id/action_mainFragment_to_registrationFragment" />
+            app:destination="@id/registrationDriverFragment" />
         <action
             android:id="@+id/action_loginFragment_to_restaurantRegistration"
-            app:destination="@id/action_mainFragment_to_registrationFragment" />
+            app:destination="@id/registrationRestaurantFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_permission_fragment"
+            app:destination="@id/PermissionFragment" />
     </fragment>
     <fragment
         android:id="@+id/DriverFragment"
@@ -96,5 +99,13 @@
         <action
             android:id="@+id/action_restaurantSchedulePickupFragment_to_restaurantFragment"
             app:destination="@+id/RestaurantFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/PermissionFragment"
+        android:name="com.cmsc436.oysterrecycler.PermissionFragment"
+        android:label="permission_fragment">
+        <action
+            android:id="@+id/action_permission_fragment_to_driver_fragment"
+            app:destination="@+id/DriverFragment"/>
     </fragment>
 </navigation>

@@ -27,7 +27,12 @@ class LoginFragment : Fragment() {
         firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
 
         binding.login.setOnClickListener { loginUserAccount() }
-        binding.registerDriver.setOnClickListener { }
+        binding.registerDriver.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_driverRegistration)
+        }
+        binding.registerRestaurant.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_restaurantRegistration)
+        }
 
         // Return the root view.
         return binding.root
@@ -70,7 +75,7 @@ class LoginFragment : Fragment() {
                     //TODO: query for driverID/restaurantID based on login info then navigate to appropriate fragment
 //                    viewModel.curDriverID = 10
 //                    viewModel.curRestaurantID = 20
-                    findNavController().navigate(R.id.action_loginFragment_to_driver_fragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_permission_fragment)
 //                    findNavController().navigate(R.id.action_loginFragment_to_restaurant_fragment)
                 } else {
                     Toast.makeText(

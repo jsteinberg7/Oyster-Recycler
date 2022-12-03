@@ -3,6 +3,8 @@
     package="com.cmsc436.oysterrecycler">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <queries>
         <!-- Specific apps you interact with, eg: -->
         <package android:name="com.google.android.apps.maps" />
