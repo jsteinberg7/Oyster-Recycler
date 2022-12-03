@@ -26,7 +26,8 @@ class LoginFragment : Fragment() {
 
         firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
 
-        binding.login.setOnClickListener { loginUserAccount() }
+        binding.login.setOnClickListener { //loginUserAccount()
+            findNavController().navigate(R.id.action_loginFragment_to_permission_fragment) }
         binding.registerDriver.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_driverRegistration)
         }

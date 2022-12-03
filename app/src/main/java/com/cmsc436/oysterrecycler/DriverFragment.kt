@@ -3,31 +3,27 @@ package com.cmsc436.oysterrecycler
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckedTextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import org.xmlpull.v1.sax2.Driver
 
 class DriverFragment : Fragment() {
 
     private val viewModel by activityViewModels<MainViewModel>()
-    // TODO: Query FireStore for driver's pickups and their adresses
-    var itemsList = listOf("Nick", "UMD", "VT", "Hassam")
-    var addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
+    lateinit var itemsList: List<String>
+    lateinit var addressList: List<String>
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
     private lateinit var driver: Driver
@@ -40,11 +36,12 @@ class DriverFragment : Fragment() {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
         val driverId = viewModel.curDriverID
+        // TODO: Query FireStore for driver's pickups and their adresses based on driver id
+        itemsList = listOf("Nick", "UMD", "VT", "Hassam")
+        addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
-
-        Log.i("test", driverId.toString())
 
         binding.logout.setOnClickListener {
             val builder = AlertDialog.Builder(context)

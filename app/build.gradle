@@ -50,5 +50,6 @@ dependencies {
     androidTestImplementation deps.junit
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation deps.play_services.location
 }
 apply plugin: 'com.google.gms.google-services'
