@@ -46,6 +46,7 @@ dependencies {
     implementation deps.lifecycle.viewmodel_ktx
     implementation deps.navigation.fragment_ktx
     implementation deps.navigation.ui_ktx
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.0'
     androidTestImplementation deps.junit
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
