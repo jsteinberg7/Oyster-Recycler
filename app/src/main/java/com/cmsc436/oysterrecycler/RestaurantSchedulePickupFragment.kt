@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.RestaurantSchedulePickupFragmentBinding
@@ -24,24 +26,24 @@ class RestaurantSchedulePickupFragment : Fragment() {
         inflater.inflate(R.layout.restaurant_fragment, container, false)
         binding = RestaurantSchedulePickupFragmentBinding.inflate(inflater, container, false)
         binding.logout.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setMessage("Are you sure you want to Logout?")
-                .setCancelable(true)
-                .setPositiveButton("Yes") { _, _ ->
-                    FirebaseAuth.getInstance().signOut()
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("Are you sure you want to Logout?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes") { _, _ ->
+                        FirebaseAuth.getInstance().signOut()
 
-                    Toast.makeText(
-                        requireContext(),
-                        "You are now logged out!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "You are now logged out!",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    findNavController().popBackStack(R.id.mainFragment, false)
-                }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    // Dismiss the dialog
-                    dialog.dismiss()
-                }
+                        findNavController().popBackStack(R.id.mainFragment, false)
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
             val alert = builder.create()
             alert.show()
         }
@@ -55,43 +57,63 @@ class RestaurantSchedulePickupFragment : Fragment() {
     }
 
     private fun schedulePickup():Boolean {
-        val date = binding.pickupDate.text.toString()
-        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        val pickupDate = LocalDate.parse(date, formatter)
-        val pickUpEpoch = pickupDate.toEpochDay()
 
-        val local = LocalDate.now()
-        val localEpoch = local.toEpochDay()
-        val checkDate = Regex("^(?=(1[0-2]|0?[1-9])\\/(3[01]|[12][0-9]|0?[1-9])\\/(?:[0-9]{2})?[0-9]{2}\$)")
-        
-        // 1. Get the date
-        // 2. Check if the date is valid
-        // 3. Check if the date is in the future
-        // 4. Check if restaurant already has active pickup
-        // 5. Create pickup in firebase
+        //val date = binding.pickupDate.text.toString()
+        // var date = "11/11/1111"
+        // val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        // val pickupDate = LocalDate.parse(date, formatter)
+        // val pickUpEpoch = pickupDate.toEpochDay()
 
-        if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
+        // val local = LocalDate.now()
+        // val localEpoch = local.toEpochDay()
+        // val checkDate = Regex("^(?=(1[0-2]|0?[1-9])\\/(3[01]|[12][0-9]|0?[1-9])\\/(?:[0-9]{2})?[0-9]{2}\$)")
 
-            return true
-        }else{
-            if(!checkDate.matches(date)){
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.incorrect_format),
-                    Toast.LENGTH_LONG
-                ).show()
-            }else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.incorrect_date),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            return false
-        }
+
+        // if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
+
+        //     return true
+        // }else{
+        //     if(!checkDate.matches(date)){
+        //         Toast.makeText(
+        //             requireContext(),
+        //             getString(R.string.incorrect_format),
+        //             Toast.LENGTH_LONG
+        //         ).show()
+        //     }else {
+        //         Toast.makeText(
+        //             requireContext(),
+        //             getString(R.string.incorrect_date),
+        //             Toast.LENGTH_LONG
+        //         ).show()
+        //     }
+        //     return false
+        // }
         //TODO: check REGEX
         //TODO: If not date refresh page and ask to submit again
         //TODO: Add Pickup date to Firebase for Potential Drivers
+        
 
+        // 1. Get the date using datePicker
+        val datePicker = binding.datePicker
+        val day = datePicker.dayOfMonth
+        val month = datePicker.month
+        val year = datePicker.year
+        // show snack bar with the date
+        Toast.makeText(
+            requireContext(),
+            "Date: $day/$month/$year",
+            Toast.LENGTH_LONG
+        ).show()
+        
+        // 2. Check if the date is valid
+        // 3. Check if the date is in the future
+        // 4. Check if restaurant already has active pickup
+        // 5. Create pickup
+        // 6. Add pickup to firebase
+        val pickup = Pickup(UID = ,
+              restaurantID = , driverID = , dateCreated = )
+        val dataEngine = DataEngine()
+        dataEngine.initializePickup(pickup)
+        return true
     }
 }

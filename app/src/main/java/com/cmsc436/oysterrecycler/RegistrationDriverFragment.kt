@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.FragmentRegistrationDriverBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,7 @@ class RegistrationDriverFragment : Fragment() {
 
     /** Binding to XML layout */
     private lateinit var binding: FragmentRegistrationDriverBinding
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Use the provided ViewBinding class to inflate the layout.
@@ -43,6 +45,7 @@ class RegistrationDriverFragment : Fragment() {
 
         // NOT SURE WHAT TO DO WITH THIS INFO
         val vehicleMake: String = binding.driverVehicleMake.text.toString()
+        //val
         val vehicleColor: String = binding.driverVehicleColor.text.toString()
         val vehicleLicensePlate: String = binding.driverVehicleLicensePlate.text.toString()
 
@@ -92,7 +95,8 @@ class RegistrationDriverFragment : Fragment() {
                         email = email, carMake = vehicleMake, carModel = "test Model", activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createDriverFile(driver = driver)
-
+                    // JUST ADDING THIS
+                    viewModel.curDriverID = emailHash
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment
                     )

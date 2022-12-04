@@ -165,14 +165,23 @@ class DataEngine(UID: String) {
                     Log.d(TAG, "get failed with ", exception)
                 }
         }
-
-
+        
         return recentPickups 
     }
 
     /* Pickup functions */
+    fun initializePickup(pickup: Pickup) {
+        // 1. Create pickup file and push to Firebase
+        createPickupFile(pickup).then(
+            val restaurant = getRestaurantByUID(pickup.restaurantID).then(
+                // 2. Add pickup to restaurant's active pickups
+                addActivePickupToRestaurant(restaurant, pickup.UID)
+            )
+        )
+        
+    }
 
-    fun createPickupFile(pickup: Pickup) {
+    fun createPickupFile(pickup: Pickup): Promise<Unit> {
         val map = HashMap<String, Any>()
         map["UID"] = pickup.UID
         map["restaurantID"] = pickup.restaurantID
@@ -187,11 +196,16 @@ class DataEngine(UID: String) {
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
+    fun addActivePickupToRestaurant(restaurant: Restaurant, pickup: Pickup) {
+        restaurant.activePickups += pickup.UID
+        updateRestaurantFile(restaurant)
+    }
+
 //    fun getPickupFile(pickupID: String): Pickup {
 //
 //    }
     
-    fun updatePickupFile(pickup: Pickup) {
+    fun updatePickupFile(pickup: Pickup): Promise<Unit> {
         pickupsCollection
         .document(pickup.UID)
             .set(pickup.serialize())
