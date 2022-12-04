@@ -187,7 +187,14 @@ class DriverFragment : Fragment() {
         binding.cancel.setOnClickListener {
             if (idx >= 0) {
                 pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
-
+                    var map = HashMap<String, Any>()
+                    map["restaurant_id"] = document.data?.get("restaurant_id").toString()
+                    map["driver_id"] = ""
+                    map["when"] = document.data?.get("when").toString()
+                    pickupsCollection.document(assignments[idx]).set(map)
+                    driver.activePickups = driver.activePickups.filter { it != assignments[idx] }
+                    driversCollection.document(driverId).set(driver.serialize())
+                    getDriverAssignments()
                 }
                 itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
                 binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)

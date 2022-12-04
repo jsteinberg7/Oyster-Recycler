@@ -237,7 +237,8 @@ class DriverFindJobFragment : Fragment() {
             nameList = MutableList(documents.size()) {""}
             for (document in documents) {
                 Log.i("test","got: " + document.data.toString())
-                if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "")) {
+                var date = document.data.get("when").toString()
+                if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "") && isToday(date)) {
                     Log.i("test", "using" + document.data.toString())
                     var restaurant = document.data.get("restaurant_id").toString()
                     restaurantsCollection.document(restaurant).get().addOnSuccessListener { doc ->
@@ -250,5 +251,9 @@ class DriverFindJobFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun isToday(date: String): Boolean {
+        return true
     }
 }
