@@ -22,6 +22,9 @@ import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import Driver
+import android.content.ContentValues
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.time.Duration
 import kotlin.math.acos
 import kotlin.math.cos
@@ -29,7 +32,11 @@ import kotlin.math.sin
 
 class DriverFragment : Fragment() {
 
+    private val firestore = Firebase.firestore
+    private var driversCollection = firestore.collection("drivers")
+    private var restaurantsCollection = firestore.collection("restaurants")
     private val viewModel by activityViewModels<MainViewModel>()
+    private lateinit var driverId: String
     lateinit var itemsList: List<String>
     lateinit var addressList: List<String>
     var idx = -1
@@ -126,8 +133,7 @@ class DriverFragment : Fragment() {
     ): View {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
-        val driverId = viewModel.curDriverID
-        dataEngine = DataEngine(driverId)
+//        dataEngine = DataEngine(driverId)
         // TODO: Query FireStore for driver's pickups and their adresses based on driver id
 //        driver = Driver("1", "Nick", "Casey",
 //            "nick@n.com",
@@ -136,13 +142,14 @@ class DriverFragment : Fragment() {
 //            "Malibu", arrayOf("Nick", "UMD", "VT", "Hassam"),
 //            arrayOf()
 //        )
-        driver = dataEngine.getDriverByUID(driverId)
-        Log.i("test", driver.firstName)
-        itemsList = driver.activePickups
-        Log.i("test", itemsList.toString())
-        for (item in itemsList) {
-            addressList += dataEngine.getRestaurantByName(item).address
-        }
+        getDriverAssignments()
+//        driver = dataEngine.getDriverByUID(driverId)
+//        Log.i("test", driver.firstName)
+         itemsList = listOf()
+//        Log.i("test", itemsList.toString())
+//        for (item in itemsList) {
+//            addressList += dataEngine.getRestaurantByName(item).address
+//        }
 //        addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
@@ -288,6 +295,55 @@ class DriverFragment : Fragment() {
         override fun onLocationResult(locationResult: LocationResult) {
             location = locationResult.lastLocation
         }
+    }
+
+    private fun getDriverAssignments() {
+        driverId = viewModel.curDriverID
+        driversCollection
+            .document(driverId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i("test", document.toString())
+                if (document != null) {
+                    Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                    driver = Driver(
+                        document.data?.get("UID").toString(),
+                        document.data?.get("firstname").toString(),
+                        document.data?.get("lastname").toString(),
+                        document.data?.get("email").toString(),
+                        document.data?.get("phone").toString(),
+                        document.data?.get("car_make").toString(),
+                        document.data?.get("car_model").toString(),
+                        document.data?.get("active_pickups") as List<String>,
+                        document.data?.get("completed_pickups") as List<String>
+
+                    )
+                    itemsList = driver.activePickups
+                    Log.i("test", itemsList.toString())
+                    for (item in itemsList) {
+                        restaurantsCollection.whereEqualTo("name", item).get()
+                            .addOnSuccessListener { documents ->
+                                Log.i("test", "got address: " + documents.elementAt(0).data?.get("address").toString())
+                                var document = documents.elementAt(0)
+                                if (document != null) {
+                                    addressList += document.data?.get("address").toString()
+                                } else {
+                                    Log.d(ContentValues.TAG, "No such document")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(ContentValues.TAG, "get failed with ", exception)
+                            }
+                    }
+                    Log.i("test", "updating View")
+                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                } else {
+                    Log.i("test", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("test", "get failed with ", exception)
+            }
     }
 
 }
