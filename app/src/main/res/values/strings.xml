@@ -13,6 +13,9 @@
     <string name="register_failed_string">Registration failed! Please try again later</string>
     <string name="invalid_password">Password must contain at least 8 characters with one letter, one number, and one special character!</string>
     <string name="invalid_email"> Please enter valid email… </string>
+    <string name="invalid_carColor"> Please enter the color of your car </string>
+    <string name="invalid_carMake"> Please enter maker of your car </string>
+    <string name="invalid_carPlate"> Please enter your vehicle's License Plate </string>
     <string name="login_toast"> Please enter email… </string>
     <string name="password_toast">Please enter password!</string>
     <string name="logout">Logout</string>

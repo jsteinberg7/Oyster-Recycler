@@ -60,7 +60,6 @@ class RegistrationDriverFragment : Fragment() {
                 getString(R.string.invalid_email),
                 Toast.LENGTH_LONG
             ).show()
-
             return
         }
 
@@ -70,7 +69,33 @@ class RegistrationDriverFragment : Fragment() {
                 getString(R.string.invalid_password),
                 Toast.LENGTH_LONG
             ).show()
+            return
+        }
 
+        if (!validator.validColor(vehicleColor)) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.invalid_carColor),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        if (!validator.validMake(vehicleMake)) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.invalid_carMake),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        if(!validator.validLPlate(vehicleLicensePlate)) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.invalid_carPlate),
+                Toast.LENGTH_LONG
+            ).show()
             return
         }
 
@@ -92,15 +117,11 @@ class RegistrationDriverFragment : Fragment() {
 
                     var dataEngine = DataEngine()
                     // Put in the email hash instead of uid
-                    // Uncomment below when ready to assign firstname lastname to drivers on creation...
-//                    var driver: Driver = Driver(emailHash, firstName = firstName, lastName = lastName, phone = "123456",
-//                        email = email, carMake = vehicleMake, carModel = "test Model", activePickups = listOf(), completedPickups = listOf())
-
-                    var driver: Driver = Driver(emailHash, firstName = "", lastName = "", carLicensePlate = vehicleLicensePlate,
-                        email = email, carMake = vehicleMake, carColor = vehicleColor, activePickups = listOf(), completedPickups = listOf())
+                    var driver: Driver = Driver(emailHash, firstName = firstName, lastName = lastName,
+                        carLicensePlate = vehicleLicensePlate, email = email, carMake = vehicleMake,
+                        carColor = vehicleColor, activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createDriverFile(driver = driver)
-                    // JUST ADDING THIS
                     viewModel.curDriverID = emailHash
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment
@@ -108,9 +129,7 @@ class RegistrationDriverFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        // Could add this instead
-                        //task.exception!!.message.toString(),
-                        getString(R.string.register_failed_string),
+                        task.exception!!.message.toString(),
                         Toast.LENGTH_LONG
                     ).show()
                 }

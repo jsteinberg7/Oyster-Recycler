@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import Driver
 import android.app.AlertDialog
 import android.location.Address
 import android.location.Geocoder
@@ -22,6 +23,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.time.Duration
 import kotlin.math.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DriverFindJobFragment : Fragment() {
     private val firestore = Firebase.firestore
@@ -33,12 +36,13 @@ class DriverFindJobFragment : Fragment() {
     lateinit var distList: MutableList<Double>
     lateinit var addressList: MutableList<String>
     lateinit var nameList: MutableList<String>
+    lateinit var idList: MutableList<String>
+    lateinit var finalIdList: MutableList<String>
     var idx = -1
     private lateinit var binding: DriverFindJobFragmentBinding
     private var location: Location? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var firstUpdate = true
-    lateinit var address: Address
     private lateinit var driverId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,17 +95,43 @@ class DriverFindJobFragment : Fragment() {
         }
 
         binding.refresh.setOnClickListener {
-            // TODO: Query FireStore for nearest 10-15 locations
+            // Query FireStore for nearest 10 locations
             getLocations()
         }
 
         binding.accept.setOnClickListener {
             if (idx >= 0) {
-                findNavController().navigate(
-                    R.id.action_driverFindJobFragment_to_driverFragment
-                )
-                // TODO: query to add this pickup to this driver using driverID
-                Toast.makeText(requireContext(), itemsList[idx] + " added", Toast.LENGTH_SHORT).show()
+                // query to add this pickup to this driver using driverID
+                pickupsCollection.document(finalIdList[idx]).get().addOnSuccessListener { document ->
+                    if (document.data?.get("driver_id").toString() == null || document.data?.get("driver_id").toString() == "") {
+                        var map = HashMap<String, Any>()
+                        map["restaurant_id"] = document.data?.get("restaurant_id").toString()
+                        map["driver_id"] = driverId
+                        map["when"] = document.data?.get("when").toString()
+                        driversCollection.document(driverId).get().addOnSuccessListener { document ->
+                            var driver = Driver(document.data?.get("UID").toString(),
+                                document.data?.get("firstname").toString(),
+                                document.data?.get("lastname").toString(),
+                                document.data?.get("email").toString(),
+                                document.data?.get("car_license_plate").toString(),
+                                document.data?.get("car_make").toString(),
+                                document.data?.get("car_color").toString(),
+                                document.data?.get("active_pickups") as List<String>,
+                                document.data?.get("completed_pickups") as List<String>)
+                            driver.activePickups += finalIdList[idx]
+                            driversCollection.document(driverId).set(driver.serialize())
+                            findNavController().navigate(
+                                R.id.action_driverFindJobFragment_to_driverFragment
+                            )
+                            Toast.makeText(
+                                requireContext(),
+                                itemsList[idx].split(" - ")[0],
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        pickupsCollection.document(finalIdList[idx]).set(map)
+                    }
+                }
             }
         }
 
@@ -129,19 +159,8 @@ class DriverFindJobFragment : Fragment() {
             if (firstUpdate) {
                 Log.i("test", "Coords: " + location?.latitude.toString() + " " + location?.longitude.toString())
                 val driverId = viewModel.curDriverID
-                // TODO: Query FireStore for nearest 10-15 locations into itemsList using location
+                // Query FireStore for nearest 10 locations into itemsList using location
                 getLocations()
-                //itemsList = mutableListOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
-                //updateAdapter()
-//                val coder = Geocoder(context)
-//                try {
-//                    address = coder.getFromLocationName("18311 Leedstown Way", 1)[0]
-//                }
-//                catch (e: Error) {
-//                    Log.i("test", e.toString())
-//                }
-//                Log.i("test", "Address Coords: " + address.latitude.toString() + " " + address.longitude.toString())
-//                Log.i("test", "Distance: " + distance(address.latitude, address.longitude, location!!.latitude, location!!.longitude).toString() )
                 firstUpdate = false
             }
         }
@@ -174,20 +193,25 @@ class DriverFindJobFragment : Fragment() {
         var closestLimit = (-1).toDouble()
         itemsList = mutableListOf()
         distList = mutableListOf()
+        finalIdList = mutableListOf()
         for (addr in addressList) {
             var loc = coder.getFromLocationName(addr, 1)[0]
             var dist = distance(loc.latitude, loc.longitude, location!!.latitude, location!!.longitude)
             if (closestLimit == (-1).toDouble()) {
                 itemsList += nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
                 distList += dist
+                finalIdList += idList[addressList.indexOf(addr)]
                 var i = itemsList.size - 1
                 while (i > 0 && distList[i - 1] > dist) {
                     var temp = itemsList[i-1]
                     var temp2 = distList[i-1]
+                    var temp3 = finalIdList[i-1]
                     itemsList[i-1] = itemsList[i]
                     distList[i-1] = distList[i]
+                    finalIdList[i-1] = finalIdList[i]
                     itemsList[i] = temp
                     distList[i] = temp2
+                    finalIdList[i] = temp3
                     i -= 1
                 }
                 if (itemsList.size == 10) {
@@ -196,14 +220,19 @@ class DriverFindJobFragment : Fragment() {
             }
             else if (dist < closestLimit) {
                 itemsList[9] = nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
+                distList[9] = dist
+                finalIdList[9] = idList[addressList.indexOf(addr)]
                 var i = 9
                 while (i > 0 && distList[i - 1] > dist) {
                     var temp = itemsList[i-1]
                     var temp2 = distList[i-1]
+                    var temp3 = finalIdList[i-1]
                     itemsList[i-1] = itemsList[i]
                     distList[i-1] = distList[i]
+                    finalIdList[i-1] = finalIdList[i]
                     itemsList[i] = temp
                     distList[i] = temp2
+                    finalIdList[i] = temp3
                     i -= 1
                 }
             }
@@ -235,20 +264,45 @@ class DriverFindJobFragment : Fragment() {
         pickupsCollection.get().addOnSuccessListener { documents ->
             addressList = mutableListOf()
             nameList = MutableList(documents.size()) {""}
+            idList = MutableList(documents.size()) {""}
             for (document in documents) {
                 Log.i("test","got: " + document.data.toString())
-                if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "")) {
+                var date = document.data.get("when").toString()
+                if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "") && isToday(date)) {
                     Log.i("test", "using" + document.data.toString())
                     var restaurant = document.data.get("restaurant_id").toString()
                     restaurantsCollection.document(restaurant).get().addOnSuccessListener { doc ->
                         if (doc.data != null) {
                             addressList += doc.data?.get("address").toString()
                             nameList[addressList.indexOf(doc.data?.get("address").toString())] = doc.data?.get("name").toString()
+                            idList[addressList.indexOf(doc.data?.get("address").toString())] = doc.data?.get("UID").toString()
                             updateAdapter()
                         }
                     }
                 }
             }
+            updateAdapter()
         }
     }
+
+    private fun isToday(date: String): Boolean {
+        var today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+        return today == date
+    }
+
+//    private fun getMonth(date: String): Int {
+//        var month = date.subSequence(0, 2)
+//        if (month[0] == '0') {
+//            month = month[1].toString()
+//        }
+//        return  month.toString().toInt()
+//    }
+//
+//    private fun getDay(date: String): Int {
+//        var day = date.subSequence(2, 4)
+//        if (day[0] == '0') {
+//            day = day[1].toString()
+//        }
+//        return  day.toString().toInt()
+//    }
 }

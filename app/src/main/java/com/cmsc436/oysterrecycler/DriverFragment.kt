@@ -136,27 +136,11 @@ class DriverFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Use the provided ViewBinding class to inflate
-        // the layout and then return the root view.
-//        dataEngine = DataEngine(driverId)
-        // TODO: Query FireStore for driver's pickups and their adresses based on driver id
-//        driver = Driver("1", "Nick", "Casey",
-//            "nick@n.com",
-//            "301-802-5170",
-//            "chevy",
-//            "Malibu", arrayOf("Nick", "UMD", "VT", "Hassam"),
-//            arrayOf()
-//        )
+
+        // Query FireStore for driver's pickups and their adresses based on driver id
         getDriverAssignments()
-//        driver = dataEngine.getDriverByUID(driverId)
-//        Log.i("test", driver.firstName)
         itemsList = mutableListOf()
         assignments = mutableListOf()
-//        Log.i("test", itemsList.toString())
-//        for (item in itemsList) {
-//            addressList += dataEngine.getRestaurantByName(item).address
-//        }
-//        addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
@@ -187,7 +171,14 @@ class DriverFragment : Fragment() {
         binding.cancel.setOnClickListener {
             if (idx >= 0) {
                 pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
-
+                    var map = HashMap<String, Any>()
+                    map["restaurant_id"] = document.data?.get("restaurant_id").toString()
+                    map["driver_id"] = ""
+                    map["when"] = document.data?.get("when").toString()
+                    pickupsCollection.document(assignments[idx]).set(map)
+                    driver.activePickups = driver.activePickups.filter { it != assignments[idx] }
+                    driversCollection.document(driverId).set(driver.serialize())
+                    getDriverAssignments()
                 }
                 itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
                 binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)

@@ -9,25 +9,17 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <DatePicker
-    android:id="@+id/datePicker"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:datePickerMode="calendar"/>
 
-<!--    <EditText-->
-<!--        android:id="@+id/pickup_date"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="@string/pickup_date"-->
-<!--        android:importantForAutofill="no"-->
-<!--        android:inputType="date"-->
-<!--        android:layout_margin="26dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/submit_pickup_request"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--         />-->
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="336dp"
+        android:layout_height="431dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:datePickerMode="calendar"
+        android:headerBackground="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/logout"
@@ -45,7 +37,7 @@
         android:id="@+id/submit_pickup_request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="584dp"
         android:hint="@string/submit_pickup_request"
         app:layout_constraintStart_toStartOf="@id/datePicker"
         app:layout_constraintTop_toTopOf="parent" />

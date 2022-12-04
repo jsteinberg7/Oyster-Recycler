@@ -8,13 +8,6 @@ class Validators {
             return false
         }
 
-        // Trim empty spaces from email
-       // val trimmedEmail = email.toString().trim() { it <= ' '}
-
-       // if (trimmedEmail.isNullOrEmpty()) {
-       //     return false
-       // }
-
         // General Email Regex (RFC 5322 Official Standard)
         val emailRegex = Regex("\\S+@\\S+\\.\\S+")
         return emailRegex.matches(email)
@@ -40,6 +33,10 @@ class Validators {
         if (vehicleMake.isNullOrEmpty()) return false
         else if (vehicleMake.isDigitsOnly()) return false
 
+        return true
+    }
+    fun validLPlate(vehiclePlate: String?) : Boolean {
+        if (vehiclePlate.isNullOrEmpty()) return false
         return true
     }
 
