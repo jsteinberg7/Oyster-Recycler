@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import Restaurant
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.FragmentRegistrationRestaurantBinding
-import com.cmsc436.oysterrecycler.databinding.RegistrationFragmentBinding
 import com.cmsc436.oysterrecycler.databinding.RestaurantFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.tasks.OnCompleteListener
@@ -41,6 +41,7 @@ class RegistrationRestaurantFragment : Fragment() {
         val password: String = binding.password.text.toString()
 
         // NOT SURE WHAT TO DO WITH THIS INFO
+        val restaurantName: String = binding.restaurantName.text.toString()
         val restaurantAddress: String = binding.restaurantAddress.text.toString()
 
 
@@ -75,16 +76,22 @@ class RegistrationRestaurantFragment : Fragment() {
 
                     val firebaseUser: FirebaseUser = task.result!!.user!!
 
-
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.register_success_string),
                         Toast.LENGTH_LONG
                     ).show()
 
+                    var dataEngine = DataEngine(firebaseUser.uid)
+                    var restaurant: Restaurant = Restaurant(firebaseUser.uid, name = restaurantName, email = "last", phone = "123456",
+                        address = restaurantAddress, activePickups = listOf(), completedPickups = listOf())
+
+                    dataEngine.createRestaurantFile(restaurant = restaurant)
+
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment
                     )
+
                 } else {
                     Toast.makeText(
                         requireContext(),

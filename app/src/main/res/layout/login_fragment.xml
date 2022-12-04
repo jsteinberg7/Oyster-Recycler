@@ -8,9 +8,17 @@
     android:padding="16dp"
     tools:context=".LoginFragment">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="232dp"
+        android:src="@drawable/pacific_oyster" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="80dp"
+        android:textStyle="bold"
         android:text="@string/account_login_string"/>
     <EditText
         android:id="@+id/email"

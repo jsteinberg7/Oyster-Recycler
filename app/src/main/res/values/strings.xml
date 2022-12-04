@@ -37,6 +37,7 @@
     <string name="vehicleLicensePlate"> License Plate characters </string>
     <string name="registeringRestaurant"> Register as a Restaurant </string>
     <string name="registeringRestaurantNow"> Restaurant Registration </string>
+    <string name="registeringRestaurantName"> Name of Restaurant </string>
     <string name="registeringRestaurantLocation"> Restaurant Address </string>
     <string name="newUserText"> Are you a new user? </string>
 </resources>
