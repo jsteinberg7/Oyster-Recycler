@@ -64,7 +64,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
         val local = LocalDate.now()
         val localEpoch = local.toEpochDay()
         val checkDate = Regex("^(?=(1[0-2]|0[1-9])\\/(3[01]|[12][0-9]|0[1-9])\\/([0-9]{4})\$)")
-        if(checkDate.matches(date) &&  (localEpoch >= pickUpEpoch)){
+        if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
 
             return true
         }else{
