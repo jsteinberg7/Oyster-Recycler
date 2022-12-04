@@ -53,9 +53,9 @@ class DataEngine(UID: String) {
                         document.data?.get("firstname").toString(),
                         document.data?.get("lastname").toString(),
                         document.data?.get("email").toString(),
-                        document.data?.get("phone").toString(),
+                        document.data?.get("car_license_plate").toString(),
                         document.data?.get("car_make").toString(),
-                        document.data?.get("car_model").toString(),
+                        document.data?.get("car_color").toString(),
                         document.data?.get("active_pickups") as List<String>,
                         document.data?.get("completed_pickups") as List<String>
 

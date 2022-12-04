@@ -20,6 +20,8 @@
         android:paddingTop="80dp"
         android:textStyle="bold"
         android:text="@string/registeringRestaurantNow"/>
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_layout"
         android:layout_width="match_parent"

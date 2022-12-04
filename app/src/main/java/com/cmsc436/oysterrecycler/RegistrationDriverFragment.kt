@@ -40,12 +40,13 @@ class RegistrationDriverFragment : Fragment() {
     }
 
     private fun registerNewUser() {
+        val firstName: String = binding.firstName.text.toString()
+        val lastName: String = binding.lastName.text.toString()
         val email: String = binding.email.text.toString()
         val password: String = binding.password.text.toString()
 
         // NOT SURE WHAT TO DO WITH THIS INFO
         val vehicleMake: String = binding.driverVehicleMake.text.toString()
-        //val
         val vehicleColor: String = binding.driverVehicleColor.text.toString()
         val vehicleLicensePlate: String = binding.driverVehicleLicensePlate.text.toString()
 
@@ -91,8 +92,12 @@ class RegistrationDriverFragment : Fragment() {
 
                     var dataEngine = DataEngine(firebaseUser.uid)
                     // Put in the email hash instead of uid
-                    var driver: Driver = Driver(emailHash, firstName = "first", lastName = "last", phone = "123456",
-                        email = email, carMake = vehicleMake, carModel = "test Model", activePickups = listOf(), completedPickups = listOf())
+                    // Uncomment below when ready to assign firstname lastname to drivers on creation...
+//                    var driver: Driver = Driver(emailHash, firstName = firstName, lastName = lastName, phone = "123456",
+//                        email = email, carMake = vehicleMake, carModel = "test Model", activePickups = listOf(), completedPickups = listOf())
+
+                    var driver: Driver = Driver(emailHash, firstName = "", lastName = "", carLicensePlate = vehicleLicensePlate,
+                        email = email, carMake = vehicleMake, carColor = vehicleColor, activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createDriverFile(driver = driver)
                     // JUST ADDING THIS

@@ -26,9 +26,9 @@ data class Driver(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val phone: String,
+    val carLicensePlate: String,
     val carMake: String,
-    val carModel: String, val activePickups: List<String>,
+    val carColor: String, val activePickups: List<String>,
     val completedPickups: List<String>
 ) {
     // create a new driver
@@ -37,10 +37,10 @@ data class Driver(
         map["UID"] = UID
         map["first_name"] = firstName
         map["last_name"] = lastName
-        map["phone"] = phone
+        map["car_license_plate"] = carLicensePlate
         map["email"] = email
         map["car_make"] = carMake
-        map["car_model"] = carModel
+        map["car_color"] = carColor
         map["active_pickups"] = activePickups
         map["completed_pickups"] = completedPickups
         return map
