@@ -22,6 +22,8 @@
     <string name="findPickup">Find Pickup</string>
     <string name="currentPickups">Current Pickups</string>
     <string name="dropoff">Drop Off</string>
+    <string name="driverHistory">Driver History</string>
+    <string name="current">Current Jobs</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="driver_history"> Order History </string>

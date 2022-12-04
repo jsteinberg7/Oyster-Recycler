@@ -120,11 +120,16 @@ class DriverFindJobFragment : Fragment() {
                 // TODO: Query FireStore for nearest 10-15 locations into itemsList using location
                 itemsList = listOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
                 updateAdapter()
-                firstUpdate = false
                 val coder = Geocoder(context)
-                address = coder.getFromLocationName("18311 Leedstown Way", 1)[0]
+                try {
+                    address = coder.getFromLocationName("18311 Leedstown Way", 1)[0]
+                }
+                catch (e: Error) {
+                    Log.i("test", e.toString())
+                }
                 Log.i("test", "Address Coords: " + address.latitude.toString() + " " + address.longitude.toString())
                 Log.i("test", "Distance: " + distance(address.latitude, address.longitude, location!!.latitude, location!!.longitude).toString() )
+                firstUpdate = false
             }
         }
     }

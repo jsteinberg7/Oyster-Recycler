@@ -37,7 +37,7 @@ class DriverFragment : Fragment() {
     private var restaurantsCollection = firestore.collection("restaurants")
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var driverId: String
-    lateinit var itemsList: List<String>
+    lateinit var itemsList: MutableList<String>
     lateinit var addressList: MutableList<String>
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
@@ -145,7 +145,7 @@ class DriverFragment : Fragment() {
         getDriverAssignments()
 //        driver = dataEngine.getDriverByUID(driverId)
 //        Log.i("test", driver.firstName)
-         itemsList = listOf()
+         itemsList = mutableListOf()
 //        Log.i("test", itemsList.toString())
 //        for (item in itemsList) {
 //            addressList += dataEngine.getRestaurantByName(item).address
@@ -180,7 +180,7 @@ class DriverFragment : Fragment() {
 
         binding.cancel.setOnClickListener {
             // TODO: Query FireStore to take job off driver and then query to update lists
-            itemsList = itemsList.filter{itemsList.indexOf(it) != idx}
+            itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
             binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
         }
 
@@ -188,7 +188,7 @@ class DriverFragment : Fragment() {
             if (idx >= 0) {
                 // TODO: query to get rid of job on restaurant and driver and query to update list
                 Toast.makeText(requireContext(), itemsList[idx] + " finished", Toast.LENGTH_SHORT).show()
-                itemsList = itemsList.filter{itemsList.indexOf(it) != idx}
+                itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
                 binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
             }
         }
@@ -220,6 +220,10 @@ class DriverFragment : Fragment() {
 
         binding.dropoff.setOnClickListener {
             findClosestAddress()
+        }
+
+        binding.refresh.setOnClickListener {
+            getDriverAssignments()
         }
         // Return the root view.
         return binding.root
@@ -304,7 +308,7 @@ class DriverFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 Log.i("test", document.toString())
-                if (document != null) {
+                if (document.data != null) {
                     Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
                     driver = Driver(
                         document.data?.get("UID").toString(),
@@ -318,17 +322,20 @@ class DriverFragment : Fragment() {
                         document.data?.get("completed_pickups") as List<String>
 
                     )
-                    itemsList = driver.activePickups
-                    addressList = MutableList(itemsList.size) { "" }
-                    Log.i("test", itemsList.toString())
-                    for (item in itemsList) {
-                        restaurantsCollection.whereEqualTo("name", item).get()
-                            .addOnSuccessListener { documents ->
-                                Log.i("test", "got address: " + documents.elementAt(0).data?.get("address").toString())
-                                var document = documents.elementAt(0)
-                                if (document != null) {
-                                    addressList[itemsList.indexOf(documents.elementAt(0).data?.get("name").toString())] =
-                                        document.data?.get("address").toString()
+                    var pickups = driver.activePickups
+                    itemsList = MutableList(pickups.size) { "" }
+                    addressList = MutableList(pickups.size) { "" }
+                    Log.i("test", pickups.toString())
+                    binding.info.text = "Welcome " + driver.firstName + "!"
+                    for (pickup in pickups) {
+                        restaurantsCollection.document(pickup).get()
+                            .addOnSuccessListener { restaurant ->
+                                if (restaurant.data != null) {
+                                    itemsList[pickups.indexOf(pickup)] =
+                                        restaurant.data?.get("name").toString()
+                                    addressList[pickups.indexOf(pickup)] =
+                                        restaurant.data?.get("address").toString()
+                                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
                                 }
@@ -338,7 +345,58 @@ class DriverFragment : Fragment() {
                             }
                     }
                     Log.i("test", "updating View")
-                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                } else {
+                    Log.i("test", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("test", "get failed with ", exception)
+            }
+    }
+
+    private fun getDriverHistory() {
+        driverId = viewModel.curDriverID
+        driversCollection
+            .document(driverId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i("test", document.toString())
+                if (document.data != null) {
+                    Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                    driver = Driver(
+                        document.data?.get("UID").toString(),
+                        document.data?.get("firstname").toString(),
+                        document.data?.get("lastname").toString(),
+                        document.data?.get("email").toString(),
+                        document.data?.get("phone").toString(),
+                        document.data?.get("car_make").toString(),
+                        document.data?.get("car_model").toString(),
+                        document.data?.get("active_pickups") as List<String>,
+                        document.data?.get("completed_pickups") as List<String>
+
+                    )
+                    var pickups = driver.completedPickups
+                    itemsList = MutableList(pickups.size) { "" }
+                    addressList = MutableList(pickups.size) { "" }
+                    Log.i("test", pickups.toString())
+                    for (pickup in pickups) {
+                        restaurantsCollection.document(pickup).get()
+                            .addOnSuccessListener { restaurant ->
+                                if (restaurant.data != null) {
+                                    itemsList[pickups.indexOf(pickup)] =
+                                        restaurant.data?.get("name").toString()
+                                    addressList[pickups.indexOf(pickup)] =
+                                        restaurant.data?.get("address").toString()
+                                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                                } else {
+                                    Log.d(ContentValues.TAG, "No such document")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(ContentValues.TAG, "get failed with ", exception)
+                            }
+                    }
+                    Log.i("test", "updating View")
                 } else {
                     Log.i("test", "No such document")
                 }
