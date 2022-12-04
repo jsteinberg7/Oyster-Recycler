@@ -65,11 +65,21 @@
         app:layout_constraintTop_toTopOf="@id/logout"
         android:backgroundTint="@color/background_color"/>
 
+    <Button
+        android:id="@+id/dropoff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dropoff"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/list"
+        android:backgroundTint="@color/background_color"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:name="course.cmsc436.DriverFragment"
         android:layout_width="200dp"
-        android:layout_height="657dp"
+        android:layout_height="500dp"
         android:scrollbars="vertical"
         android:layout_marginLeft="10dp"
         app:layoutManager="LinearLayoutManager"

@@ -19,7 +19,7 @@ import com.cmsc436.oysterrecycler.databinding.DriverFindJobFragmentBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import java.time.Duration
-
+import kotlin.math.*
 
 class DriverFindJobFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
@@ -115,7 +115,7 @@ class DriverFindJobFragment : Fragment() {
         override fun onLocationResult(locationResult: LocationResult) {
             location = locationResult.lastLocation
             if (firstUpdate) {
-                Log.i("test", "Long: " + location?.longitude.toString() + " Lat: " + location?.latitude.toString())
+                Log.i("test", "Coords: " + location?.latitude.toString() + " " + location?.longitude.toString())
                 val driverId = viewModel.curDriverID
                 // TODO: Query FireStore for nearest 10-15 locations into itemsList using location
                 itemsList = listOf("name 1 \t-\t 12 miles away", "name 2 \t-\t 17 miles away", "name 3 \t-\t 27 miles away", "name 4 \t-\t 37 miles away")
@@ -123,9 +123,32 @@ class DriverFindJobFragment : Fragment() {
                 firstUpdate = false
                 val coder = Geocoder(context)
                 address = coder.getFromLocationName("18311 Leedstown Way", 1)[0]
-                Log.i("test", "Address Long: " + address.longitude.toString() + " Address Lat: " + address.latitude.toString())
+                Log.i("test", "Address Coords: " + address.latitude.toString() + " " + address.longitude.toString())
+                Log.i("test", "Distance: " + distance(address.latitude, address.longitude, location!!.latitude, location!!.longitude).toString() )
             }
         }
+    }
+
+    // formula from https://stackoverflow.com/questions/6981916/how-to-calculate-distance-between-two-locations-using-their-longitude-and-latitu
+    private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = (sin(deg2rad(lat1))
+                * sin(deg2rad(lat2))
+                + (cos(deg2rad(lat1))
+                * cos(deg2rad(lat2))
+                * cos(deg2rad(theta))))
+        dist = acos(dist)
+        dist = rad2deg(dist)
+        dist *= 60 * 1.1515
+        return dist
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
     }
 
     private fun updateAdapter() {
