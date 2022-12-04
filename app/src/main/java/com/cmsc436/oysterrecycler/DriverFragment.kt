@@ -21,20 +21,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
-import org.xmlpull.v1.sax2.Driver
+import Driver
+import android.content.ContentValues
+import kotlinx.coroutines.delay
 import java.time.Duration
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class DriverFragment : Fragment() {
 
+    val firestore = Firebase.firestore
+    var driversCollection = firestore.collection("drivers")
     private val viewModel by activityViewModels<MainViewModel>()
     lateinit var itemsList: List<String>
     lateinit var addressList: List<String>
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
     private lateinit var driver: Driver
+    private lateinit var dataEngine: DataEngine
     private val dropoffs = listOf("723 Second Street, Annapolis, MD 21401",
         "512 Severn Avenue, Annapolis, MD 21403", "317 First Street, Annapolis, MD 21403",
         "1805 Virginia Street, Annapolis, MD 21401", "6 Herndon Avenue, Annapolis, MD 21403",
@@ -125,13 +132,17 @@ class DriverFragment : Fragment() {
     ): View {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
-        val driverId = viewModel.curDriverID
         // TODO: Query FireStore for driver's pickups and their adresses based on driver id
-        itemsList = listOf("Nick", "UMD", "VT", "Hassam")
-        addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
+//        driver = Driver("1", "Nick", "Casey",
+//            "nick@n.com",
+//            "301-802-5170",
+//            "chevy",
+//            "Malibu", arrayOf("Nick", "UMD", "VT", "Hassam"),
+//            arrayOf()
+//        )
+//        addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
 
         binding.logout.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -199,6 +210,7 @@ class DriverFragment : Fragment() {
         binding.dropoff.setOnClickListener {
             findClosestAddress()
         }
+
         // Return the root view.
         return binding.root
     }
@@ -273,6 +285,43 @@ class DriverFragment : Fragment() {
         override fun onLocationResult(locationResult: LocationResult) {
             location = locationResult.lastLocation
         }
+    }
+
+    fun updateRecycler() {
+        val driverId = viewModel.curDriverID
+        driversCollection
+            .document(driverId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i("test", document.toString())
+                if (document != null) {
+                    Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                    driver = Driver(
+                        document.data?.get("UID").toString(),
+                        document.data?.get("firstname").toString(),
+                        document.data?.get("lastname").toString(),
+                        document.data?.get("email").toString(),
+                        document.data?.get("phone").toString(),
+                        document.data?.get("car_make").toString(),
+                        document.data?.get("car_model").toString(),
+                        document.data?.get("active_pickups") as List<String>,
+                        document.data?.get("completed_pickups") as List<String>
+
+                    )
+                    Log.i("test", driver.firstName)
+                    itemsList = driver.activePickups
+                    Log.i("test", itemsList.toString())
+                    for (item in itemsList) {
+                        addressList += dataEngine.getRestaurantByName(item).address
+                    }
+                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                } else {
+                    Log.d("test", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("test", "get failed with ", exception)
+            }
     }
 
 }

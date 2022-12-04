@@ -4,6 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    var curDriverID = -1
-    var curRestaurantID = -1
+    var curDriverID = "3ZVcVhzZIb76VMUGbEgH"
+    var curRestaurantID = ""
 }

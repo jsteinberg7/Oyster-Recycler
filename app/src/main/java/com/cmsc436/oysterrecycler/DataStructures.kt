@@ -1,20 +1,19 @@
 import com.google.firebase.Timestamp
 
-data class Restaurant (
+data class Restaurant(
     val UID: String, val name: String, val email: String, val phone: String,
     val address: String,
-    val carMake: String, val carModel: String, val activePickups: Array<String>,
-    val completedPickups: Array<String>
+    val activePickups: List<String>,
+    val completedPickups: List<String>
 ) {
 
     fun serialize(): HashMap<String, Any> {
         val map = HashMap<String, Any>()
+        map["UID"] = UID
         map["name"] = name
         map["email"] = email
         map["phone"] = phone
         map["address"] = address
-        map["car_make"] = carMake
-        map["car_model"] = carModel
         map["active_pickups"] = activePickups
         map["completed_pickups"] = completedPickups
 
@@ -22,18 +21,20 @@ data class Restaurant (
     }
 }
 
-data class Driver (val UID: String,
-              val firstName: String,
-              val lastName: String,
-              val email: String,
-              val phone: String,
-              val carMake: String,
-              val carModel: String, val activePickups: Array<String>,
-              val completedPickups: Array<String>
+data class Driver(
+    val UID: String,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val phone: String,
+    val carMake: String,
+    val carModel: String, val activePickups: List<String>,
+    val completedPickups: List<String>
 ) {
     // create a new driver
     fun serialize(): HashMap<String, Any> {
         val map = HashMap<String, Any>()
+        map["UID"] = UID
         map["first_name"] = firstName
         map["last_name"] = lastName
         map["phone"] = phone

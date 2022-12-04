@@ -6,7 +6,6 @@ import Restaurant
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ktx.firestore
 
 class DataEngine(UID: String) {
@@ -36,6 +35,37 @@ class DataEngine(UID: String) {
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
+
+    fun getDriverByUID(UID: String): Driver {
+        var driver = Driver("","","","","","","", listOf(), listOf())
+        driversCollection
+            .document(UID)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i("test", document.toString())
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    driver = Driver(
+                        document.data?.get("UID").toString(),
+                        document.data?.get("firstname").toString(),
+                        document.data?.get("lastname").toString(),
+                        document.data?.get("email").toString(),
+                        document.data?.get("phone").toString(),
+                        document.data?.get("car_make").toString(),
+                        document.data?.get("car_model").toString(),
+                        document.data?.get("active_pickups") as List<String>,
+                        document.data?.get("completed_pickups") as List<String>
+
+                    )
+                } else {
+                    Log.d("test", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("test", "get failed with ", exception)
+            }
+        return driver
+    }
      
     /* Restaurant functions */
     fun createRestaurantFile(restaurant: Restaurant){
@@ -48,8 +78,8 @@ class DataEngine(UID: String) {
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
-    fun getRestaurantFile(): Restaurant {
-        var restaurant: Restaurant = Restaurant("","","","","","","", emptyArray(), emptyArray())
+    fun getRestaurantByUID(UID: String): Restaurant {
+        var restaurant: Restaurant = Restaurant("","","","","", listOf(), listOf())
         restaurantsCollection
             .document(UID)
             .get()
@@ -62,10 +92,8 @@ class DataEngine(UID: String) {
                         email = document.data?.get("email").toString(),
                         phone = document.data?.get("phone").toString(),
                         address = document.data?.get("address").toString(),
-                        carMake = document.data?.get("car_make").toString(),
-                        carModel = document.data?.get("car_model").toString(),
-                        activePickups = document.data?.get("active_pickups") as Array<String>,
-                        completedPickups = document.data?.get("completed_pickups") as Array<String>
+                        activePickups = document.data?.get("active_pickups") as List<String>,
+                        completedPickups = document.data?.get("completed_pickups") as List<String>
 
                     )
                 } else {
@@ -77,6 +105,34 @@ class DataEngine(UID: String) {
             }
         return restaurant
     }
+
+    fun getRestaurantByName(Name: String): Restaurant {
+        var restaurant: Restaurant = Restaurant("","","","","", listOf(), listOf())
+        restaurantsCollection.whereEqualTo("name", Name).get()
+            .addOnSuccessListener { documents ->
+                var document = documents.elementAt(0)
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    restaurant = Restaurant(
+                        UID = document.data?.get("UID").toString(),
+                        name = document.data?.get("name").toString(),
+                        email = document.data?.get("email").toString(),
+                        phone = document.data?.get("phone").toString(),
+                        address = document.data?.get("address").toString(),
+                        activePickups = document.data?.get("active_pickups") as List<String>,
+                        completedPickups = document.data?.get("completed_pickups") as List<String>
+
+                    )
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+        return restaurant
+    }
+
 
     fun updateRestaurantFile(restaurant: Restaurant) {
         driversCollection
