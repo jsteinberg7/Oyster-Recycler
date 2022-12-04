@@ -186,7 +186,7 @@ class DriverFragment : Fragment() {
 
         binding.cancel.setOnClickListener {
             if (idx >= 0) {
-                pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { Document
+                pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
 
                 }
                 itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
