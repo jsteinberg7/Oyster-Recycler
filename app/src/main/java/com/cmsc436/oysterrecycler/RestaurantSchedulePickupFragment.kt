@@ -46,12 +46,9 @@ class RestaurantSchedulePickupFragment : Fragment() {
             alert.show()
         }
         binding.submitPickupRequest.setOnClickListener {
-            while(true){
-                if(schedulePickup()){
-                    break
-                }
+            if(schedulePickup()){
+                findNavController().navigate(R.id.action_restaurantSchedulePickupFragment_to_restaurantFragment)
             }
-            findNavController().navigate(R.id.action_restaurantSchedulePickupFragment_to_restaurantFragment)
         }
 
 
@@ -68,7 +65,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
         val localEpoch = local.toEpochDay()
         val checkDate = Regex("^(?=(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)$)")
         if(checkDate.matches(date) &&  (localEpoch >= pickUpEpoch)){
-
+            
             return true
         }else{
             val builder = AlertDialog.Builder(context)
