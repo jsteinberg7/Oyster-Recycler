@@ -19,9 +19,41 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="80dp"
         android:textStyle="bold"
         android:text="@string/registeringDriverNow" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameFirst_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/registeringFirstName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="email"
+            android:background="@color/white"
+            android:inputType="text"
+            android:selectAllOnFocus="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameLast_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/registeringLastName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="email"
+            android:background="@color/white"
+            android:inputType="text"
+            android:selectAllOnFocus="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_layout"

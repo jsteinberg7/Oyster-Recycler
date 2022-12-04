@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.RestaurantSchedulePickupFragmentBinding
@@ -24,24 +26,24 @@ class RestaurantSchedulePickupFragment : Fragment() {
         inflater.inflate(R.layout.restaurant_fragment, container, false)
         binding = RestaurantSchedulePickupFragmentBinding.inflate(inflater, container, false)
         binding.logout.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setMessage("Are you sure you want to Logout?")
-                .setCancelable(true)
-                .setPositiveButton("Yes") { _, _ ->
-                    FirebaseAuth.getInstance().signOut()
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("Are you sure you want to Logout?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes") { _, _ ->
+                        FirebaseAuth.getInstance().signOut()
 
-                    Toast.makeText(
-                        requireContext(),
-                        "You are now logged out!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "You are now logged out!",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    findNavController().popBackStack(R.id.mainFragment, false)
-                }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    // Dismiss the dialog
-                    dialog.dismiss()
-                }
+                        findNavController().popBackStack(R.id.mainFragment, false)
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
             val alert = builder.create()
             alert.show()
         }
@@ -55,7 +57,9 @@ class RestaurantSchedulePickupFragment : Fragment() {
     }
 
     private fun schedulePickup():Boolean {
-        val date = binding.pickupDate.text.toString()
+
+        //val date = binding.pickupDate.text.toString()
+        var date = "11/11/1111"
         val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
         val pickupDate = LocalDate.parse(date, formatter)
         val pickUpEpoch = pickupDate.toEpochDay()
@@ -63,6 +67,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
         val local = LocalDate.now()
         val localEpoch = local.toEpochDay()
         val checkDate = Regex("^(?=(1[0-2]|0[1-9])\\/(3[01]|[12][0-9]|0[1-9])\\/([0-9]{4})\$)")
+
         if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
 
             return true

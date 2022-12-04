@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.FragmentRegistrationRestaurantBinding
 import com.cmsc436.oysterrecycler.databinding.RestaurantFragmentBinding
@@ -23,6 +24,7 @@ class RegistrationRestaurantFragment : Fragment() {
 
     /** Binding to XML layout */
     private lateinit var binding: FragmentRegistrationRestaurantBinding
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Use the provided ViewBinding class to inflate the layout.
@@ -91,6 +93,8 @@ class RegistrationRestaurantFragment : Fragment() {
                         address = restaurantAddress, activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createRestaurantFile(restaurant = restaurant)
+
+                    viewModel.curRestaurantID = emailHash
 
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment

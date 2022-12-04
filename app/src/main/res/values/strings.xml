@@ -35,6 +35,8 @@
     <string name="submit_pickup_request"> Confirm Request </string>
 
     <string name="registeringDriver"> Register as a Driver </string>
+    <string name="registeringFirstName"> First Name </string>
+    <string name="registeringLastName"> Last Name </string>
     <string name="registeringDriverNow"> Driver Registration </string>
     <string name="vehicleMakeModel"> Vehicle Make (Ex: GMC, Honda, Ferrari, etc.) </string>
     <string name="vehicleColor"> Color of your vehicle </string>

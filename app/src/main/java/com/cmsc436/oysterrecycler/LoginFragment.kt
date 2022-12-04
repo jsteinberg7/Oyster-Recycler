@@ -78,8 +78,6 @@ class LoginFragment : Fragment() {
                     var dataEngine = DataEngine("")
                     val emailHash: String = validator.emailHash(email).toString()
 
-
-
                     dataEngine.driversCollection.document(emailHash).get().addOnSuccessListener {
                         document ->
 
