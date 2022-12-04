@@ -1,4 +1,5 @@
 <resources>
+    <string name="incorrect_date">Please enter a valid date in MM/DD/YEAR format</string>
     <string name="app_name">Oyster Delivery Recovery</string>
     <string name="logged_in_user_string">Now you are a logged in user of this app!</string>
     <string name="account_login_string">Account login</string>

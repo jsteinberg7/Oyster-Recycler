@@ -65,11 +65,14 @@ class RestaurantSchedulePickupFragment : Fragment() {
         val localEpoch = local.toEpochDay()
         val checkDate = Regex("^(?=(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)$)")
         if(checkDate.matches(date) &&  (localEpoch >= pickUpEpoch)){
-            
+
             return true
         }else{
-            val builder = AlertDialog.Builder(context)
-            builder.setMessage("Please enter a valid date!")
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.incorrect_date),
+                Toast.LENGTH_LONG
+            ).show()
             return false
         }
         //TODO: check REGEX
