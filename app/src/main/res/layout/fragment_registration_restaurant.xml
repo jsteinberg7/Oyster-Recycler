@@ -8,10 +8,18 @@
     android:padding="16dp"
     tools:context=".RegistrationDriverFragment">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="232dp"
+        android:src="@drawable/oyster_pic" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registeringDriverNow"/>
+        android:paddingTop="80dp"
+        android:textStyle="bold"
+        android:text="@string/registeringRestaurantNow"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_layout"
         android:layout_width="match_parent"
@@ -42,6 +50,22 @@
             android:imeOptions="actionDone"
             android:background="@color/white"
             android:inputType="textPassword"
+            android:selectAllOnFocus="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/restaurantName_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/registeringRestaurantName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/restaurantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:background="@color/white"
+            android:inputType="text"
             android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
 

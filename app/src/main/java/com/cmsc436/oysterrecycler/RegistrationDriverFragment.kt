@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import Driver
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.cmsc436.oysterrecycler.databinding.RegistrationFragmentBinding
 import com.cmsc436.oysterrecycler.databinding.FragmentRegistrationDriverBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.tasks.OnCompleteListener
@@ -84,6 +84,12 @@ class RegistrationDriverFragment : Fragment() {
                         getString(R.string.register_success_string),
                         Toast.LENGTH_LONG
                     ).show()
+
+                    var dataEngine = DataEngine(firebaseUser.uid)
+                    var driver: Driver = Driver(firebaseUser.uid, firstName = "first", lastName = "last", phone = "123456",
+                        email = email, carMake = vehicleMake, carModel = "test Model", activePickups = listOf(), completedPickups = listOf())
+
+                    dataEngine.createDriverFile(driver = driver)
 
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment

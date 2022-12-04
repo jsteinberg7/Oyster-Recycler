@@ -32,9 +32,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--
         <activity android:name=".LoginFragment" />
         <activity android:name=".RegistrationFragment" />
         <activity android:name=".DriverFindJobFragment" />
+        -->
     </application>
 
 </manifest>

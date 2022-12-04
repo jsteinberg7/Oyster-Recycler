@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationDriverFragment"
-        android:name="com.cmsc436.oysterrecycler.RegistrationFragment"
+        android:name="com.cmsc436.oysterrecycler.RegistrationDriverFragment"
         android:label="registration_Driver_fragment"
         tools:layout="@layout/fragment_registration_driver" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationRestaurantFragment"
-        android:name="com.cmsc436.oysterrecycler.RegistrationFragment"
+        android:name="com.cmsc436.oysterrecycler.RegistrationRestaurantFragment"
         android:label="registration_Restaurant_fragment"
         tools:layout="@layout/fragment_registration_restaurant" >
         <action
