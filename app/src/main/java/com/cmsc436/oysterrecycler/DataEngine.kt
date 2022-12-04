@@ -57,6 +57,7 @@ class DataEngine(UID: String) {
                         document.data?.get("completed_pickups") as List<String>
 
                     )
+
                 } else {
                     Log.d("test", "No such document")
                 }
@@ -64,6 +65,7 @@ class DataEngine(UID: String) {
             .addOnFailureListener { exception ->
                 Log.d("test", "get failed with ", exception)
             }
+        Log.i("test", "returning")
         return driver
     }
      

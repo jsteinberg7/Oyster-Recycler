@@ -22,19 +22,13 @@ import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import Driver
-import android.content.ContentValues
-import kotlinx.coroutines.delay
 import java.time.Duration
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class DriverFragment : Fragment() {
 
-    val firestore = Firebase.firestore
-    var driversCollection = firestore.collection("drivers")
     private val viewModel by activityViewModels<MainViewModel>()
     lateinit var itemsList: List<String>
     lateinit var addressList: List<String>
@@ -132,6 +126,8 @@ class DriverFragment : Fragment() {
     ): View {
         // Use the provided ViewBinding class to inflate
         // the layout and then return the root view.
+        val driverId = viewModel.curDriverID
+        dataEngine = DataEngine(driverId)
         // TODO: Query FireStore for driver's pickups and their adresses based on driver id
 //        driver = Driver("1", "Nick", "Casey",
 //            "nick@n.com",
@@ -140,9 +136,17 @@ class DriverFragment : Fragment() {
 //            "Malibu", arrayOf("Nick", "UMD", "VT", "Hassam"),
 //            arrayOf()
 //        )
+        driver = dataEngine.getDriverByUID(driverId)
+        Log.i("test", driver.firstName)
+        itemsList = driver.activePickups
+        Log.i("test", itemsList.toString())
+        for (item in itemsList) {
+            addressList += dataEngine.getRestaurantByName(item).address
+        }
 //        addressList = listOf("18311 Leedstown Way", "3972 Campus Drive", "260 Alumnai Mall", "4519 Winding Oak Drive")
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
 
         binding.logout.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -210,7 +214,6 @@ class DriverFragment : Fragment() {
         binding.dropoff.setOnClickListener {
             findClosestAddress()
         }
-
         // Return the root view.
         return binding.root
     }
@@ -285,43 +288,6 @@ class DriverFragment : Fragment() {
         override fun onLocationResult(locationResult: LocationResult) {
             location = locationResult.lastLocation
         }
-    }
-
-    fun updateRecycler() {
-        val driverId = viewModel.curDriverID
-        driversCollection
-            .document(driverId)
-            .get()
-            .addOnSuccessListener { document ->
-                Log.i("test", document.toString())
-                if (document != null) {
-                    Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
-                    driver = Driver(
-                        document.data?.get("UID").toString(),
-                        document.data?.get("firstname").toString(),
-                        document.data?.get("lastname").toString(),
-                        document.data?.get("email").toString(),
-                        document.data?.get("phone").toString(),
-                        document.data?.get("car_make").toString(),
-                        document.data?.get("car_model").toString(),
-                        document.data?.get("active_pickups") as List<String>,
-                        document.data?.get("completed_pickups") as List<String>
-
-                    )
-                    Log.i("test", driver.firstName)
-                    itemsList = driver.activePickups
-                    Log.i("test", itemsList.toString())
-                    for (item in itemsList) {
-                        addressList += dataEngine.getRestaurantByName(item).address
-                    }
-                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
-                } else {
-                    Log.d("test", "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("test", "get failed with ", exception)
-            }
     }
 
 }
