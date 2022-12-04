@@ -26,6 +26,7 @@ import Restaurant
 import android.content.ContentValues
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Document
 import java.time.Duration
 import kotlin.math.acos
 import kotlin.math.cos
@@ -184,18 +185,21 @@ class DriverFragment : Fragment() {
         }
 
         binding.cancel.setOnClickListener {
-            // TODO: Query FireStore to take job off driver and then query to update lists
-            itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
-            binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+            if (idx >= 0) {
+                pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { Document
+
+                }
+                itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
+                binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+            }
         }
 
         binding.finish.setOnClickListener {
             if (idx >= 0) {
-                // TODO: query to get rid of job on restaurant and driver and query to update list
                 Log.i("test", "assignment:" + assignments[idx])
                 pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
                     var dateAssigned = document.data?.get("when").toString()
-                    var id = assignments[idx] + driverId + dateAssigned
+                    var id = assignments[idx] + driverId + dateAssigned.replace('/', 'l')
                     pickupsCollection.document("5").delete()
                     driver.activePickups = driver.activePickups.filter { it != assignments[idx] }
                     driver.completedPickups += id

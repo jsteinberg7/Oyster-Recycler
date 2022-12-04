@@ -237,7 +237,7 @@ class DriverFindJobFragment : Fragment() {
             nameList = MutableList(documents.size()) {""}
             for (document in documents) {
                 Log.i("test","got: " + document.data.toString())
-                if (document.data != null && document.data.get("driver_id") == null) {
+                if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "")) {
                     Log.i("test", "using" + document.data.toString())
                     var restaurant = document.data.get("restaurant_id").toString()
                     restaurantsCollection.document(restaurant).get().addOnSuccessListener { doc ->
