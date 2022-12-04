@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.RestaurantSchedulePickupFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class RestaurantSchedulePickupFragment : Fragment() {
     private lateinit var binding: RestaurantSchedulePickupFragmentBinding
@@ -44,7 +46,11 @@ class RestaurantSchedulePickupFragment : Fragment() {
             alert.show()
         }
         binding.submitPickupRequest.setOnClickListener {
-            schedulePickup()
+            while(true){
+                if(schedulePickup()){
+                    break
+                }
+            }
             findNavController().navigate(R.id.action_restaurantSchedulePickupFragment_to_restaurantFragment)
         }
 
@@ -52,8 +58,23 @@ class RestaurantSchedulePickupFragment : Fragment() {
         return binding.root
     }
 
-    private fun schedulePickup() {
+    private fun schedulePickup():Boolean {
         val date = binding.pickupDate.text.toString()
+        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        val pickupDate = LocalDate.parse(date, formatter)
+        val pickUpEpoch = pickupDate.toEpochDay()
+
+        val local = LocalDate.now()
+        val localEpoch = local.toEpochDay()
+        val checkDate = Regex("^(?=(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)$)")
+        if(checkDate.matches(date) &&  (localEpoch >= pickUpEpoch)){
+
+            return true
+        }else{
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Please enter a valid date!")
+            return false
+        }
         //TODO: check REGEX
         //TODO: If not date refresh page and ask to submit again
         //TODO: Add Pickup date to Firebase for Potential Drivers
