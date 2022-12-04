@@ -38,7 +38,7 @@ class DriverFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var driverId: String
     lateinit var itemsList: List<String>
-    lateinit var addressList: List<String>
+    lateinit var addressList: MutableList<String>
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
     private lateinit var driver: Driver
@@ -319,6 +319,7 @@ class DriverFragment : Fragment() {
 
                     )
                     itemsList = driver.activePickups
+                    addressList = MutableList(itemsList.size) { "" }
                     Log.i("test", itemsList.toString())
                     for (item in itemsList) {
                         restaurantsCollection.whereEqualTo("name", item).get()
@@ -326,7 +327,8 @@ class DriverFragment : Fragment() {
                                 Log.i("test", "got address: " + documents.elementAt(0).data?.get("address").toString())
                                 var document = documents.elementAt(0)
                                 if (document != null) {
-                                    addressList += document.data?.get("address").toString()
+                                    addressList[itemsList.indexOf(documents.elementAt(0).data?.get("name").toString())] =
+                                        document.data?.get("address").toString()
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
                                 }

@@ -5,8 +5,11 @@ import Pickup
 import Restaurant
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import kotlinx.coroutines.tasks.await
+import androidx.fragment.app.activityViewModels
 
 class DataEngine(UID: String) {
 
@@ -57,7 +60,6 @@ class DataEngine(UID: String) {
                         document.data?.get("completed_pickups") as List<String>
 
                     )
-
                 } else {
                     Log.d("test", "No such document")
                 }
