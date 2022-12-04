@@ -3,7 +3,7 @@ import com.google.firebase.Timestamp
 data class Restaurant(
     val UID: String, val name: String, val email: String, val phone: String,
     val address: String,
-    val activePickups: List<String>,
+    var activePickups: List<String>,
     val completedPickups: List<String>
 ) {
 
@@ -28,8 +28,8 @@ data class Driver(
     val email: String,
     val carLicensePlate: String,
     val carMake: String,
-    val carColor: String, val activePickups: List<String>,
-    val completedPickups: List<String>
+    val carColor: String, var activePickups: List<String>,
+    var completedPickups: List<String>
 ) {
     // create a new driver
     fun serialize(): HashMap<String, Any> {
