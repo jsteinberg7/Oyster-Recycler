@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 class LoginFragment : Fragment() {
 
     private lateinit var firebaseAuth: FirebaseAuth
-
+    private var validator = Validators()
     /** Binding to XML layout */
     private lateinit var binding: LoginFragmentBinding
     private val viewModel by activityViewModels<MainViewModel>()
@@ -26,8 +26,8 @@ class LoginFragment : Fragment() {
 
         firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
 
-        binding.login.setOnClickListener { //loginUserAccount()
-            findNavController().navigate(R.id.action_loginFragment_to_permission_fragment)
+        binding.login.setOnClickListener {
+            loginUserAccount()
         }
         binding.registerDriver.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_driverRegistration)
@@ -74,10 +74,32 @@ class LoginFragment : Fragment() {
                         "Login successful!",
                         Toast.LENGTH_LONG
                     ).show()
+                    // Can pass in whatever to data engine
+                    var dataEngine = DataEngine("")
+                    val emailHash: String = validator.emailHash(email).toString()
+
+
+
+                    dataEngine.driversCollection.document(emailHash).get().addOnSuccessListener {
+                        document ->
+
+                        if (document.data.isNullOrEmpty()) {
+                            // This will auto take them to to the restaurant fragment bc they're not a driver
+                            // and all users are either a restaurant or a driver
+                            viewModel.curRestaurantID = emailHash
+                            findNavController().navigate(R.id.action_loginFragment_to_restaurant_fragment)
+                        } else {
+                            // User is a driver
+                            viewModel.curDriverID = emailHash
+                            findNavController().navigate(R.id.action_loginFragment_to_permission_fragment)
+                        }
+                    }
+
+
                     //TODO: query for driverID/restaurantID based on login info then navigate to appropriate fragment
 //                    viewModel.curDriverID = 10
 //                    viewModel.curRestaurantID = 20
-                    findNavController().navigate(R.id.action_loginFragment_to_permission_fragment)
+//                    findNavController().navigate(R.id.action_loginFragment_to_permission_fragment)
 //                    findNavController().navigate(R.id.action_loginFragment_to_restaurant_fragment)
                 } else {
                     Toast.makeText(

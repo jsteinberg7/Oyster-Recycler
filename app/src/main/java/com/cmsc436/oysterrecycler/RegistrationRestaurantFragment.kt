@@ -44,6 +44,8 @@ class RegistrationRestaurantFragment : Fragment() {
         val restaurantName: String = binding.restaurantName.text.toString()
         val restaurantAddress: String = binding.restaurantAddress.text.toString()
 
+        val emailHash: String = validator.emailHash(email).toString()
+
 
         // Going to need to check if the email is already in the system
         // Also need to include checks for color, make, or plate being invalid
@@ -82,8 +84,10 @@ class RegistrationRestaurantFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
 
+                    // Whatever you pass in doesn't matter
                     var dataEngine = DataEngine(firebaseUser.uid)
-                    var restaurant: Restaurant = Restaurant(firebaseUser.uid, name = restaurantName, email = "last", phone = "123456",
+                    // Replaced firebaseUser.uid with emailHash
+                    var restaurant: Restaurant = Restaurant(emailHash, name = restaurantName, email = "last", phone = "123456",
                         address = restaurantAddress, activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createRestaurantFile(restaurant = restaurant)

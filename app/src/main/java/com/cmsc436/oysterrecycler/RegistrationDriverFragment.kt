@@ -46,6 +46,7 @@ class RegistrationDriverFragment : Fragment() {
         val vehicleColor: String = binding.driverVehicleColor.text.toString()
         val vehicleLicensePlate: String = binding.driverVehicleLicensePlate.text.toString()
 
+        var emailHash: String = validator.emailHash(email).toString()
 
         // Going to need to check if the email is already in the system
         // Also need to include checks for color, make, or plate being invalid
@@ -86,7 +87,8 @@ class RegistrationDriverFragment : Fragment() {
                     ).show()
 
                     var dataEngine = DataEngine(firebaseUser.uid)
-                    var driver: Driver = Driver(firebaseUser.uid, firstName = "first", lastName = "last", phone = "123456",
+                    // Put in the email hash instead of uid
+                    var driver: Driver = Driver(emailHash, firstName = "first", lastName = "last", phone = "123456",
                         email = email, carMake = vehicleMake, carModel = "test Model", activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createDriverFile(driver = driver)
