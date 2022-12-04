@@ -22,9 +22,11 @@ import com.cmsc436.oysterrecycler.databinding.DriverFragmentBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import Driver
+import Restaurant
 import android.content.ContentValues
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Document
 import java.time.Duration
 import kotlin.math.acos
 import kotlin.math.cos
@@ -35,9 +37,12 @@ class DriverFragment : Fragment() {
     private val firestore = Firebase.firestore
     private var driversCollection = firestore.collection("drivers")
     private var restaurantsCollection = firestore.collection("restaurants")
+    private var pickupsCollection = firestore.collection("activePickups")
+    private var finishedCollection = firestore.collection("completedPickups")
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var driverId: String
     lateinit var itemsList: MutableList<String>
+    lateinit var assignments: MutableList<String>
     lateinit var addressList: MutableList<String>
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
@@ -145,7 +150,8 @@ class DriverFragment : Fragment() {
         getDriverAssignments()
 //        driver = dataEngine.getDriverByUID(driverId)
 //        Log.i("test", driver.firstName)
-         itemsList = mutableListOf()
+        itemsList = mutableListOf()
+        assignments = mutableListOf()
 //        Log.i("test", itemsList.toString())
 //        for (item in itemsList) {
 //            addressList += dataEngine.getRestaurantByName(item).address
@@ -179,14 +185,44 @@ class DriverFragment : Fragment() {
         }
 
         binding.cancel.setOnClickListener {
-            // TODO: Query FireStore to take job off driver and then query to update lists
-            itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
-            binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+            if (idx >= 0) {
+                pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
+
+                }
+                itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
+                binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+            }
         }
 
         binding.finish.setOnClickListener {
             if (idx >= 0) {
-                // TODO: query to get rid of job on restaurant and driver and query to update list
+                Log.i("test", "assignment:" + assignments[idx])
+                pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
+                    var dateAssigned = document.data?.get("when").toString()
+                    var id = assignments[idx] + driverId + dateAssigned.replace('/', 'l')
+                    pickupsCollection.document("5").delete()
+                    driver.activePickups = driver.activePickups.filter { it != assignments[idx] }
+                    driver.completedPickups += id
+                    driversCollection.document(driverId).set(driver.serialize())
+                    restaurantsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
+                        var restaurant = Restaurant(UID = document.data?.get("UID").toString(),
+                            name = document.data?.get("name").toString(),
+                            email = document.data?.get("email").toString(),
+                            phone = document.data?.get("phone").toString(),
+                            address = document.data?.get("address").toString(),
+                            activePickups = document.data?.get("active_pickups") as List<String>,
+                            completedPickups = document.data?.get("completed_pickups") as List<String>)
+                        restaurant.activePickups = listOf()
+                        restaurantsCollection.document(restaurant.UID).set(restaurant.serialize())
+                        getDriverAssignments()
+                    }
+                    var map = HashMap<String, Any>()
+                    map["UID"] = id
+                    map["driver_id"] = driverId
+                    map["restaurant_id"] = assignments[idx]
+                    map["when"] = dateAssigned
+                    finishedCollection.document(id).set(map)
+                }
                 Toast.makeText(requireContext(), itemsList[idx] + " finished", Toast.LENGTH_SHORT).show()
                 itemsList = itemsList.filter{itemsList.indexOf(it) != idx} as MutableList<String>
                 binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
@@ -335,14 +371,17 @@ class DriverFragment : Fragment() {
                     var pickups = driver.activePickups
                     itemsList = MutableList(pickups.size) { "" }
                     addressList = MutableList(pickups.size) { "" }
+                    assignments = MutableList(pickups.size) { "" }
                     Log.i("test", pickups.toString())
-                    binding.info.text = "Welcome " + driver.firstName + "!"
+                    binding.info.text = "Welcome " + driver.email + "!"
                     for (pickup in pickups) {
                         restaurantsCollection.document(pickup).get()
                             .addOnSuccessListener { restaurant ->
                                 if (restaurant.data != null) {
                                     itemsList[pickups.indexOf(pickup)] =
                                         restaurant.data?.get("name").toString()
+                                    assignments[pickups.indexOf(pickup)] =
+                                        restaurant.data?.get("UID").toString()
                                     addressList[pickups.indexOf(pickup)] =
                                         restaurant.data?.get("address").toString()
                                     binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)

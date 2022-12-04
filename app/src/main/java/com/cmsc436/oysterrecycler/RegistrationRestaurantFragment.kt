@@ -87,7 +87,7 @@ class RegistrationRestaurantFragment : Fragment() {
                     ).show()
 
                     // Whatever you pass in doesn't matter
-                    var dataEngine = DataEngine(firebaseUser.uid)
+                    var dataEngine = DataEngine()
                     // Replaced firebaseUser.uid with emailHash
                     var restaurant: Restaurant = Restaurant(emailHash, name = restaurantName, email = "last", phone = "123456",
                         address = restaurantAddress, activePickups = listOf(), completedPickups = listOf())

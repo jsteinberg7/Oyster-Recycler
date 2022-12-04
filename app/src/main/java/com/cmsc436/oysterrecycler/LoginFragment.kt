@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                     // Can pass in whatever to data engine
-                    var dataEngine = DataEngine("")
+                    var dataEngine = DataEngine()
                     val emailHash: String = validator.emailHash(email).toString()
 
                     dataEngine.driversCollection.document(emailHash).get().addOnSuccessListener {

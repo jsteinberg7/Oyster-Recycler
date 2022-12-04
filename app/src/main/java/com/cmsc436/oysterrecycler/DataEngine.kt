@@ -11,14 +11,14 @@ import com.google.firebase.firestore.ktx.firestore
 import kotlinx.coroutines.tasks.await
 import androidx.fragment.app.activityViewModels
 
-class DataEngine(UID: String) {
+class DataEngine() {
 
     val firestore = Firebase.firestore
     var driversCollection = firestore.collection("drivers")
     var restaurantsCollection = firestore.collection("restaurants")
-    var pickupsCollection = firestore.collection("pickups")
+    var activePickupsCollection = firestore.collection("activePickups")
 
-    val UID: String = UID
+
     
     /* Driver functions */
     fun createDriverFile(driver: Driver) {
@@ -53,9 +53,9 @@ class DataEngine(UID: String) {
                         document.data?.get("firstname").toString(),
                         document.data?.get("lastname").toString(),
                         document.data?.get("email").toString(),
-                        document.data?.get("phone").toString(),
+                        document.data?.get("car_license_plate").toString(),
                         document.data?.get("car_make").toString(),
-                        document.data?.get("car_model").toString(),
+                        document.data?.get("car_color").toString(),
                         document.data?.get("active_pickups") as List<String>,
                         document.data?.get("completed_pickups") as List<String>
 
@@ -150,7 +150,7 @@ class DataEngine(UID: String) {
         var recentPickups: Array<Pickup> = emptyArray()
         
         for (pickup in restaurant.completedPickups) {
-            pickupsCollection
+            activePickupsCollection
             .document(pickup)
                 .get()
                 .addOnSuccessListener { document ->
@@ -165,31 +165,30 @@ class DataEngine(UID: String) {
                     Log.d(TAG, "get failed with ", exception)
                 }
         }
-        
+
         return recentPickups 
     }
 
     /* Pickup functions */
-    fun initializePickup(pickup: Pickup) {
-        // 1. Create pickup file and push to Firebase
-        createPickupFile(pickup).then(
-            val restaurant = getRestaurantByUID(pickup.restaurantID).then(
-                // 2. Add pickup to restaurant's active pickups
-                addActivePickupToRestaurant(restaurant, pickup.UID)
-            )
-        )
-        
-    }
+//    fun initializePickup(pickup: Pickup) {
+//        // 1. Create pickup file and push to Firebase
+//        createPickupFile(pickup).then(
+//            val restaurant = getRestaurantByUID(pickup.restaurantID).then(
+//                // 2. Add pickup to restaurant's active pickups
+//                addActivePickupToRestaurant(restaurant, pickup.UID)
+//            )
+//        )
+//
+//    }
 
-    fun createPickupFile(pickup: Pickup): Promise<Unit> {
+    fun createPickupFile(pickup: Pickup) {
         val map = HashMap<String, Any>()
         map["UID"] = pickup.UID
         map["restaurantID"] = pickup.restaurantID
         map["driverID"] = pickup.driverID
-        map["dateCreated"] = pickup.dateCreated
-        map["quantity"] = pickup.quantity
+        map["when"] = pickup.when_date
 
-        pickupsCollection
+        activePickupsCollection
         .document(pickup.UID)
             .set(map)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
@@ -205,8 +204,8 @@ class DataEngine(UID: String) {
 //
 //    }
     
-    fun updatePickupFile(pickup: Pickup): Promise<Unit> {
-        pickupsCollection
+    fun updatePickupFile(pickup: Pickup) {
+        activePickupsCollection
         .document(pickup.UID)
             .set(pickup.serialize())
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }

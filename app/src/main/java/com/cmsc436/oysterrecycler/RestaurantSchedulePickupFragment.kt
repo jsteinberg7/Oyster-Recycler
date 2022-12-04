@@ -1,5 +1,6 @@
 package com.cmsc436.oysterrecycler
 
+import Pickup
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,15 +10,19 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.cmsc436.oysterrecycler.databinding.RestaurantSchedulePickupFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.google.firebase.Timestamp
+import java.util.*
+
+
 
 class RestaurantSchedulePickupFragment : Fragment() {
     private lateinit var binding: RestaurantSchedulePickupFragmentBinding
-
+    private val viewModel by activityViewModels<MainViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,48 +61,29 @@ class RestaurantSchedulePickupFragment : Fragment() {
         return binding.root
     }
 
-    private fun schedulePickup():Boolean {
+    private fun schedulePickup(): Boolean {
 
-        //val date = binding.pickupDate.text.toString()
-        // var date = "11/11/1111"
-        // val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        // val pickupDate = LocalDate.parse(date, formatter)
-        // val pickUpEpoch = pickupDate.toEpochDay()
-
-        // val local = LocalDate.now()
-        // val localEpoch = local.toEpochDay()
-        // val checkDate = Regex("^(?=(1[0-2]|0?[1-9])\\/(3[01]|[12][0-9]|0?[1-9])\\/(?:[0-9]{2})?[0-9]{2}\$)")
-
-
-        // if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
-
-        //     return true
-        // }else{
-        //     if(!checkDate.matches(date)){
-        //         Toast.makeText(
-        //             requireContext(),
-        //             getString(R.string.incorrect_format),
-        //             Toast.LENGTH_LONG
-        //         ).show()
-        //     }else {
-        //         Toast.makeText(
-        //             requireContext(),
-        //             getString(R.string.incorrect_date),
-        //             Toast.LENGTH_LONG
-        //         ).show()
-        //     }
-        //     return false
-        // }
         //TODO: check REGEX
         //TODO: If not date refresh page and ask to submit again
         //TODO: Add Pickup date to Firebase for Potential Drivers
-        
+
+        val local = LocalDate.now()
+
+        // + 1 because datePicker indexes months [0-11]
+        val month = binding.datePicker.month + 1
+        val day = binding.datePicker.dayOfMonth
+        val year = binding.datePicker.year
+        val cal = binding.datePicker.
+
+
 
         // 1. Get the date using datePicker
-        val datePicker = binding.datePicker
-        val day = datePicker.dayOfMonth
-        val month = datePicker.month
-        val year = datePicker.year
+//        val datePicker = binding.datePicker
+//        val day = datePicker.dayOfMonth
+//        val month = datePicker.month
+//        val year = datePicker.year
+        val date = Date(year, month, day)
+        val timeStamp = Timestamp(Date(year, month, day).getTime() / 1000, 0)
         // show snack bar with the date
         Toast.makeText(
             requireContext(),
@@ -110,10 +96,20 @@ class RestaurantSchedulePickupFragment : Fragment() {
         // 4. Check if restaurant already has active pickup
         // 5. Create pickup
         // 6. Add pickup to firebase
-        val pickup = Pickup(UID = ,
-              restaurantID = , driverID = , dateCreated = )
+        val pickup = Pickup(UID = viewModel.curRestaurantID,
+              restaurantID = viewModel.curRestaurantID, driverID = "", when_date = timeStamp)
         val dataEngine = DataEngine()
-        dataEngine.initializePickup(pickup)
-        return true
+//        dataEngine.addActivePickupToRestaurant(restaurant = )
+        return if ((year >= local.year) && (month >= local.monthValue) && (day >= local.dayOfMonth)) {
+            dataEngine.createPickupFile(pickup)
+            true
+        } else {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.incorrect_date),
+                Toast.LENGTH_LONG
+            ).show()
+            false
+        }
     }
 }

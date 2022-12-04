@@ -3,7 +3,7 @@ import com.google.firebase.Timestamp
 data class Restaurant(
     val UID: String, val name: String, val email: String, val phone: String,
     val address: String,
-    val activePickups: List<String>,
+    var activePickups: List<String>,
     val completedPickups: List<String>
 ) {
 
@@ -26,10 +26,10 @@ data class Driver(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val phone: String,
+    val carLicensePlate: String,
     val carMake: String,
-    val carModel: String, val activePickups: List<String>,
-    val completedPickups: List<String>
+    val carColor: String, var activePickups: List<String>,
+    var completedPickups: List<String>
 ) {
     // create a new driver
     fun serialize(): HashMap<String, Any> {
@@ -37,10 +37,10 @@ data class Driver(
         map["UID"] = UID
         map["first_name"] = firstName
         map["last_name"] = lastName
-        map["phone"] = phone
+        map["car_license_plate"] = carLicensePlate
         map["email"] = email
         map["car_make"] = carMake
-        map["car_model"] = carModel
+        map["car_color"] = carColor
         map["active_pickups"] = activePickups
         map["completed_pickups"] = completedPickups
         return map
@@ -48,8 +48,7 @@ data class Driver(
 }
 
 data class Pickup (val UID: String,
-              val restaurantID: String, val driverID: String, val dateCreated: Timestamp,
-              val quantity: Int
+              val restaurantID: String, val driverID: String, val when_date: Timestamp,
 ) {
 
     fun isDriverAssigned(): Boolean {
@@ -61,8 +60,7 @@ data class Pickup (val UID: String,
         map["UID"] = UID
         map["restaurantID"] = restaurantID
         map["driverID"] = driverID
-        map["dateCreated"] = dateCreated
-        map["quantity"] = quantity
+        map["when"] = when_date
         return map
     }
 
