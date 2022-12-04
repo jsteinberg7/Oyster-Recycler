@@ -86,16 +86,17 @@
         app:layout_constraintTop_toBottomOf="@id/list"
         android:backgroundTint="@color/background_color"/>
 
-    <Button
+    <ToggleButton
+        android:id="@+id/toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/findPickup"
         app:layout_constraintStart_toEndOf="@id/refresh"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/driverHistory"
-        android:id="@+id/toggle"
-        android:backgroundTint="@color/background"/>
+        android:checked="true"
+        android:textOff="@string/driverHistory"
+        android:textOn="@string/currentPickups" />
 
     <TextView
         android:id="@+id/info"
