@@ -1,5 +1,5 @@
 <resources>
-    <string name="incorrect_date">Please enter a future date in MM/DD/YEAR format</string>
+    <string name="incorrect_date"> Please enter a future date! </string>
     <string name="incorrect_format">Please enter a date in the correct MM/DD/YEAR format</string>
     <string name="app_name">Oyster Delivery Recovery</string>
     <string name="logged_in_user_string">Now you are a logged in user of this app!</string>

@@ -56,40 +56,31 @@ class RestaurantSchedulePickupFragment : Fragment() {
         return binding.root
     }
 
-    private fun schedulePickup():Boolean {
+    private fun schedulePickup(): Boolean {
 
-        //val date = binding.pickupDate.text.toString()
-        var date = "11/11/1111"
-        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        val pickupDate = LocalDate.parse(date, formatter)
-        val pickUpEpoch = pickupDate.toEpochDay()
-
-        val local = LocalDate.now()
-        val localEpoch = local.toEpochDay()
-        val checkDate = Regex("^(?=(1[0-2]|0[1-9])\\/(3[01]|[12][0-9]|0[1-9])\\/([0-9]{4})\$)")
-
-        if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
-
-            return true
-        }else{
-            if(!checkDate.matches(date)){
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.incorrect_format),
-                    Toast.LENGTH_LONG
-                ).show()
-            }else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.incorrect_date),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            return false
-        }
         //TODO: check REGEX
         //TODO: If not date refresh page and ask to submit again
         //TODO: Add Pickup date to Firebase for Potential Drivers
+
+        val local = LocalDate.now()
+
+        // + 1 because datePicker indexes months [0-11]
+        val month = binding.datePicker.month + 1
+        val day = binding.datePicker.dayOfMonth
+        val year = binding.datePicker.year
+
+        val dateSelected: String = "$year-$month-$day"
+
+        return if ((year >= local.year) && (month >= local.monthValue) && (day >= local.dayOfMonth)) {
+            true
+        } else {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.incorrect_date),
+                Toast.LENGTH_LONG
+            ).show()
+            false
+        }
 
     }
 }
