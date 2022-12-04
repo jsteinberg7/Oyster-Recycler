@@ -103,9 +103,7 @@ class RegistrationRestaurantFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        // Could add this instead
-                        //task.exception!!.message.toString(),
-                        getString(R.string.register_failed_string),
+                        task.exception!!.message.toString(),
                         Toast.LENGTH_LONG
                     ).show()
                 }
