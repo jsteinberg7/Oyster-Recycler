@@ -39,12 +39,12 @@ class RestaurantFragment : Fragment() {
 
             findNavController().popBackStack(R.id.mainFragment, false)
         }
-        displayDrivers()
+        displayOrders()
         return binding.root
     }
 
 
-    private fun displayDrivers(){
+    private fun displayOrders() {
         //TODO: Query for Drivers under Restaurant name
         //TODO: Display Drivers who have completed Orders in the past
         //TODO: List them in order of most recent pickup

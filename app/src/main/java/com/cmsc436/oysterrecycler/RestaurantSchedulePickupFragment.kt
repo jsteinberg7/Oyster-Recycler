@@ -62,7 +62,14 @@ class RestaurantSchedulePickupFragment : Fragment() {
 
         val local = LocalDate.now()
         val localEpoch = local.toEpochDay()
-        val checkDate = Regex("^(?=(1[0-2]|0[1-9])\\/(3[01]|[12][0-9]|0[1-9])\\/([0-9]{4})\$)")
+        val checkDate = Regex("^(?=(1[0-2]|0?[1-9])\\/(3[01]|[12][0-9]|0?[1-9])\\/(?:[0-9]{2})?[0-9]{2}\$)")
+        
+        // 1. Get the date
+        // 2. Check if the date is valid
+        // 3. Check if the date is in the future
+        // 4. Check if restaurant already has active pickup
+        // 5. Create pickup in firebase
+
         if(checkDate.matches(date) &&  (pickUpEpoch >= localEpoch)){
 
             return true

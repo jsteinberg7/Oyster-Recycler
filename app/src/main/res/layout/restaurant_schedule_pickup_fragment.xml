@@ -9,6 +9,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+
     <EditText
         android:id="@+id/pickup_date"
         android:layout_width="match_parent"
