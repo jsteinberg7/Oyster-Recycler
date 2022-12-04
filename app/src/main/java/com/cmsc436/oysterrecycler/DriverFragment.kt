@@ -225,6 +225,16 @@ class DriverFragment : Fragment() {
         binding.refresh.setOnClickListener {
             getDriverAssignments()
         }
+        binding.toggle.setOnClickListener {
+            if (binding.toggle.text == "Driver History") {
+                binding.toggle.text = "Current Jobs"
+                getDriverHistory()
+            }
+            else {
+                binding.toggle.text = "Driver History"
+                getDriverAssignments()
+            }
+        }
         // Return the root view.
         return binding.root
     }
@@ -396,7 +406,8 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
-                    Log.i("test", "updating View")
+                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                    Log.i("test", "updating View: $itemsList")
                 } else {
                     Log.i("test", "No such document")
                 }

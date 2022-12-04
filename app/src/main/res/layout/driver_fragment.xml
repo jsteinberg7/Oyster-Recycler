@@ -89,9 +89,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/refresh"
+        app:layout_constraintTop_toBottomOf="@id/findPickup"
         app:layout_constraintStart_toEndOf="@id/refresh"
-        android:text="@string/driverHistory"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/driverHistory"
+        android:id="@+id/toggle"
+        android:backgroundTint="@color/background"/>
 
     <TextView
         android:id="@+id/info"
