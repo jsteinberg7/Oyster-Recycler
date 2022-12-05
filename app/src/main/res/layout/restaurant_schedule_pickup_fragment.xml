@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RestaurantSchedulePickupFragment">
+    tools:context=".RestaurantSchedulePickupFragment"
+    android:background="@color/background">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -38,8 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="584dp"
-        android:hint="@string/submit_pickup_request"
+        android:text="@string/submit_pickup_request"
         app:layout_constraintStart_toStartOf="@id/datePicker"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/background_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

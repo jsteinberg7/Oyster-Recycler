@@ -29,7 +29,8 @@
         android:src="@drawable/refresh"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logout" />
+        app:layout_constraintTop_toBottomOf="@id/logout"
+        app:tint="@color/background_color"/>
 
     <ImageView
         android:id="@+id/directions"
@@ -124,5 +125,13 @@
         app:layout_constraintTop_toBottomOf="@id/refresh"
         android:layout_marginTop="10dp"
         tools:listitem="@layout/item_layout" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

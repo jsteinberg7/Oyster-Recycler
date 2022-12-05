@@ -44,6 +44,7 @@ class DriverFindJobFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var firstUpdate = true
     private lateinit var driverId: String
+    private val LIMIT = 50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +70,7 @@ class DriverFindJobFragment : Fragment() {
         driverId = viewModel.curDriverID
         binding = DriverFindJobFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
+        binding.progressBar.visibility = View.VISIBLE
         itemsList = mutableListOf()
         distList = MutableList(10) {(-1).toDouble()}
         binding.logout.setOnClickListener {
@@ -96,6 +98,7 @@ class DriverFindJobFragment : Fragment() {
 
         binding.refresh.setOnClickListener {
             // Query FireStore for nearest 10 locations
+            binding.progressBar.visibility = View.VISIBLE
             getLocations()
         }
 
@@ -206,66 +209,54 @@ class DriverFindJobFragment : Fragment() {
         for (addr in addressList) {
             var loc = coder.getFromLocationName(addr, 1)[0]
             var dist = distance(loc.latitude, loc.longitude, location!!.latitude, location!!.longitude)
-            if (closestLimit == (-1).toDouble()) {
-                itemsList += nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
-                distList += dist
-                finalIdList += idList[addressList.indexOf(addr)]
-                var i = itemsList.size - 1
-                while (i > 0 && distList[i - 1] > dist) {
-                    var temp = itemsList[i-1]
-                    var temp2 = distList[i-1]
-                    var temp3 = finalIdList[i-1]
-                    itemsList[i-1] = itemsList[i]
-                    distList[i-1] = distList[i]
-                    finalIdList[i-1] = finalIdList[i]
-                    itemsList[i] = temp
-                    distList[i] = temp2
-                    finalIdList[i] = temp3
-                    i -= 1
+            //Limit to 50 mile radius
+            if (dist < LIMIT) {
+                if (closestLimit == (-1).toDouble()) {
+                    itemsList += nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
+                    distList += dist
+                    finalIdList += idList[addressList.indexOf(addr)]
+                    var i = itemsList.size - 1
+                    while (i > 0 && distList[i - 1] > dist) {
+                        var temp = itemsList[i-1]
+                        var temp2 = distList[i-1]
+                        var temp3 = finalIdList[i-1]
+                        itemsList[i-1] = itemsList[i]
+                        distList[i-1] = distList[i]
+                        finalIdList[i-1] = finalIdList[i]
+                        itemsList[i] = temp
+                        distList[i] = temp2
+                        finalIdList[i] = temp3
+                        i -= 1
+                    }
+                    if (itemsList.size == 10) {
+                        closestLimit = distList[9]
+                    }
                 }
-                if (itemsList.size == 10) {
-                    closestLimit = distList[9]
+                else if (dist < closestLimit) {
+                    itemsList[9] = nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
+                    distList[9] = dist
+                    finalIdList[9] = idList[addressList.indexOf(addr)]
+                    var i = 9
+                    while (i > 0 && distList[i - 1] > dist) {
+                        var temp = itemsList[i-1]
+                        var temp2 = distList[i-1]
+                        var temp3 = finalIdList[i-1]
+                        itemsList[i-1] = itemsList[i]
+                        distList[i-1] = distList[i]
+                        finalIdList[i-1] = finalIdList[i]
+                        itemsList[i] = temp
+                        distList[i] = temp2
+                        finalIdList[i] = temp3
+                        i -= 1
+                    }
                 }
             }
-            else if (dist < closestLimit) {
-                itemsList[9] = nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
-                distList[9] = dist
-                finalIdList[9] = idList[addressList.indexOf(addr)]
-                var i = 9
-                while (i > 0 && distList[i - 1] > dist) {
-                    var temp = itemsList[i-1]
-                    var temp2 = distList[i-1]
-                    var temp3 = finalIdList[i-1]
-                    itemsList[i-1] = itemsList[i]
-                    distList[i-1] = distList[i]
-                    finalIdList[i-1] = finalIdList[i]
-                    itemsList[i] = temp
-                    distList[i] = temp2
-                    finalIdList[i] = temp3
-                    i -= 1
-                }
-            }
-
-//            if (dist < closestLimit || closestLimit == (-1).toDouble()) {
-//                if (itemsList.size < 10) {
-//                    itemsList += nameList[addressList.indexOf(addr)] + " - " + dist.toString() + " miles away"
-//                }
-//                else {
-//                    itemsList[9] = nameList[addressList.indexOf(addr)] + " - " + dist.toString() + " miles away"
-//                    var i = 9
-//                    while (i > 0 && (distList[i] > dist || distList[i] == (-1).toDouble())) {
-//                        var temp = itemsList[i-1]
-//                        var temp2 = distList[i-1]
-//                        itemsList[i-1] = itemsList[i]
-//                        distList[i-1] = distList[i]
-//                        itemsList[i] = temp
-//                        distList[i] = temp2
-//                        i = i - 1
-//                    }
-//                }
-//            }
         }
         Log.i("test", "Update: " + itemsList.toString())
+        binding.progressBar.visibility = View.GONE
+        if (itemsList.size == 0) {
+            itemsList = mutableListOf("No pickups in your area.")
+        }
         binding.list.adapter = DriverFindRecyclerViewAdapter(itemsList, this)
     }
 

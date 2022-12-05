@@ -28,7 +28,8 @@
         android:src="@drawable/refresh"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/currentPickups" />
+        app:layout_constraintTop_toBottomOf="@id/currentPickups"
+        app:tint="@color/background_color"/>
 
     <Button
         android:id="@+id/currentPickups"
@@ -67,5 +68,13 @@
         tools:context="DriverFragment"
         tools:ignore="MissingConstraints"
         tools:listitem="@layout/item_layout" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

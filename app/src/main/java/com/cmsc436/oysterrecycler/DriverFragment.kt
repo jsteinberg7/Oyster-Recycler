@@ -145,6 +145,7 @@ class DriverFragment : Fragment() {
         binding = DriverFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+        binding.progressBar.visibility = View.VISIBLE
 
         binding.logout.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -191,8 +192,8 @@ class DriverFragment : Fragment() {
                 Log.i("test", "assignment:" + assignments[idx])
                 pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
                     var dateAssigned = document.data?.get("when").toString()
-                    var id = assignments[idx] + driverId + dateAssigned.replace('/', 'l')
-                    pickupsCollection.document("5").delete()
+                    var id = assignments[idx] + driverId + dateAssigned.replace('/', '-')
+                    pickupsCollection.document(assignments[idx]).delete()
                     driver.activePickups = driver.activePickups.filter { it != assignments[idx] }
                     driver.completedPickups += id
                     driversCollection.document(driverId).set(driver.serialize())
@@ -204,6 +205,7 @@ class DriverFragment : Fragment() {
                             address = document.data?.get("address").toString(),
                             activePickups = document.data?.get("active_pickups") as List<String>,
                             completedPickups = document.data?.get("completed_pickups") as List<String>)
+                        restaurant.completedPickups += id
                         restaurant.activePickups = listOf()
                         restaurantsCollection.document(restaurant.UID).set(restaurant.serialize())
                         getDriverAssignments()
@@ -247,6 +249,7 @@ class DriverFragment : Fragment() {
         }
 
         binding.dropoff.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             findClosestAddress()
         }
 
@@ -254,15 +257,16 @@ class DriverFragment : Fragment() {
             getDriverAssignments()
         }
         binding.toggle.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             if (binding.toggle.isChecked) {
                 getDriverAssignments()
             }
             else {
                 getDriverHistory()
             }
-            binding.finish.visibility = 0
-            binding.cancel.visibility = 0
-            binding.directions.visibility = 0
+            binding.finish.visibility = View.INVISIBLE
+            binding.cancel.visibility = View.INVISIBLE
+            binding.directions.visibility = View.INVISIBLE
             idx = -1
         }
         // Return the root view.
@@ -272,10 +276,10 @@ class DriverFragment : Fragment() {
     fun onItemClick(index: Int): Boolean {
         idx = index
         if (binding.toggle.isChecked) {
-            binding.finish.visibility = 1
-            binding.cancel.visibility = 1
+            binding.finish.visibility = View.VISIBLE
+            binding.cancel.visibility = View.VISIBLE
         }
-        binding.directions.visibility = 1
+        binding.directions.visibility = View.VISIBLE
         (binding.list.adapter as DriverRecyclerViewAdapter).select(index)
         // Always allow items to be selected in this app.
         return true
@@ -302,6 +306,7 @@ class DriverFragment : Fragment() {
                     Intent.ACTION_VIEW,
                     Uri.parse("geo:0,0?q=$address")
                 )
+                binding.progressBar.visibility = View.GONE
                 activity?.let { it1 ->
                     geoIntent.resolveActivity(it1.packageManager)?.let {
                         startActivity(geoIntent)
@@ -380,6 +385,7 @@ class DriverFragment : Fragment() {
                                         restaurant.data?.get("UID").toString()
                                     addressList[pickups.indexOf(pickup)] =
                                         restaurant.data?.get("address").toString()
+                                    binding.progressBar.visibility = View.GONE
                                     binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
@@ -389,6 +395,8 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
+                    binding.progressBar.visibility = View.GONE
+                    binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Current Pickups."), this)
                     Log.i("test", "updating View")
                 } else {
                     Log.i("test", "No such document")
@@ -445,7 +453,8 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
-                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                    binding.progressBar.visibility = View.GONE
+                    binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Previous Pickups."), this)
                     Log.i("test", "updating View: $itemsList")
                 } else {
                     Log.i("test", "No such document")

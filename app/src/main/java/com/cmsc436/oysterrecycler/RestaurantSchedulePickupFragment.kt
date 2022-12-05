@@ -36,24 +36,24 @@ class RestaurantSchedulePickupFragment : Fragment() {
         inflater.inflate(R.layout.restaurant_fragment, container, false)
         binding = RestaurantSchedulePickupFragmentBinding.inflate(inflater, container, false)
         binding.logout.setOnClickListener {
-                val builder = AlertDialog.Builder(context)
-                builder.setMessage("Are you sure you want to Logout?")
-                    .setCancelable(true)
-                    .setPositiveButton("Yes") { _, _ ->
-                        FirebaseAuth.getInstance().signOut()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Are you sure you want to Logout?")
+                .setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
 
-                        Toast.makeText(
-                            requireContext(),
-                            "You are now logged out!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "You are now logged out!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                        findNavController().popBackStack(R.id.mainFragment, false)
-                    }
-                    .setNegativeButton("Cancel") { dialog, _ ->
-                        // Dismiss the dialog
-                        dialog.dismiss()
-                    }
+                    findNavController().popBackStack(R.id.loginFragment, false)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
             val alert = builder.create()
             alert.show()
         }

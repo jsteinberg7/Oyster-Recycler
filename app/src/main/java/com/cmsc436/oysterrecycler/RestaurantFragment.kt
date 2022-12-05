@@ -18,6 +18,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import android.app.AlertDialog
 
 class RestaurantFragment : Fragment() {
     private lateinit var binding: RestaurantFragmentBinding
@@ -37,6 +38,7 @@ class RestaurantFragment : Fragment() {
         inflater.inflate(R.layout.restaurant_fragment, container, false)
         binding = RestaurantFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
+        binding.progressBar.visibility = View.VISIBLE
         displayOrders()
 //
 
@@ -44,15 +46,29 @@ class RestaurantFragment : Fragment() {
             findNavController().navigate(R.id.action_restaurantFragment_to_restaurantSchedulePickupFragment)
         }
         binding.logout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Are you sure you want to Logout?")
+                .setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
 
-            Toast.makeText(
-                requireContext(),
-                "You are now logged out!",
-                Toast.LENGTH_SHORT
-            ).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "You are now logged out!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-            findNavController().popBackStack(R.id.loginFragment, false)
+                    findNavController().popBackStack(R.id.loginFragment, false)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
+        }
+        binding.refresh.setOnClickListener{
+            displayOrders()
         }
         return binding.root
     }
@@ -86,7 +102,7 @@ class RestaurantFragment : Fragment() {
                         .document(restaurantID)
                         .get()
                         .addOnSuccessListener { document ->
-                            if (document != null) {
+                            if (document.data != null) {
                                 Log.i("test", "active data: ${document.data}")
                                 pickupList.add(
                                     Pickup(
@@ -102,7 +118,7 @@ class RestaurantFragment : Fragment() {
                                         .document(pickup)
                                         .get()
                                         .addOnSuccessListener { document ->
-                                            if (document != null) {
+                                            if (document.data != null) {
                                                 Log.i("test", "pickup data: ${document.data}")
                                                 pickupList.add(
                                                     Pickup(
@@ -151,7 +167,7 @@ class RestaurantFragment : Fragment() {
                 itemsList.add(str)
             }
         }
-
+        binding.progressBar.visibility = View.GONE
         binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
     }
 
