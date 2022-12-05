@@ -131,6 +131,14 @@ class DriverFindJobFragment : Fragment() {
                         }
                         pickupsCollection.document(finalIdList[idx]).set(map)
                     }
+                    else {
+                        getLocations()
+                        Toast.makeText(
+                            requireContext(),
+                            "Someone else has taken this job. Refreshing...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
