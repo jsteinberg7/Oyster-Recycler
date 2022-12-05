@@ -71,6 +71,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
         val year = binding.datePicker.year
 
         val dateSelected: String = "$year-$month-$day"
+        val date = D
 
         return if ((year >= local.year) && (month >= local.monthValue) && (day >= local.dayOfMonth)) {
             true
