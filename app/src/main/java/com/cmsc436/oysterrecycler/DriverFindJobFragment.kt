@@ -207,47 +207,50 @@ class DriverFindJobFragment : Fragment() {
         distList = mutableListOf()
         finalIdList = mutableListOf()
         for (addr in addressList) {
-            var loc = coder.getFromLocationName(addr, 1)[0]
-            var dist = distance(loc.latitude, loc.longitude, location!!.latitude, location!!.longitude)
-            //Limit to 50 mile radius
-            if (dist < LIMIT) {
-                if (closestLimit == (-1).toDouble()) {
-                    itemsList += nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
-                    distList += dist
-                    finalIdList += idList[addressList.indexOf(addr)]
-                    var i = itemsList.size - 1
-                    while (i > 0 && distList[i - 1] > dist) {
-                        var temp = itemsList[i-1]
-                        var temp2 = distList[i-1]
-                        var temp3 = finalIdList[i-1]
-                        itemsList[i-1] = itemsList[i]
-                        distList[i-1] = distList[i]
-                        finalIdList[i-1] = finalIdList[i]
-                        itemsList[i] = temp
-                        distList[i] = temp2
-                        finalIdList[i] = temp3
-                        i -= 1
+            var tloc = coder.getFromLocationName(addr, 1)
+            if (tloc.size > 0) {
+                var loc = tloc[0]
+                var dist = distance(loc.latitude, loc.longitude, location!!.latitude, location!!.longitude)
+                //Limit to 50 mile radius
+                if (dist < LIMIT) {
+                    if (closestLimit == (-1).toDouble()) {
+                        itemsList += nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
+                        distList += dist
+                        finalIdList += idList[addressList.indexOf(addr)]
+                        var i = itemsList.size - 1
+                        while (i > 0 && distList[i - 1] > dist) {
+                            var temp = itemsList[i-1]
+                            var temp2 = distList[i-1]
+                            var temp3 = finalIdList[i-1]
+                            itemsList[i-1] = itemsList[i]
+                            distList[i-1] = distList[i]
+                            finalIdList[i-1] = finalIdList[i]
+                            itemsList[i] = temp
+                            distList[i] = temp2
+                            finalIdList[i] = temp3
+                            i -= 1
+                        }
+                        if (itemsList.size == 10) {
+                            closestLimit = distList[9]
+                        }
                     }
-                    if (itemsList.size == 10) {
-                        closestLimit = distList[9]
-                    }
-                }
-                else if (dist < closestLimit) {
-                    itemsList[9] = nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
-                    distList[9] = dist
-                    finalIdList[9] = idList[addressList.indexOf(addr)]
-                    var i = 9
-                    while (i > 0 && distList[i - 1] > dist) {
-                        var temp = itemsList[i-1]
-                        var temp2 = distList[i-1]
-                        var temp3 = finalIdList[i-1]
-                        itemsList[i-1] = itemsList[i]
-                        distList[i-1] = distList[i]
-                        finalIdList[i-1] = finalIdList[i]
-                        itemsList[i] = temp
-                        distList[i] = temp2
-                        finalIdList[i] = temp3
-                        i -= 1
+                    else if (dist < closestLimit) {
+                        itemsList[9] = nameList[addressList.indexOf(addr)] + " - " + dist.toInt().toString() + " miles away"
+                        distList[9] = dist
+                        finalIdList[9] = idList[addressList.indexOf(addr)]
+                        var i = 9
+                        while (i > 0 && distList[i - 1] > dist) {
+                            var temp = itemsList[i-1]
+                            var temp2 = distList[i-1]
+                            var temp3 = finalIdList[i-1]
+                            itemsList[i-1] = itemsList[i]
+                            distList[i-1] = distList[i]
+                            finalIdList[i-1] = finalIdList[i]
+                            itemsList[i] = temp
+                            distList[i] = temp2
+                            finalIdList[i] = temp3
+                            i -= 1
+                        }
                     }
                 }
             }
