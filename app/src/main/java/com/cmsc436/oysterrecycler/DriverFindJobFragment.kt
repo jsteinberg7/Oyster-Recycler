@@ -274,7 +274,7 @@ class DriverFindJobFragment : Fragment() {
             nameList = MutableList(documents.size()) {""}
             idList = MutableList(documents.size()) {""}
             for (document in documents) {
-                Log.i("test","got: " + document.data.toString())
+                Log.i("test","got: " + document.data.toString() + " " + (isToday(document.data.get("when").toString())).toString())
                 var date = document.data.get("when").toString()
                 if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "") && isToday(date)) {
                     Log.i("test", "using" + document.data.toString())

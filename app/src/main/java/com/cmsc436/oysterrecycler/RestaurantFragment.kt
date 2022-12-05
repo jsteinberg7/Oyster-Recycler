@@ -52,7 +52,7 @@ class RestaurantFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            findNavController().popBackStack(R.id.mainFragment, false)
+            findNavController().popBackStack(R.id.loginFragment, false)
         }
         return binding.root
     }
@@ -61,7 +61,6 @@ class RestaurantFragment : Fragment() {
     private fun displayOrders() {
         // TODO: Query for active pickup (if exists) + completed pickups for given restaurant
         val restaurantID: String = viewModel.curRestaurantID
-        restaurant = Restaurant("", "", "", "", "", listOf(""), listOf(""))
         itemsList = mutableListOf()
         var pickupList: ArrayList<Pickup> = ArrayList()
 
@@ -73,13 +72,13 @@ class RestaurantFragment : Fragment() {
                 if (document != null) {
                     Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
                     restaurant = Restaurant(
-                        UID = document.data?.get("UID").toString(),
-                        name = document.data?.get("name").toString(),
-                        email = document.data?.get("email").toString(),
-                        phone = document.data?.get("phone").toString(),
-                        address = document.data?.get("address").toString(),
-                        activePickups = document.data?.get("active_pickups") as List<String>,
-                        completedPickups = document.data?.get("completed_pickups") as List<String>)
+                        document.data?.get("UID").toString(),
+                        document.data?.get("name").toString(),
+                        document.data?.get("email").toString(),
+                        document.data?.get("phone").toString(),
+                        document.data?.get("address").toString(),
+                        document.data?.get("active_pickups") as List<String>,
+                        document.data?.get("completed_pickups") as List<String>)
 
 
                     // get pickup from pickups collection. Document ID is restaurantID. Add pickup to pickupList
@@ -88,7 +87,7 @@ class RestaurantFragment : Fragment() {
                         .get()
                         .addOnSuccessListener { document ->
                             if (document != null) {
-                                Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                                Log.i("test", "active data: ${document.data}")
                                 pickupList.add(
                                     Pickup(
                                         UID = document.data?.get("UID").toString(),
@@ -97,15 +96,14 @@ class RestaurantFragment : Fragment() {
                                         when_date = document.data?.get("when").toString(),
                                     )
                                 )
-
-
+                                updateDisplay(pickupList)
                                 for (pickup in restaurant.completedPickups) {
                                     completedPickupsCollection
                                         .document(pickup)
                                         .get()
                                         .addOnSuccessListener { document ->
                                             if (document != null) {
-                                                Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                                                Log.i("test", "pickup data: ${document.data}")
                                                 pickupList.add(
                                                     Pickup(
                                                         UID = document.data?.get("UID").toString(),
@@ -114,6 +112,7 @@ class RestaurantFragment : Fragment() {
                                                         when_date = document.data?.get("when").toString()
                                                     )
                                                 )
+                                                updateDisplay(pickupList)
                                             } else {
                                                 Log.d(ContentValues.TAG, "No such document")
                                             }
@@ -142,12 +141,13 @@ class RestaurantFragment : Fragment() {
     }
 
     private fun updateDisplay(pickupList: ArrayList<Pickup>){
+        itemsList = mutableListOf()
         if(pickupList.size == 0){
             val noAction = "No Active Pickups"
             itemsList.add(noAction)
         }else{
             for(i in pickupList){
-                val str = i.driverID + " " + i.when_date
+                val str = i.when_date
                 itemsList.add(str)
             }
         }

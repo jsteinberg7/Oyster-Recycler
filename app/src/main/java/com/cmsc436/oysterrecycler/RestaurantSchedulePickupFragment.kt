@@ -1,6 +1,7 @@
 package com.cmsc436.oysterrecycler
 
 import Pickup
+import Restaurant
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,11 +17,15 @@ import com.cmsc436.oysterrecycler.databinding.RestaurantSchedulePickupFragmentBi
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.*
 
 
 
 class RestaurantSchedulePickupFragment : Fragment() {
+    private val firestore = Firebase.firestore
+    private var restaurantsCollection = firestore.collection("restaurants")
     private lateinit var binding: RestaurantSchedulePickupFragmentBinding
     private val viewModel by activityViewModels<MainViewModel>()
     override fun onCreateView(
@@ -82,13 +87,10 @@ class RestaurantSchedulePickupFragment : Fragment() {
 //        val day = datePicker.dayOfMonth
 //        val month = datePicker.month
 //        val year = datePicker.year
-        // TODO: Fix timestamp
-        val date = Date(year,month,day)
-        val timeStamp = Timestamp(date)
         // show snack bar with the date
         Toast.makeText(
             requireContext(),
-            "Date: $day/$month/$year",
+            "Date: $month/$day/$year",
             Toast.LENGTH_LONG
         ).show()
         
@@ -97,12 +99,26 @@ class RestaurantSchedulePickupFragment : Fragment() {
         // 4. Check if restaurant already has active pickup
         // 5. Create pickup
         // 6. Add pickup to firebase
+        var day2 = if (day < 9) { "0" + day.toString() } else { day.toString() }
         val pickup = Pickup(UID = viewModel.curRestaurantID,
-              restaurantID = viewModel.curRestaurantID, driverID = "", when_date = "")
+              restaurantID = viewModel.curRestaurantID, driverID = "", when_date = "$month/$day2/$year")
         val dataEngine = DataEngine()
 //        dataEngine.addActivePickupToRestaurant(restaurant = )
         return if ((year >= local.year) && (month >= local.monthValue) && (day >= local.dayOfMonth)) {
             dataEngine.createPickupFile(pickup)
+            restaurantsCollection.document(viewModel.curRestaurantID).get().addOnSuccessListener { document ->
+                var restaurant = Restaurant(UID = document.data?.get("UID").toString(),
+                    name = document.data?.get("name").toString(),
+                    email = document.data?.get("email").toString(),
+                    phone = document.data?.get("phone").toString(),
+                    address = document.data?.get("address").toString(),
+                    activePickups = document.data?.get("active_pickups") as List<String>,
+                    completedPickups = document.data?.get("completed_pickups") as List<String>)
+                if (restaurant.activePickups.size == 0) {
+                    restaurant.activePickups += viewModel.curRestaurantID
+                    restaurantsCollection.document(viewModel.curRestaurantID).set(restaurant.serialize())
+                }
+            }
             true
         } else {
             Toast.makeText(

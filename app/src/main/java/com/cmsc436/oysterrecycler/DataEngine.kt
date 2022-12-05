@@ -213,8 +213,8 @@ class DataEngine() {
     fun createPickupFile(pickup: Pickup) {
         val map = HashMap<String, Any>()
         map["UID"] = pickup.UID
-        map["restaurantID"] = pickup.restaurantID
-        map["driverID"] = pickup.driverID
+        map["restaurant_id"] = pickup.restaurantID
+        map["driver_id"] = pickup.driverID
         map["when"] = pickup.when_date
 
         activePickupsCollection

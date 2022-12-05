@@ -1,6 +1,7 @@
 package com.cmsc436.oysterrecycler
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,14 @@ internal class RestaurantRecyclerViewAdapter(
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = values[position]
+        if(holder.textView.text.equals("No Active Pickups")){
+            holder.textView.setBackgroundColor(Color.argb(255,0,255,0))
+        }
+        else if(position == 0){
+            holder.textView.setBackgroundColor(Color.argb(255, 255, 255, 0))
+        }else{
+            holder.textView.setBackgroundColor(Color.argb(255,0,255,0))
+        }
     }
 
     /**
@@ -69,15 +78,7 @@ internal class RestaurantRecyclerViewAdapter(
         var textView = binding.textView
 
         init {
-            val position = values.indexOf(textView.text)
-            if(textView.text.equals("No Active Pickups")){
-                Color.argb(255,0,255,0)
-            }
-            else if(position == 0){
-                Color.argb(255, 255, 255, 0)
-            }else{
-                Color.argb(255,0,255,0)
-            }
+
         }
 
     }
