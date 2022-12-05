@@ -73,7 +73,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
         val month = binding.datePicker.month + 1
         val day = binding.datePicker.dayOfMonth
         val year = binding.datePicker.year
-        val cal = binding.datePicker.
+
 
 
 
@@ -82,8 +82,9 @@ class RestaurantSchedulePickupFragment : Fragment() {
 //        val day = datePicker.dayOfMonth
 //        val month = datePicker.month
 //        val year = datePicker.year
-        val date = Date(year, month, day)
-        val timeStamp = Timestamp(Date(year, month, day).getTime() / 1000, 0)
+        // TODO: Fix timestamp
+        val date = Date(year,month,day)
+        val timeStamp = Timestamp(date)
         // show snack bar with the date
         Toast.makeText(
             requireContext(),

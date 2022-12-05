@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
 import kotlinx.coroutines.tasks.await
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.Timestamp
 
 class DataEngine() {
 
@@ -17,7 +18,7 @@ class DataEngine() {
     var driversCollection = firestore.collection("drivers")
     var restaurantsCollection = firestore.collection("restaurants")
     var activePickupsCollection = firestore.collection("activePickups")
-
+    var completedPickupsCollection = firestore.collection("completedPickups")
 
     
     /* Driver functions */
@@ -98,7 +99,6 @@ class DataEngine() {
                         address = document.data?.get("address").toString(),
                         activePickups = document.data?.get("active_pickups") as List<String>,
                         completedPickups = document.data?.get("completed_pickups") as List<String>
-
                     )
                 } else {
                     Log.d(TAG, "No such document")
@@ -146,17 +146,21 @@ class DataEngine() {
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
-    fun getRecentPickups(restaurant: Restaurant, num_pickups: Int): Array<Pickup> {
-        var recentPickups: Array<Pickup> = emptyArray()
-        
+    fun getRecentCompletedPickups(restaurant: Restaurant, num_pickups: Int): ArrayList<Pickup> {
+        var recentPickups: ArrayList<Pickup> = ArrayList()
         for (pickup in restaurant.completedPickups) {
-            activePickupsCollection
+            completedPickupsCollection
             .document(pickup)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                        recentPickups += document.data as Pickup
+                        recentPickups.add(Pickup(
+                        UID = document.data?.get("UID").toString(),
+                        restaurantID = document.data?.get("restaurantID").toString(),
+                        driverID = document.data?.get("driverID").toString(),
+                        when_date = document.data?.get("when_date") as Timestamp
+                    ))
                     } else {
                         Log.d(TAG, "No such document")
                     }
@@ -167,6 +171,31 @@ class DataEngine() {
         }
 
         return recentPickups 
+    }
+
+    fun getActivePickup(restaurantID: String): ArrayList<Pickup> {
+        var pickupList: ArrayList<Pickup> = ArrayList()
+        // get pickup from pickups collection. Document ID is restaurantID. Add pickup to pickupList
+        activePickupsCollection
+            .document(restaurantID)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    pickupList.add(Pickup(
+                        UID = document.data?.get("UID").toString(),
+                        restaurantID = document.data?.get("restaurantID").toString(),
+                        driverID = document.data?.get("driverID").toString(),
+                        when_date = document.data?.get("when_date") as Timestamp
+                    ))
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+        return pickupList
     }
 
     /* Pickup functions */
@@ -200,9 +229,6 @@ class DataEngine() {
         updateRestaurantFile(restaurant)
     }
 
-//    fun getPickupFile(pickupID: String): Pickup {
-//
-//    }
     
     fun updatePickupFile(pickup: Pickup) {
         activePickupsCollection

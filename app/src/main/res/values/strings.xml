@@ -15,7 +15,7 @@
     <string name="invalid_email"> Please enter valid email… </string>
     <string name="invalid_carColor"> Please enter the color of your car </string>
     <string name="invalid_carMake"> Please enter maker of your car </string>
-    <string name="invalid_carPlate"> Please enter your vehicle's License Plate </string>
+    <string name="invalid_carPlate"> Please enter your vehicle\'s License Plate </string>
     <string name="login_toast"> Please enter email… </string>
     <string name="password_toast">Please enter password!</string>
     <string name="logout">Logout</string>
