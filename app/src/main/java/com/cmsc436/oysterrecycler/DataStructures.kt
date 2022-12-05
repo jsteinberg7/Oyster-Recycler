@@ -48,7 +48,7 @@ data class Driver(
 }
 
 data class Pickup (val UID: String,
-              val restaurantID: String, val driverID: String, val when_date: Timestamp,
+              val restaurantID: String, val driverID: String, val when_date: String,
 ) {
 
     fun isDriverAssigned(): Boolean {

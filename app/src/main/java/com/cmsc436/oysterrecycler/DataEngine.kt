@@ -166,7 +166,7 @@ class DataEngine() {
                         UID = document.data?.get("UID").toString(),
                         restaurantID = document.data?.get("restaurantID").toString(),
                         driverID = document.data?.get("driverID").toString(),
-                        when_date = document.data?.get("when_date") as Timestamp
+                        when_date = document.data?.get("when_date").toString()
                     ))
                     } else {
                         Log.d(TAG, "No such document")
@@ -193,7 +193,7 @@ class DataEngine() {
                         UID = document.data?.get("UID").toString(),
                         restaurantID = document.data?.get("restaurantID").toString(),
                         driverID = document.data?.get("driverID").toString(),
-                        when_date = document.data?.get("when_date") as Timestamp
+                        when_date = document.data?.get("when_date").toString()
                     ))
                 } else {
                     Log.d(TAG, "No such document")
@@ -220,8 +220,8 @@ class DataEngine() {
     fun createPickupFile(pickup: Pickup) {
         val map = HashMap<String, Any>()
         map["UID"] = pickup.UID
-        map["restaurantID"] = pickup.restaurantID
-        map["driverID"] = pickup.driverID
+        map["restaurant_id"] = pickup.restaurantID
+        map["driver_id"] = pickup.driverID
         map["when"] = pickup.when_date
 
         activePickupsCollection
