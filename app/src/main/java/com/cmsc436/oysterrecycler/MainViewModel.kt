@@ -44,11 +44,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun isSignedInAsDriver(): Boolean {
-        return curDriverID!!.isNotEmpty() || sharedPref!!.getString("driverID", null)!!.isNotEmpty()
+        return curDriverID.isNotEmpty() || sharedPref?.getString("driverID", null)?.isNotEmpty() == true
     }
 
     fun isSignedInAsRestaurant(): Boolean {
-        return curRestaurantID!!.isNotEmpty() || sharedPref!!.getString("restaurantID", null)!!.isNotEmpty()
+        return curRestaurantID.isNotEmpty() || sharedPref?.getString("restaurantID", null)?.isNotEmpty() == true
     }
     
 }
