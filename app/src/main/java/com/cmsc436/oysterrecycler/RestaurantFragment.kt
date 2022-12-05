@@ -102,7 +102,7 @@ class RestaurantFragment : Fragment() {
                         .document(restaurantID)
                         .get()
                         .addOnSuccessListener { document ->
-                            if (document != null) {
+                            if (document.data != null) {
                                 Log.i("test", "active data: ${document.data}")
                                 pickupList.add(
                                     Pickup(
@@ -118,7 +118,7 @@ class RestaurantFragment : Fragment() {
                                         .document(pickup)
                                         .get()
                                         .addOnSuccessListener { document ->
-                                            if (document != null) {
+                                            if (document.data != null) {
                                                 Log.i("test", "pickup data: ${document.data}")
                                                 pickupList.add(
                                                     Pickup(

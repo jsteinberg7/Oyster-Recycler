@@ -28,7 +28,8 @@
         android:src="@drawable/refresh"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/currentPickups" />
+        app:layout_constraintTop_toBottomOf="@id/currentPickups"
+        app:tint="@color/background_color"/>
 
     <Button
         android:id="@+id/currentPickups"

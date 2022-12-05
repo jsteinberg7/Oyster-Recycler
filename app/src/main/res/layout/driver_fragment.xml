@@ -29,7 +29,8 @@
         android:src="@drawable/refresh"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logout" />
+        app:layout_constraintTop_toBottomOf="@id/logout"
+        app:tint="@color/background_color"/>
 
     <ImageView
         android:id="@+id/directions"
