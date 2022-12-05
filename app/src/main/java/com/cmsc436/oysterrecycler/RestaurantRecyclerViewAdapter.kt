@@ -70,7 +70,10 @@ internal class RestaurantRecyclerViewAdapter(
 
         init {
             val position = values.indexOf(textView.text)
-            if(position == 0){
+            if(textView.text.equals("No Active Pickups")){
+                Color.argb(255,0,255,0)
+            }
+            else if(position == 0){
                 Color.argb(255, 255, 255, 0)
             }else{
                 Color.argb(255,0,255,0)
