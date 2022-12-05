@@ -24,6 +24,8 @@ class LoginFragment : Fragment() {
         // Use the provided ViewBinding class to inflate the layout.
         binding = LoginFragmentBinding.inflate(inflater, container, false)
 
+        viewModel.initializeLocalValues()
+
         firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
 
         binding.login.setOnClickListener {
@@ -34,6 +36,14 @@ class LoginFragment : Fragment() {
         }
         binding.registerRestaurant.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_restaurantRegistration)
+        }
+        
+        if (viewModel.isSignedInAsDriver()) {
+            findNavController().navigate(R.id.action_loginFragment_to_driver_fragment)
+        }
+
+        if (viewModel.isSignedInAsRestaurant()) {
+            findNavController().navigate(R.id.action_loginFragment_to_restaurant_fragment)
         }
 
         // Return the root view.
@@ -84,11 +94,11 @@ class LoginFragment : Fragment() {
                         if (document.data.isNullOrEmpty()) {
                             // This will auto take them to to the restaurant fragment bc they're not a driver
                             // and all users are either a restaurant or a driver
-                            viewModel.curRestaurantID = emailHash
+                            viewModel.updateRestaurantID(emailHash)
                             findNavController().navigate(R.id.action_loginFragment_to_restaurant_fragment)
                         } else {
                             // User is a driver
-                            viewModel.curDriverID = emailHash
+                            viewModel.updateDriverID(emailHash)
                             findNavController().navigate(R.id.action_loginFragment_to_permission_fragment)
                         }
                     }

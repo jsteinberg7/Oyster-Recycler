@@ -94,7 +94,7 @@ class RegistrationRestaurantFragment : Fragment() {
 
                     dataEngine.createRestaurantFile(restaurant = restaurant)
 
-                    viewModel.curRestaurantID = emailHash
+                    viewModel.updateRestaurantID(emailHash)
 
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment

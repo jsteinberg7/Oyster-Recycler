@@ -11,6 +11,10 @@ import com.google.firebase.firestore.ktx.firestore
 import kotlinx.coroutines.tasks.await
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.Timestamp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class DataEngine() {
 
@@ -85,28 +89,31 @@ class DataEngine() {
 
     fun getRestaurantByUID(UID: String): Restaurant {
         var restaurant: Restaurant = Restaurant("","","","","", listOf(), listOf())
-        restaurantsCollection
-            .document(UID)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                    restaurant = Restaurant(
-                        UID = document.data?.get("UID").toString(),
-                        name = document.data?.get("name").toString(),
-                        email = document.data?.get("email").toString(),
-                        phone = document.data?.get("phone").toString(),
-                        address = document.data?.get("address").toString(),
-                        activePickups = document.data?.get("active_pickups") as List<String>,
-                        completedPickups = document.data?.get("completed_pickups") as List<String>
-                    )
-                } else {
-                    Log.d(TAG, "No such document")
+        runBlocking {
+            launch {
+            restaurantsCollection
+                .document(UID)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                        restaurant = Restaurant(
+                            UID = document.data?.get("UID").toString(),
+                            name = document.data?.get("name").toString(),
+                            email = document.data?.get("email").toString(),
+                            phone = document.data?.get("phone").toString(),
+                            address = document.data?.get("address").toString(),
+                            activePickups = document.data?.get("active_pickups") as List<String>,
+                            completedPickups = document.data?.get("completed_pickups") as List<String>
+                        )
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
+        }}
         return restaurant
     }
 
