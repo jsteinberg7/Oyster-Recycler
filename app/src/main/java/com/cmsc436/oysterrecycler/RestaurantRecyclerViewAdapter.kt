@@ -69,7 +69,12 @@ internal class RestaurantRecyclerViewAdapter(
         var textView = binding.textView
 
         init {
-            textView.setBackgroundColor(Color.argb(50, 0, 100, 0))
+            val position = values.indexOf(textView.text)
+            if(position == 0){
+                Color.argb(255, 255, 255, 0)
+            }else{
+                Color.argb(255,0,255,0)
+            }
         }
 
     }
