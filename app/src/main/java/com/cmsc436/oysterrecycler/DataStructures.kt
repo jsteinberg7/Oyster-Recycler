@@ -4,7 +4,7 @@ data class Restaurant(
     val UID: String, val name: String, val email: String, val phone: String,
     val address: String,
     var activePickups: List<String>,
-    val completedPickups: List<String>
+    var completedPickups: List<String>
 ) {
 
     fun serialize(): HashMap<String, Any> {

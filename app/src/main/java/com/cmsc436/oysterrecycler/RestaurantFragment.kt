@@ -37,6 +37,7 @@ class RestaurantFragment : Fragment() {
         inflater.inflate(R.layout.restaurant_fragment, container, false)
         binding = RestaurantFragmentBinding.inflate(inflater, container, false)
         binding.list.layoutManager = LinearLayoutManager(context)
+        binding.progressBar.visibility = View.VISIBLE
         displayOrders()
 //
 
@@ -151,7 +152,7 @@ class RestaurantFragment : Fragment() {
                 itemsList.add(str)
             }
         }
-
+        binding.progressBar.visibility = View.GONE
         binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
     }
 
