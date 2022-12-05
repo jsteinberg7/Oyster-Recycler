@@ -122,7 +122,7 @@ class RegistrationDriverFragment : Fragment() {
                         carColor = vehicleColor, activePickups = listOf(), completedPickups = listOf())
 
                     dataEngine.createDriverFile(driver = driver)
-                    viewModel.curDriverID = emailHash
+                    viewModel.updateDriverID(emailHash)
                     findNavController().navigate(
                         R.id.action_registrationFragment_to_dashboardFragment
                     )

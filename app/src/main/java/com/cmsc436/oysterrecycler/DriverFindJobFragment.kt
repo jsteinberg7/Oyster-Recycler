@@ -79,6 +79,7 @@ class DriverFindJobFragment : Fragment() {
                 .setCancelable(true)
                 .setPositiveButton("Yes") { _, _ ->
                     FirebaseAuth.getInstance().signOut()
+                    viewModel.clearViewModel()
 
                     Toast.makeText(
                         requireContext(),
