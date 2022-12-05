@@ -26,6 +26,7 @@ import Restaurant
 import android.content.ContentValues
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.delay
 import org.w3c.dom.Document
 import java.time.Duration
 import kotlin.math.acos
@@ -257,6 +258,7 @@ class DriverFragment : Fragment() {
             getDriverAssignments()
         }
         binding.toggle.setOnClickListener {
+            binding.toggle.isClickable = false
             binding.progressBar.visibility = View.VISIBLE
             if (binding.toggle.isChecked) {
                 getDriverAssignments()
@@ -385,8 +387,12 @@ class DriverFragment : Fragment() {
                                         restaurant.data?.get("UID").toString()
                                     addressList[pickups.indexOf(pickup)] =
                                         restaurant.data?.get("address").toString()
-                                    binding.progressBar.visibility = View.GONE
-                                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                                    if (pickups.indexOf(pickup) == pickups.size - 1) {
+                                        binding.progressBar.visibility = View.GONE
+                                        binding.list.adapter =
+                                            DriverRecyclerViewAdapter(itemsList, this)
+                                        binding.toggle.isClickable = true
+                                    }
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
                                 }
@@ -395,8 +401,12 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
-                    binding.progressBar.visibility = View.GONE
-                    binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Current Pickups."), this)
+                    if (pickups.size == 0) {
+                        binding.toggle.isClickable = true
+                        binding.progressBar.visibility = View.GONE
+                        binding.list.adapter =
+                            DriverRecyclerViewAdapter(listOf("No Current Pickups."), this)
+                    }
                     Log.i("test", "updating View")
                 } else {
                     Log.i("test", "No such document")
@@ -442,8 +452,12 @@ class DriverFragment : Fragment() {
                                             "Pick up from " + restaurant.data?.get("name").toString() + " on " + completed.data?.get("when").toString()
                                         addressList[pickups.indexOf(pickup)] = restaurant.data?.get("address")
                                             .toString()
-                                        binding.list.adapter =
-                                            DriverRecyclerViewAdapter(itemsList, this)
+                                        if (pickups.indexOf(pickup) == pickups.size - 1) {
+                                            binding.progressBar.visibility = View.GONE
+                                            binding.list.adapter =
+                                                DriverRecyclerViewAdapter(itemsList, this)
+                                            binding.toggle.isClickable = true
+                                        }
                                     }
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
@@ -453,9 +467,11 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
-                    binding.progressBar.visibility = View.GONE
-                    binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Previous Pickups."), this)
-                    Log.i("test", "updating View: $itemsList")
+                    if (pickups.size == 0) {
+                        binding.toggle.isClickable = true
+                        binding.progressBar.visibility = View.GONE
+                        binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Previous Pickups."), this)
+                    }
                 } else {
                     Log.i("test", "No such document")
                 }

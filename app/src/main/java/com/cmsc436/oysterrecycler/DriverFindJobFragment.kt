@@ -103,7 +103,7 @@ class DriverFindJobFragment : Fragment() {
         }
 
         binding.accept.setOnClickListener {
-            if (idx >= 0) {
+            if (idx >= 0 && finalIdList.size > idx) {
                 // query to add this pickup to this driver using driverID
                 pickupsCollection.document(finalIdList[idx]).get().addOnSuccessListener { document ->
                     Log.i("test", "got on accept: " + document.data.toString() + ".")
