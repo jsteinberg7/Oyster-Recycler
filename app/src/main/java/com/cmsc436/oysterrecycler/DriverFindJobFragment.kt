@@ -103,7 +103,8 @@ class DriverFindJobFragment : Fragment() {
             if (idx >= 0) {
                 // query to add this pickup to this driver using driverID
                 pickupsCollection.document(finalIdList[idx]).get().addOnSuccessListener { document ->
-                    if (document.data?.get("driver_id").toString() == null || document.data?.get("driver_id").toString() == "") {
+                    Log.i("test", "got on accept: " + document.data.toString() + ".")
+                    if (document.data?.get("driver_id").toString() == "") {
                         var map = HashMap<String, Any>()
                         map["restaurant_id"] = document.data?.get("restaurant_id").toString()
                         map["driver_id"] = driverId
@@ -276,7 +277,7 @@ class DriverFindJobFragment : Fragment() {
             for (document in documents) {
                 Log.i("test","got: " + document.data.toString() + " " + (isToday(document.data.get("when").toString())).toString())
                 var date = document.data.get("when").toString()
-                if (document.data != null && (document.data.get("driver_id") == null || document.data.get("driver_id") == "") && isToday(date)) {
+                if (document.data != null && (document.data.get("driver_id") == "") && isToday(date)) {
                     Log.i("test", "using" + document.data.toString())
                     var restaurant = document.data.get("restaurant_id").toString()
                     restaurantsCollection.document(restaurant).get().addOnSuccessListener { doc ->
