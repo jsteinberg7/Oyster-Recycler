@@ -98,7 +98,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
         // 5. Create pickup
         // 6. Add pickup to firebase
         val pickup = Pickup(UID = viewModel.curRestaurantID,
-              restaurantID = viewModel.curRestaurantID, driverID = "", when_date = timeStamp)
+              restaurantID = viewModel.curRestaurantID, driverID = "", when_date = "")
         val dataEngine = DataEngine()
 //        dataEngine.addActivePickupToRestaurant(restaurant = )
         return if ((year >= local.year) && (month >= local.monthValue) && (day >= local.dayOfMonth)) {
