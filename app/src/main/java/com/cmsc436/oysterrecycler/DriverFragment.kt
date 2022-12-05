@@ -44,6 +44,7 @@ class DriverFragment : Fragment() {
     lateinit var itemsList: MutableList<String>
     lateinit var assignments: MutableList<String>
     lateinit var addressList: MutableList<String>
+    lateinit var dateList: MutableList<String>
     var idx = -1
     private lateinit var binding: DriverFragmentBinding
     private lateinit var driver: Driver
@@ -169,7 +170,7 @@ class DriverFragment : Fragment() {
         }
 
         binding.cancel.setOnClickListener {
-            if (idx >= 0) {
+            if (idx >= 0 && binding.toggle.isChecked) {
                 pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
                     var map = HashMap<String, Any>()
                     map["restaurant_id"] = document.data?.get("restaurant_id").toString()
@@ -186,7 +187,7 @@ class DriverFragment : Fragment() {
         }
 
         binding.finish.setOnClickListener {
-            if (idx >= 0) {
+            if (idx >= 0 && binding.toggle.isChecked) {
                 Log.i("test", "assignment:" + assignments[idx])
                 pickupsCollection.document(assignments[idx]).get().addOnSuccessListener { document ->
                     var dateAssigned = document.data?.get("when").toString()
@@ -253,14 +254,16 @@ class DriverFragment : Fragment() {
             getDriverAssignments()
         }
         binding.toggle.setOnClickListener {
-            if (binding.toggle.text == "Driver History") {
-                binding.toggle.text = "Current Jobs"
-                getDriverHistory()
-            }
-            else {
-                binding.toggle.text = "Driver History"
+            if (binding.toggle.isChecked) {
                 getDriverAssignments()
             }
+            else {
+                getDriverHistory()
+            }
+            binding.finish.visibility = 0
+            binding.cancel.visibility = 0
+            binding.directions.visibility = 0
+            idx = -1
         }
         // Return the root view.
         return binding.root
@@ -268,8 +271,10 @@ class DriverFragment : Fragment() {
 
     fun onItemClick(index: Int): Boolean {
         idx = index
-        binding.finish.visibility = 1
-        binding.cancel.visibility = 1
+        if (binding.toggle.isChecked) {
+            binding.finish.visibility = 1
+            binding.cancel.visibility = 1
+        }
         binding.directions.visibility = 1
         (binding.list.adapter as DriverRecyclerViewAdapter).select(index)
         // Always allow items to be selected in this app.
@@ -420,14 +425,18 @@ class DriverFragment : Fragment() {
                     addressList = MutableList(pickups.size) { "" }
                     Log.i("test", pickups.toString())
                     for (pickup in pickups) {
-                        restaurantsCollection.document(pickup).get()
-                            .addOnSuccessListener { restaurant ->
-                                if (restaurant.data != null) {
-                                    itemsList[pickups.indexOf(pickup)] =
-                                        restaurant.data?.get("name").toString()
-                                    addressList[pickups.indexOf(pickup)] =
-                                        restaurant.data?.get("address").toString()
-                                    binding.list.adapter = DriverRecyclerViewAdapter(itemsList, this)
+                        finishedCollection.document(pickup).get()
+                            .addOnSuccessListener { completed ->
+                                if (completed.data != null) {
+                                    var resid = completed.data?.get("restaurant_id").toString()
+                                    restaurantsCollection.document(resid).get().addOnSuccessListener { restaurant ->
+                                        itemsList[pickups.indexOf(pickup)] =
+                                            "Pick up from " + restaurant.data?.get("name").toString() + " on " + completed.data?.get("when").toString()
+                                        addressList[pickups.indexOf(pickup)] = restaurant.data?.get("address")
+                                            .toString()
+                                        binding.list.adapter =
+                                            DriverRecyclerViewAdapter(itemsList, this)
+                                    }
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
                                 }
