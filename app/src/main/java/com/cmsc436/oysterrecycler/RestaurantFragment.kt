@@ -63,6 +63,7 @@ class RestaurantFragment : Fragment() {
         val restaurantID: String = viewModel.curRestaurantID
         restaurant = Restaurant("", "", "", "", "", listOf(""), listOf(""))
         itemsList = mutableListOf()
+        var recentPickups: ArrayList<Pickup> = ArrayList()
         restaurantsCollection
             .document(restaurantID)
             .get()
@@ -76,8 +77,33 @@ class RestaurantFragment : Fragment() {
                         phone = document.data?.get("phone").toString(),
                         address = document.data?.get("address").toString(),
                         activePickups = document.data?.get("active_pickups") as List<String>,
-                        completedPickups = document.data?.get("completed_pickups") as List<String>
-                    )
+                        completedPickups = document.data?.get("completed_pickups") as List<String>)
+
+
+                    for (pickup in restaurant.completedPickups) {
+                        completedPickupsCollection
+                            .document(pickup)
+                            .get()
+                            .addOnSuccessListener { document ->
+                                if (document != null) {
+                                    Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                                    recentPickups.add(
+                                        Pickup(
+                                            UID = document.data?.get("UID").toString(),
+                                            restaurantID = document.data?.get("restaurantID").toString(),
+                                            driverID = document.data?.get("driverID").toString(),
+                                            when_date = document.data?.get("when").toString()
+                                        )
+                                    )
+                                } else {
+                                    Log.d(ContentValues.TAG, "No such document")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(ContentValues.TAG, "get failed with ", exception)
+                            }
+                    }
+
                 } else {
                     Log.d(ContentValues.TAG, "No such document")
                 }
@@ -99,7 +125,7 @@ class RestaurantFragment : Fragment() {
                             UID = document.data?.get("UID").toString(),
                             restaurantID = document.data?.get("restaurantID").toString(),
                             driverID = document.data?.get("driverID").toString(),
-                            when_date = document.data?.get("when_date") as Timestamp
+                            when_date = document.data?.get("when").toString(),
                         )
                     )
                 } else {
@@ -109,32 +135,6 @@ class RestaurantFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d(ContentValues.TAG, "get failed with ", exception)
             }
-
-        var recentPickups: ArrayList<Pickup> = ArrayList()
-        for (pickup in restaurant.completedPickups) {
-            completedPickupsCollection
-                .document(pickup)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
-                        recentPickups.add(
-                            Pickup(
-                                UID = document.data?.get("UID").toString(),
-                                restaurantID = document.data?.get("restaurantID").toString(),
-                                driverID = document.data?.get("driverID").toString(),
-                                when_date = document.data?.get("when_date") as Timestamp
-                            )
-                        )
-                    } else {
-                        Log.d(ContentValues.TAG, "No such document")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d(ContentValues.TAG, "get failed with ", exception)
-                }
-        }
-
 
     if(pickupList.size == 0){
         val noAction = "No Active Pickups"
