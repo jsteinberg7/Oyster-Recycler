@@ -42,6 +42,7 @@
         android:hint="@string/submit_pickup_request"
         app:layout_constraintStart_toStartOf="@id/datePicker"
         app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/background_color"/>
+        android:backgroundTint="@color/background_color"
+        android:text=""/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

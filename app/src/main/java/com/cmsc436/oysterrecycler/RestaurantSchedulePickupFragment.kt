@@ -48,7 +48,7 @@ class RestaurantSchedulePickupFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        findNavController().popBackStack(R.id.mainFragment, false)
+                        findNavController().popBackStack(R.id.loginFragment, false)
                     }
                     .setNegativeButton("Cancel") { dialog, _ ->
                         // Dismiss the dialog

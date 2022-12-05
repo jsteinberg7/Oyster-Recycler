@@ -395,6 +395,7 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
+                    binding.progressBar.visibility = View.GONE
                     binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Current Pickups."), this)
                     Log.i("test", "updating View")
                 } else {
@@ -441,7 +442,6 @@ class DriverFragment : Fragment() {
                                             "Pick up from " + restaurant.data?.get("name").toString() + " on " + completed.data?.get("when").toString()
                                         addressList[pickups.indexOf(pickup)] = restaurant.data?.get("address")
                                             .toString()
-                                        binding.progressBar.visibility = View.GONE
                                         binding.list.adapter =
                                             DriverRecyclerViewAdapter(itemsList, this)
                                     }
@@ -453,6 +453,7 @@ class DriverFragment : Fragment() {
                                 Log.d(ContentValues.TAG, "get failed with ", exception)
                             }
                     }
+                    binding.progressBar.visibility = View.GONE
                     binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Previous Pickups."), this)
                     Log.i("test", "updating View: $itemsList")
                 } else {
