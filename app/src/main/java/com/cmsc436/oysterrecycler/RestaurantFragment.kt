@@ -134,7 +134,9 @@ class RestaurantFragment : Fragment() {
                                                     when_date = document.data?.get("when").toString()
                                                 )
                                             )
-                                            updateDisplay(pickupList)
+                                            if (restaurant.completedPickups.indexOf(pickup) == restaurant.completedPickups.size - 1) {
+                                                updateDisplay(pickupList)
+                                            }
                                         } else {
                                             Log.d(ContentValues.TAG, "No such document")
                                         }
@@ -173,7 +175,7 @@ class RestaurantFragment : Fragment() {
                 var str = "pickup on " + i.when_date
                 if (i.driverID != null && i.driverID != "") {
                     driversCollection.document(i.driverID).get().addOnSuccessListener { document ->
-                        var name = document.data?.get("name").toString()
+                        var name = document.data?.get("first_name").toString()
                         str = "$str by $name"
                         itemsList.add(str)
                         if (pickupList.indexOf(i) == pickupList.size - 1) {
