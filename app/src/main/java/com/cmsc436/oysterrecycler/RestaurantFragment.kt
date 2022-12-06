@@ -110,8 +110,8 @@ class RestaurantFragment : Fragment() {
                                 pickupList.add(
                                     Pickup(
                                         UID = document.data?.get("UID").toString(),
-                                        restaurantID = document.data?.get("restaurantID").toString(),
-                                        driverID = document.data?.get("driverID").toString(),
+                                        restaurantID = document.data?.get("restaurant_id").toString(),
+                                        driverID = document.data?.get("driver_id").toString(),
                                         when_date = document.data?.get("when").toString(),
                                     )
                                 )
@@ -129,8 +129,8 @@ class RestaurantFragment : Fragment() {
                                             pickupList.add(
                                                 Pickup(
                                                     UID = document.data?.get("UID").toString(),
-                                                    restaurantID = document.data?.get("restaurantID").toString(),
-                                                    driverID = document.data?.get("driverID").toString(),
+                                                    restaurantID = document.data?.get("restaurant_id").toString(),
+                                                    driverID = document.data?.get("driver_id").toString(),
                                                     when_date = document.data?.get("when").toString()
                                                 )
                                             )
@@ -158,7 +158,6 @@ class RestaurantFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d(ContentValues.TAG, "get failed with ", exception)
             }
-        updateDisplay(pickupList)
     }
 
     private fun updateDisplay(pickupList: ArrayList<Pickup>){
@@ -172,7 +171,7 @@ class RestaurantFragment : Fragment() {
         }else{
             for(i in pickupList){
                 var str = "pickup on " + i.when_date
-                if (i.driverID != "") {
+                if (i.driverID != null && i.driverID != "") {
                     driversCollection.document(i.driverID).get().addOnSuccessListener { document ->
                         var name = document.data?.get("name").toString()
                         str = "$str by $name"
