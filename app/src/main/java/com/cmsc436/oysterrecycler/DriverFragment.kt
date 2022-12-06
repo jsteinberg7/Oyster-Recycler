@@ -370,8 +370,8 @@ class DriverFragment : Fragment() {
                     Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
                     driver = Driver(
                         document.data?.get("UID").toString(),
-                        document.data?.get("firstname").toString(),
-                        document.data?.get("lastname").toString(),
+                        document.data?.get("first_name").toString(),
+                        document.data?.get("last_name").toString(),
                         document.data?.get("email").toString(),
                         document.data?.get("phone").toString(),
                         document.data?.get("car_make").toString(),
@@ -439,8 +439,8 @@ class DriverFragment : Fragment() {
                     Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
                     driver = Driver(
                         document.data?.get("UID").toString(),
-                        document.data?.get("firstname").toString(),
-                        document.data?.get("lastname").toString(),
+                        document.data?.get("first_name").toString(),
+                        document.data?.get("last_name").toString(),
                         document.data?.get("email").toString(),
                         document.data?.get("phone").toString(),
                         document.data?.get("car_make").toString(),
