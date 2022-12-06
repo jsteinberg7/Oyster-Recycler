@@ -88,7 +88,7 @@ class RestaurantFragment : Fragment() {
             .document(restaurantID)
             .get()
             .addOnSuccessListener { document ->
-                if (document != null) {
+                if (document.data != null) {
                     Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
                     restaurant = Restaurant(
                         document.data?.get("UID").toString(),

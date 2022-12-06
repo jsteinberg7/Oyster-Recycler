@@ -44,7 +44,7 @@ class DriverFindJobFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var firstUpdate = true
     private lateinit var driverId: String
-    private val LIMIT = 15000
+    private val LIMIT = 50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
