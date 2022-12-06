@@ -172,9 +172,19 @@ class RestaurantFragment : Fragment() {
         }else{
             for(i in pickupList){
                 var str = "pickup on " + i.when_date
-                driversCollection.document(i.driverID).get().addOnSuccessListener { document ->
-                    var name = document.data?.get("name").toString()
-                    str = "$str by $name"
+                if (i.driverID != "") {
+                    driversCollection.document(i.driverID).get().addOnSuccessListener { document ->
+                        var name = document.data?.get("name").toString()
+                        str = "$str by $name"
+                        itemsList.add(str)
+                        if (pickupList.indexOf(i) == pickupList.size - 1) {
+                            binding.progressBar.visibility = View.GONE
+                            binding.refresh.isClickable = true
+                            binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
+                        }
+                    }
+                }
+                else {
                     itemsList.add(str)
                     if (pickupList.indexOf(i) == pickupList.size - 1) {
                         binding.progressBar.visibility = View.GONE
