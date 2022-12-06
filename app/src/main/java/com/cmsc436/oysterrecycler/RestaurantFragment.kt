@@ -114,36 +114,36 @@ class RestaurantFragment : Fragment() {
                                         when_date = document.data?.get("when").toString(),
                                     )
                                 )
-                                for (pickup in restaurant.completedPickups) {
-                                    completedPickupsCollection
-                                        .document(pickup)
-                                        .get()
-                                        .addOnSuccessListener { document ->
-                                            if (document.data != null) {
-                                                Log.i("test", "pickup data: ${document.data}")
-                                                pickupList.add(
-                                                    Pickup(
-                                                        UID = document.data?.get("UID").toString(),
-                                                        restaurantID = document.data?.get("restaurantID").toString(),
-                                                        driverID = document.data?.get("driverID").toString(),
-                                                        when_date = document.data?.get("when").toString()
-                                                    )
-                                                )
-                                                updateDisplay(pickupList)
-                                            } else {
-                                                Log.d(ContentValues.TAG, "No such document")
-                                            }
-                                        }
-                                        .addOnFailureListener { exception ->
-                                            Log.d(ContentValues.TAG, "get failed with ", exception)
-                                        }
-                                }
-                                if (restaurant.completedPickups.size == 0) {
-                                    updateDisplay(pickupList)
-                                }
 
                             } else {
                                 Log.d(ContentValues.TAG, "No such document")
+                            }
+                            for (pickup in restaurant.completedPickups) {
+                                completedPickupsCollection
+                                    .document(pickup)
+                                    .get()
+                                    .addOnSuccessListener { document ->
+                                        if (document.data != null) {
+                                            Log.i("test", "pickup data: ${document.data}")
+                                            pickupList.add(
+                                                Pickup(
+                                                    UID = document.data?.get("UID").toString(),
+                                                    restaurantID = document.data?.get("restaurantID").toString(),
+                                                    driverID = document.data?.get("driverID").toString(),
+                                                    when_date = document.data?.get("when").toString()
+                                                )
+                                            )
+                                            updateDisplay(pickupList)
+                                        } else {
+                                            Log.d(ContentValues.TAG, "No such document")
+                                        }
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.d(ContentValues.TAG, "get failed with ", exception)
+                                    }
+                            }
+                            if (restaurant.completedPickups.size == 0) {
+                                updateDisplay(pickupList)
                             }
                         }
                         .addOnFailureListener { exception ->
