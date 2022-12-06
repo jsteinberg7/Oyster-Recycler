@@ -69,6 +69,7 @@ class RestaurantFragment : Fragment() {
             alert.show()
         }
         binding.refresh.setOnClickListener{
+            binding.refresh.isClickable = false
             displayOrders()
         }
         return binding.root
@@ -113,7 +114,6 @@ class RestaurantFragment : Fragment() {
                                         when_date = document.data?.get("when").toString(),
                                     )
                                 )
-                                updateDisplay(pickupList)
                                 for (pickup in restaurant.completedPickups) {
                                     completedPickupsCollection
                                         .document(pickup)
@@ -137,6 +137,9 @@ class RestaurantFragment : Fragment() {
                                         .addOnFailureListener { exception ->
                                             Log.d(ContentValues.TAG, "get failed with ", exception)
                                         }
+                                }
+                                if (restaurant.completedPickups.size == 0) {
+                                    updateDisplay(pickupList)
                                 }
 
                             } else {
@@ -169,6 +172,7 @@ class RestaurantFragment : Fragment() {
             }
         }
         binding.progressBar.visibility = View.GONE
+        binding.refresh.isClickable = true
         binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
     }
 

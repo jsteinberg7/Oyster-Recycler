@@ -44,7 +44,7 @@ class DriverFindJobFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var firstUpdate = true
     private lateinit var driverId: String
-    private val LIMIT = 50
+    private val LIMIT = 15000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,6 +100,7 @@ class DriverFindJobFragment : Fragment() {
         binding.refresh.setOnClickListener {
             // Query FireStore for nearest 10 locations
             binding.progressBar.visibility = View.VISIBLE
+            binding.refresh.isClickable = false
             getLocations()
         }
 
@@ -258,6 +259,7 @@ class DriverFindJobFragment : Fragment() {
         }
         Log.i("test", "Update: " + itemsList.toString())
         binding.progressBar.visibility = View.GONE
+        binding.refresh.isClickable = true
         if (itemsList.size == 0) {
             itemsList = mutableListOf("No pickups in your area.")
         }
@@ -285,7 +287,9 @@ class DriverFindJobFragment : Fragment() {
                     }
                 }
             }
-            updateAdapter()
+            if (documents.size() == 0) {
+                updateAdapter()
+            }
         }
     }
 

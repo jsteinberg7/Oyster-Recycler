@@ -256,10 +256,18 @@ class DriverFragment : Fragment() {
         }
 
         binding.refresh.setOnClickListener {
-            getDriverAssignments()
+            binding.refresh.isClickable = false
+            binding.progressBar.visibility = View.VISIBLE
+            if (binding.toggle.isChecked) {
+                getDriverAssignments()
+            }
+            else {
+                getDriverHistory()
+            }
         }
         binding.toggle.setOnClickListener {
             binding.toggle.isClickable = false
+            binding.refresh.isClickable = false
             binding.progressBar.visibility = View.VISIBLE
             if (binding.toggle.isChecked) {
                 getDriverAssignments()
@@ -393,6 +401,7 @@ class DriverFragment : Fragment() {
                                         binding.list.adapter =
                                             DriverRecyclerViewAdapter(itemsList, this)
                                         binding.toggle.isClickable = true
+                                        binding.refresh.isClickable = true
                                     }
                                 } else {
                                     Log.d(ContentValues.TAG, "No such document")
@@ -407,6 +416,7 @@ class DriverFragment : Fragment() {
                         binding.progressBar.visibility = View.GONE
                         binding.list.adapter =
                             DriverRecyclerViewAdapter(listOf("No Current Pickups."), this)
+                        binding.refresh.isClickable = true
                     }
                     Log.i("test", "updating View")
                 } else {
@@ -458,6 +468,7 @@ class DriverFragment : Fragment() {
                                             binding.list.adapter =
                                                 DriverRecyclerViewAdapter(itemsList, this)
                                             binding.toggle.isClickable = true
+                                            binding.refresh.isClickable = true
                                         }
                                     }
                                 } else {
@@ -469,9 +480,10 @@ class DriverFragment : Fragment() {
                             }
                     }
                     if (pickups.size == 0) {
-                        binding.toggle.isClickable = true
                         binding.progressBar.visibility = View.GONE
                         binding.list.adapter = DriverRecyclerViewAdapter(listOf("No Previous Pickups."), this)
+                        binding.toggle.isClickable = true
+                        binding.refresh.isClickable = true
                     }
                 } else {
                     Log.i("test", "No such document")
