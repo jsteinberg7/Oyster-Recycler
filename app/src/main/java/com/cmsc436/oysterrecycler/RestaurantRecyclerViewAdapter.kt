@@ -44,7 +44,7 @@ internal class RestaurantRecyclerViewAdapter(
         if(holder.textView.text.equals("No Active Pickups")){
             holder.textView.setBackgroundColor(Color.argb(255,0,255,0))
         }
-        else if(position == 0){
+        else if(values[position].length == 20){
             holder.textView.setBackgroundColor(Color.argb(255, 255, 255, 0))
         }else{
             holder.textView.setBackgroundColor(Color.argb(255,0,255,0))
