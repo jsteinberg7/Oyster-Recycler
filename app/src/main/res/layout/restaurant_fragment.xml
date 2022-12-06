@@ -46,9 +46,12 @@
         android:layout_height="wrap_content"
         android:paddingTop="80dp"
         android:text="@string/driver_history"
+        android:textSize="20dp"
+        android:textColor="@color/white"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="51dp" />
+        tools:layout_editor_absoluteY="51dp"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
