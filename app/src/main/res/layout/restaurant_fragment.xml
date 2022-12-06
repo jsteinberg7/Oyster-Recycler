@@ -41,14 +41,23 @@
         app:tint="@color/background_color"
         android:src="@drawable/logout" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="80dp"
+        android:text="@string/driver_history"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="51dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:name="course.cmsc436.RestaurantFragment"
         android:layout_width="match_parent"
         android:layout_height="500dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="56dp"
         android:scrollbars="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/refresh"
