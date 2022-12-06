@@ -29,6 +29,7 @@ class RestaurantFragment : Fragment() {
     private var activePickupsCollection = firestore.collection("activePickups")
     private var completedPickupsCollection = firestore.collection("completedPickups")
     private val viewModel by activityViewModels<MainViewModel>()
+    private var driversCollection = firestore.collection("drivers")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -165,15 +166,24 @@ class RestaurantFragment : Fragment() {
         if(pickupList.size == 0){
             val noAction = "No Active Pickups"
             itemsList.add(noAction)
+            binding.progressBar.visibility = View.GONE
+            binding.refresh.isClickable = true
+            binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
         }else{
             for(i in pickupList){
-                val str = i.when_date
-                itemsList.add(str)
+                var str = "pickup on " + i.when_date
+                driversCollection.document(i.driverID).get().addOnSuccessListener { document ->
+                    var name = document.data?.get("name").toString()
+                    str = "$str by $name"
+                    itemsList.add(str)
+                    if (pickupList.indexOf(i) == pickupList.size - 1) {
+                        binding.progressBar.visibility = View.GONE
+                        binding.refresh.isClickable = true
+                        binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
+                    }
+                }
             }
         }
-        binding.progressBar.visibility = View.GONE
-        binding.refresh.isClickable = true
-        binding.list.adapter = RestaurantRecyclerViewAdapter(itemsList, this)
     }
 
 }
